@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Hero, UserHero } from '../types';
 import { FACTION_COLORS, FACTION_BG } from '../constants';
@@ -37,36 +37,37 @@ const HeroCard: React.FC<HeroCardProps> = ({ hero, isOwned, onAction, actionLabe
   };
 
   // Advanced Image Loading Strategy
-  // 1. User provided imageUrl
-  // 2. topheroes.info assets (main location)
-  // 3. topheroes.info alternative location
+  // 1. topheroes.info assets (main location)
+  // 2. topheroes.info alternative location
+  // 3. User provided imageUrl (if present)
   // 4. Fandom Wiki assets
   // 5. UI Avatars (Final fallback)
   
-  const formattedName = hero.name.toLowerCase().replace(/\s+/g, '-');
-  const topHeroesInfoUrl = `https://topheroes.info/assets/img/hero/avatars/${formattedName}.webp`;
-  const topHeroesAltUrl = `https://topheroes.info/assets/heroes/${formattedName}.webp`;
+  const formattedSlug = (hero.id || hero.name).toLowerCase().replace(/\s+/g, '-');
+  const topHeroesInfoUrl = `https://topheroes.info/assets/img/hero/avatars/${formattedSlug}.webp`;
+  const topHeroesAltUrl = `https://topheroes.info/assets/heroes/${formattedSlug}.webp`;
   const wikiImageUrl = `https://topheroes1.fandom.com/wiki/Special:FilePath/${hero.name.replace(/\s+/g, '_')}.png`;
   const placeholderImage = `https://ui-avatars.com/api/?name=${hero.name.replace(/\s+/g, '+')}&background=1f2937&color=fff&size=256`;
   
-  const [imgSrc, setImgSrc] = useState(hero.imageUrl || topHeroesInfoUrl);
+  const imageSources = useMemo(() => {
+    const sources = [topHeroesInfoUrl, topHeroesAltUrl, hero.imageUrl, wikiImageUrl, placeholderImage]
+      .filter((src): src is string => Boolean(src));
+    return sources.filter((src, index) => sources.indexOf(src) === index);
+  }, [topHeroesInfoUrl, topHeroesAltUrl, hero.imageUrl, wikiImageUrl, placeholderImage]);
+
+  const [imgSrc, setImgSrc] = useState(imageSources[0]);
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    setImgSrc(hero.imageUrl || topHeroesInfoUrl);
+    setImgSrc(imageSources[0]);
     setAttempt(0);
-  }, [hero.id, hero.imageUrl, topHeroesInfoUrl]);
+  }, [hero.id, imageSources]);
 
   const handleError = () => {
-    if (attempt === 0) {
-      setImgSrc(topHeroesAltUrl);
-      setAttempt(1);
-    } else if (attempt === 1) {
-      setImgSrc(wikiImageUrl);
-      setAttempt(2);
-    } else if (attempt === 2) {
-      setImgSrc(placeholderImage);
-      setAttempt(3);
+    const nextAttempt = attempt + 1;
+    if (nextAttempt < imageSources.length) {
+      setImgSrc(imageSources[nextAttempt]);
+      setAttempt(nextAttempt);
     }
   };
 

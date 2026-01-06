@@ -20,7 +20,7 @@ const HeroDetail: React.FC = () => {
   const hero = HEROES.find(h => h.id === id);
 
   // Synchronized Multi-step Fallback Strategy
-  const formattedName = hero?.name.toLowerCase().replace(/\s+/g, '-') || '';
+  const formattedName = (hero?.id || hero?.name || '').toLowerCase().replace(/\s+/g, '-');
   const topHeroesInfoUrl = `https://topheroes.info/assets/img/hero/avatars/${formattedName}.webp`;
   const topHeroesAltUrl = `https://topheroes.info/assets/heroes/${formattedName}.webp`;
   const wikiImageUrl = hero ? `https://topheroes1.fandom.com/wiki/Special:FilePath/${hero.name.replace(/\s+/g, '_')}.png` : '';
@@ -275,9 +275,8 @@ const HeroDetail: React.FC = () => {
                                   const partnerPortrait = `https://topheroes.info/assets/img/hero/avatars/${formattedPartnerName}.webp`;
                                   
                                   return (
-                                      <Link 
+                                      <div 
                                         key={bond.partnerId} 
-                                        to={`/heroes/${bond.partnerId}`}
                                         className="bg-bg-tertiary p-4 rounded-2xl border border-border hover:border-blue-500/50 transition-all flex items-center group shadow-md"
                                       >
                                           <div className="w-16 h-16 rounded-xl border-2 border-gray-700 overflow-hidden mr-5 flex-shrink-0 bg-gray-800 shadow-lg group-hover:border-blue-500 transition-colors">
@@ -288,12 +287,20 @@ const HeroDetail: React.FC = () => {
                                                 onError={(e) => (e.currentTarget.src = `https://ui-avatars.com/api/?name=${partnerName}&background=1f2937&color=fff`)}
                                               />
                                           </div>
-                                          <div className="flex-1 truncate">
-                                              <div className="text-white font-black text-base truncate mb-1">{partnerName}</div>
-                                              <div className="text-green-400 text-[10px] font-black uppercase tracking-widest bg-green-900/10 px-2 py-0.5 rounded-full inline-block">{bond.bonus}</div>
+                                          <div className="flex-1 min-w-0">
+                                              {partner ? (
+                                                  <Link to={`/heroes/${bond.partnerId}`} className="text-white font-black text-base truncate mb-1 block hover:text-blue-400 transition-colors">
+                                                      {partnerName}
+                                                  </Link>
+                                              ) : (
+                                                  <div className="text-white font-black text-base truncate mb-1">{partnerName}</div>
+                                              )}
+                                              <div className="text-green-400 text-[10px] font-black uppercase tracking-widest bg-green-900/10 px-2 py-0.5 rounded-full inline-flex items-center border border-green-900/30">
+                                                  {bond.bonus}
+                                              </div>
                                           </div>
                                           <ChevronRight size={20} className="text-gray-700 group-hover:text-blue-500 group-hover:translate-x-1 transition-all mr-2" />
-                                      </Link>
+                                      </div>
                                   );
                               })}
                           </div>
@@ -306,59 +313,77 @@ const HeroDetail: React.FC = () => {
 
                   <div>
                         <h3 className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-8 flex items-center">
-                            <Shirt size={14} className="mr-3" /> Recommended Gear Sets
+                            <Shirt size={14} className="mr-3" /> Recommended Gear
                         </h3>
-                        <div className="flex flex-wrap gap-4">
-                            {hero.recommendedSets?.map(set => {
-                                const config = gearSetMap[set] || { icon: Shield, color: 'text-gray-400', bg: 'bg-gray-800 border-gray-700' };
-                                const Icon = config.icon;
-                                return (
-                                    <div key={set} className={`flex items-center px-6 py-4 rounded-2xl border ${config.bg} shadow-lg transition-transform hover:-translate-y-1`}>
-                                        <div className={`p-2.5 bg-black/30 rounded-lg mr-4 ${config.color}`}>
-                                            <Icon size={20} />
+                        {hero.recommendedSets && hero.recommendedSets.length > 0 ? (
+                            <div className="flex flex-wrap gap-4">
+                                {hero.recommendedSets.map(set => {
+                                    const config = gearSetMap[set] || { icon: Shield, color: 'text-gray-400', bg: 'bg-gray-800 border-gray-700' };
+                                    const Icon = config.icon;
+                                    return (
+                                        <div key={set} className={`flex items-center px-6 py-4 rounded-2xl border ${config.bg} shadow-lg transition-transform hover:-translate-y-1`}>
+                                            <div className={`p-2.5 bg-black/30 rounded-lg mr-4 ${config.color}`}>
+                                                <Icon size={20} />
+                                            </div>
+                                            <span className="font-black text-sm uppercase tracking-widest text-white">{set} Set</span>
                                         </div>
-                                        <span className="font-black text-sm uppercase tracking-widest text-white">{set} Set</span>
-                                    </div>
-                                );
-                            })}
-                            {!hero.recommendedSets && <span className="text-gray-600 italic">No specific gear set optimized.</span>}
-                        </div>
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <div className="text-gray-600 italic text-sm">No specific gear set optimized.</div>
+                        )}
                   </div>
 
-                  {(hero.specialWeapon || hero.exclusiveGear) && (
-                       <div>
-                            <h3 className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-8 flex items-center">
-                                <Award size={14} className="mr-3" /> Legendary Armory
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {hero.specialWeapon && (
-                                    <div className="bg-gradient-to-br from-gray-800/50 to-bg-tertiary p-8 rounded-[2rem] border border-orange-500/20 relative group overflow-hidden">
-                                        <div className="absolute -top-6 -right-6 p-12 opacity-5 text-orange-400 group-hover:rotate-12 group-hover:scale-110 transition-all">
-                                            <Sword size={120} />
-                                        </div>
-                                        <div className="text-[10px] text-orange-500 uppercase font-black tracking-[0.3em] mb-3 flex items-center">
-                                            <Sparkles size={14} className="mr-2"/> Specialized Weapon
-                                        </div>
-                                        <div className="text-white font-black text-2xl mb-3 tracking-tight">{hero.specialWeapon.name}</div>
-                                        <p className="text-sm text-gray-400 leading-relaxed font-medium">{hero.specialWeapon.description}</p>
-                                    </div>
-                                )}
-                                {hero.exclusiveGear && (
-                                    <div className="bg-gradient-to-br from-gray-800/50 to-bg-tertiary p-8 rounded-[2rem] border border-purple-500/20 relative group overflow-hidden">
-                                        <div className="absolute -top-6 -right-6 p-12 opacity-5 text-purple-400 group-hover:-rotate-12 group-hover:scale-110 transition-all">
-                                            <Gem size={120} />
-                                        </div>
-                                        <div className="text-[10px] text-purple-500 uppercase font-black tracking-[0.3em] mb-3 flex items-center">
-                                            <Award size={14} className="mr-2"/> Exclusive Artifact
-                                        </div>
-                                        <div className="text-white font-black text-2xl mb-3 tracking-tight">{hero.exclusiveGear.name}</div>
-                                        <div className="text-xs text-purple-400 font-black uppercase tracking-widest mb-3 bg-purple-900/10 px-3 py-1 rounded-full inline-block border border-purple-900/30">{hero.exclusiveGear.statBonus}</div>
-                                        {hero.exclusiveGear.description && <p className="text-sm text-gray-400 font-medium">{hero.exclusiveGear.description}</p>}
-                                    </div>
-                                )}
-                            </div>
-                       </div>
-                  )}
+                  <div>
+                      <h3 className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-8 flex items-center">
+                          <Sword size={14} className="mr-3" /> Specialized Weapon
+                      </h3>
+                      {hero.specialWeapon ? (
+                          <div className="bg-gradient-to-br from-gray-800/50 to-bg-tertiary p-8 rounded-[2rem] border border-orange-500/20 relative group overflow-hidden">
+                              <div className="absolute -top-6 -right-6 p-12 opacity-5 text-orange-400 group-hover:rotate-12 group-hover:scale-110 transition-all">
+                                  <Sword size={120} />
+                              </div>
+                              <div className="text-[10px] text-orange-500 uppercase font-black tracking-[0.3em] mb-3 flex items-center">
+                                  <Sparkles size={14} className="mr-2"/> Weapon Intel
+                              </div>
+                              <div className="text-white font-black text-2xl mb-3 tracking-tight">{hero.specialWeapon.name}</div>
+                              <p className="text-sm text-gray-400 leading-relaxed font-medium">{hero.specialWeapon.description}</p>
+                              {hero.specialWeapon.unlockRequirement && (
+                                  <div className="mt-4 text-[10px] uppercase font-black tracking-widest text-orange-300 bg-orange-900/10 px-3 py-1 rounded-full inline-flex items-center border border-orange-900/30">
+                                      Unlock: {hero.specialWeapon.unlockRequirement}
+                                  </div>
+                              )}
+                          </div>
+                      ) : (
+                          <div className="bg-bg-tertiary p-10 rounded-3xl border border-dashed border-gray-800 text-center text-gray-600 font-bold">
+                              No specialized weapon intel recovered.
+                          </div>
+                      )}
+                  </div>
+
+                  <div>
+                      <h3 className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-8 flex items-center">
+                          <Gem size={14} className="mr-3" /> Exclusive Gear
+                      </h3>
+                      {hero.exclusiveGear ? (
+                          <div className="bg-gradient-to-br from-gray-800/50 to-bg-tertiary p-8 rounded-[2rem] border border-purple-500/20 relative group overflow-hidden">
+                              <div className="absolute -top-6 -right-6 p-12 opacity-5 text-purple-400 group-hover:-rotate-12 group-hover:scale-110 transition-all">
+                                  <Gem size={120} />
+                              </div>
+                              <div className="text-[10px] text-purple-500 uppercase font-black tracking-[0.3em] mb-3 flex items-center">
+                                  <Award size={14} className="mr-2"/> Exclusive Artifact
+                              </div>
+                              <div className="text-white font-black text-2xl mb-3 tracking-tight">{hero.exclusiveGear.name}</div>
+                              <div className="text-xs text-purple-400 font-black uppercase tracking-widest mb-3 bg-purple-900/10 px-3 py-1 rounded-full inline-block border border-purple-900/30">{hero.exclusiveGear.statBonus}</div>
+                              {hero.exclusiveGear.description && <p className="text-sm text-gray-400 font-medium">{hero.exclusiveGear.description}</p>}
+                          </div>
+                      ) : (
+                          <div className="bg-bg-tertiary p-10 rounded-3xl border border-dashed border-gray-800 text-center text-gray-600 font-bold">
+                              No exclusive gear intel recovered.
+                          </div>
+                      )}
+                  </div>
 
                   <div>
                       <h3 className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-8 flex items-center">
@@ -372,8 +397,14 @@ const HeroDetail: React.FC = () => {
                                           <Shirt size={24} />
                                       </div>
                                       <div>
-                                          <div className="text-white font-black text-sm uppercase tracking-widest mb-1">{skin.name}</div>
-                                          {skin.bonus && <div className="text-[10px] font-black text-pink-500 tracking-wider uppercase">{skin.bonus}</div>}
+                                          <div className="text-white font-black text-sm uppercase tracking-widest mb-2">{skin.name}</div>
+                                          {skin.bonus ? (
+                                              <div className="inline-flex items-center text-[10px] font-black text-pink-300 tracking-wider uppercase bg-pink-900/20 border border-pink-500/30 px-2 py-1 rounded-full">
+                                                  <Sparkles size={10} className="mr-1" /> {skin.bonus}
+                                              </div>
+                                          ) : (
+                                              <div className="text-[10px] text-gray-600 uppercase tracking-widest">Bonus data pending</div>
+                                          )}
                                       </div>
                                   </div>
                               ))}
