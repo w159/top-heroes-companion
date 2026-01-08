@@ -128,7 +128,10 @@ def main():
     all_heroes = []
     
     for link in links:
-        href = link['href']
+        href = link.get('href')
+        if isinstance(href, list):
+            href = href[0]
+            
         web_slug = href.split('/')[-1]
         
         if web_slug in processed_slugs: continue
@@ -140,8 +143,9 @@ def main():
         
         # Check parent and text for faction keywords
         context_text = link_text
-        if link.find_parent('div'):
-             context_text += " " + link.find_parent('div').get_text()
+        parent_div = link.find_parent('div')
+        if parent_div:
+             context_text += " " + parent_div.get_text()
              
         if "Nature" in context_text: detected_faction = "Nature"
         elif "Horde" in context_text: detected_faction = "Horde"

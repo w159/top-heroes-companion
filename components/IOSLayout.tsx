@@ -120,8 +120,12 @@ const IOSLayout: React.FC<IOSLayoutProps> = ({ children }) => {
               fontSize: '10px', fontWeight: 500
             })}
           >
-            <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
-            {item.name}
+            {({ isActive }) => (
+              <>
+                <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                {item.name}
+              </>
+            )}
           </NavLink>
         ))}
       </div>
