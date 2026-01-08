@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
+import IOSLayout from './components/IOSLayout';
+import './styles/ios.css';
 import Dashboard from './pages/Dashboard';
 import Heroes from './pages/Heroes';
 import HeroDetail from './pages/HeroDetail';
@@ -13,7 +14,7 @@ import Settings from './pages/Settings';
 const App: React.FC = () => {
   return (
     <Router>
-      <Layout>
+      <IOSLayout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/heroes" element={<Heroes />} />
@@ -24,7 +25,7 @@ const App: React.FC = () => {
           <Route path="/codes" element={<Codes />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
-      </Layout>
+      </IOSLayout>
     </Router>
   );
 };

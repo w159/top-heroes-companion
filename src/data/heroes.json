@@ -1,0 +1,1805 @@
+[
+  {
+    "id": "altar-marshal",
+    "game_id": "altarmarshal",
+    "name": "Altar Marshal",
+    "faction": "Nature",
+    "rarity": "Mythic",
+    "role": "Tank",
+    "image": "/img/heroes/altar-marshal.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Fire-Tipped Spear",
+    "positions": [
+      "Front",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Chaos Binding",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Demon-Slayer",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Inferno Lotus",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Windfire Dash",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Spirit Pearl",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Missing Skill",
+        "type": "Unknown",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "artificer",
+    "game_id": "artificer",
+    "name": "Artificer",
+    "faction": "League",
+    "rarity": "Mythic",
+    "role": "Support",
+    "image": "/img/heroes/artificer.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "Spark of Thought",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "TH-300",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Upgrade!",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Pulse Mod",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Parts Collection",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Magnifier",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Flickering Watch",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "beastmaster",
+    "game_id": "beastmaster",
+    "name": "Beastmaster",
+    "faction": "Horde",
+    "rarity": "Mythic",
+    "role": "Tank",
+    "image": "/img/heroes/beastmaster.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Tender Spirit",
+    "positions": [
+      "Back",
+      "Front",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Capybara Strike",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Beast Trap",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Fresh Citrus",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Bubble Shield",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Trusty Friend",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Well-trained",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "bishop",
+    "game_id": "bishop",
+    "name": "Bishop",
+    "faction": "League",
+    "rarity": "Mythic",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/bishop.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "Libram of Light",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Fair Strike",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Divine Descent",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Solar Shield",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Confession",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Sacred Burst",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "War Messenger",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "desert-prince",
+    "game_id": "desertprince",
+    "name": "Desert Prince",
+    "faction": "Horde",
+    "rarity": "Mythic",
+    "role": "Tank",
+    "image": "/img/heroes/desert-prince.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Royal Armor",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Scorching Scimitar",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Royal Treasury",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Eye of Insight",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Enthusiast",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Missing Skill",
+        "type": "Unknown",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "monk",
+    "game_id": "monk",
+    "name": "Monk",
+    "faction": "Nature",
+    "rarity": "Mythic",
+    "role": "Tank",
+    "image": "/img/heroes/monk.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Front",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Mountain Strike",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Ultimate Zen Power",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Thundering Kick",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Fiery Breath",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Merciful Victor",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Guardian Messenger",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "paragon",
+    "game_id": "paragon",
+    "name": "Paragon",
+    "faction": "League",
+    "rarity": "Mythic",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/paragon.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "Everlasting Justice",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Commanding Call",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Celestial Blade",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Final Verdict",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Moral Fury",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Ultimate Execution",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Conqueror",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "petalis",
+    "game_id": "petalis",
+    "name": "Petalis",
+    "faction": "Nature",
+    "rarity": "Mythic",
+    "role": "Supporter",
+    "image": "/img/heroes/petalis.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Sacred Lotus",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Charm Flower",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Flourish",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Twin Lotus",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Sakura Rain",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Fox Spirit Secrets",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "rose-princess",
+    "game_id": "roseprincess",
+    "name": "Rose Princess",
+    "faction": "League",
+    "rarity": "Mythic",
+    "role": "Tank",
+    "image": "/img/heroes/rose-princess.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Royalthron Blade",
+    "positions": [
+      "Front",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Be Brave",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Bloom",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Thorns",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Weapon Up!",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Roses",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Guardian Messenger",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "shadow-priest",
+    "game_id": "shadowpriest",
+    "name": "Shadow Priest",
+    "faction": "Horde",
+    "rarity": "Mythic",
+    "role": "Healer",
+    "image": "/img/heroes/shadow-priest.webp",
+    "gear_set": "None",
+    "unique_weapon": "Shadow Orb",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "storm-maiden",
+    "game_id": "stormmaiden",
+    "name": "Storm Maiden",
+    "faction": "Horde",
+    "rarity": "Mythic",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/storm-maiden.webp",
+    "gear_set": "Titan's Might",
+    "unique_weapon": "Stormbringer",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Whirlwind Feathers",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Lightning Storm",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Wings of Freedom",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Tornado",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Wind Field",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "War Messenger",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "tidecaller",
+    "game_id": "tidecaller",
+    "name": "Tidecaller",
+    "faction": "Nature",
+    "rarity": "Mythic",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/tidecaller.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Divine Trident",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Hydro Hammer",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Surge",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Evolve",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Ascend",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Purification Lance",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Missing Skill",
+        "type": "Unknown",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "wanderer",
+    "game_id": "wanderer",
+    "name": "Wanderer",
+    "faction": "Horde",
+    "rarity": "Mythic",
+    "role": "Tank",
+    "image": "/img/heroes/wanderer.webp",
+    "gear_set": "Titan's Might",
+    "unique_weapon": "Fire-Tipped Spear",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Immobilize",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Illusory Split",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Robust Constitution",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Staff Stances",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "True Sight",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "The Great Sage",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "witch",
+    "game_id": "witch",
+    "name": "Witch",
+    "faction": "Horde",
+    "rarity": "Mythic",
+    "role": "Healer",
+    "image": "/img/heroes/witch.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "Codex of Shadows",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Dark Healing",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Dread Golem",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Curse Fire",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Dark Magic Boost",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Dark Magic Shield",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Guardian Messenger",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "adjudicator",
+    "game_id": "adjudicator",
+    "name": "Adjudicator",
+    "faction": "League",
+    "rarity": "Legendary",
+    "role": "Tank",
+    "image": "/img/heroes/adjudicator.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Judgment",
+    "positions": [
+      "Back",
+      "Front",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Guardian Discipline",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Shield of Faith",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Judgment",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Indomitable",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Eternal",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Order of Sanctity",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "astrologer",
+    "game_id": "astrologer",
+    "name": "Astrologer",
+    "faction": "League",
+    "rarity": "Legendary",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/astrologer.webp",
+    "gear_set": "Titan's Might",
+    "unique_weapon": "Starry Orb",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Ray Beam",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Solar Beam",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Arc Light",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Foresight",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Insights",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "barbarian",
+    "game_id": "barbarian",
+    "name": "Barbarian",
+    "faction": "Horde",
+    "rarity": "Legendary",
+    "role": "Tank",
+    "image": "/img/heroes/barbarian.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Star Breaker",
+    "positions": [
+      "Back",
+      "Front",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Fortified Defense",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Insatiable Hunger",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Horde Defender",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Savage Strike",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Taunt",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "bard",
+    "game_id": "bard",
+    "name": "Bard",
+    "faction": "League",
+    "rarity": "Legendary",
+    "role": "Supporter",
+    "image": "/img/heroes/bard.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Heartbringer Harp",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Cheer",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Endgame Serenade",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Fight Song",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Resonant Chord",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Grace",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "druid",
+    "game_id": "druid",
+    "name": "Druid",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Healer",
+    "image": "/img/heroes/druid.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "forest-maiden",
+    "game_id": "forestmaiden",
+    "name": "Forest Maiden",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Controller",
+    "image": "/img/heroes/forest-maiden.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Baa-Baa Charge",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Sheepherd",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Song of Life",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Forest Lullaby",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Revenge",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Blessing of Spring",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "headhunter",
+    "game_id": "headhunter",
+    "name": "Headhunter",
+    "faction": "Horde",
+    "rarity": "Legendary",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/headhunter.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Menace",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Pursuit",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Boomerang Blade",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Veteran Warrior",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Bounty Reward",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "hostess",
+    "game_id": "hostess",
+    "name": "Hostess",
+    "faction": "League",
+    "rarity": "Legendary",
+    "role": "Tank",
+    "image": "/img/heroes/hostess.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "",
+        "type": "",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Agile Footwork",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Drunken Brawl",
+        "type": "Skill",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "100T Hammer!",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Inn Keeper",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "nun",
+    "game_id": "nun",
+    "name": "Nun",
+    "faction": "League",
+    "rarity": "Legendary",
+    "role": "Healer",
+    "image": "/img/heroes/nun.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Blessing",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Therapy",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Radiant Song",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Prayer of Healing",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Holy Grace",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Sacred Union",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "pathfinder",
+    "game_id": "pathfinder",
+    "name": "Pathfinder",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/pathfinder.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "pixie",
+    "game_id": "pixie",
+    "name": "Pixie",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/pixie.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "Golden Apple",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Root Absorption",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Sunflower Core",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Phantom Pollen",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Forest Ally",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Protector",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Nature's Harmony",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "pyromancer",
+    "game_id": "pyromancer",
+    "name": "Pyromancer",
+    "faction": "League",
+    "rarity": "Legendary",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/pyromancer.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Detonate",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Skyfire",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Flame Shield",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Elemental Mastery",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Ember",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Burst Rune",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "sage",
+    "game_id": "sage",
+    "name": "Sage",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Tank",
+    "image": "/img/heroes/sage.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "secret-keeper",
+    "game_id": "secretkeeper",
+    "name": "Secret Keeper",
+    "faction": "League",
+    "rarity": "Legendary",
+    "role": "Tank",
+    "image": "/img/heroes/secret-keeper.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Absolute Zero",
+    "positions": [
+      "Back",
+      "Front",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Arcane Shield",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Forbidden Realm",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Spell Reflection",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Arcane Link",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Arcane Guardian",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "shaman",
+    "game_id": "shaman",
+    "name": "Shaman",
+    "faction": "Horde",
+    "rarity": "Legendary",
+    "role": "Healer",
+    "image": "/img/heroes/shaman.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Echo of the Mountains",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Healing Breeze",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Rain Blessing",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Wolf Soul",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Restorative Totem",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Ancestor's Soul",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "soulmancer",
+    "game_id": "soulmancer",
+    "name": "Soulmancer",
+    "faction": "Horde",
+    "rarity": "Legendary",
+    "role": "Supporter",
+    "image": "/img/heroes/soulmancer.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Ascendant",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Soul Link",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Soul Empowerment",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Pain Diffusion",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Soul Recall",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Soul Freeze",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "stonemason",
+    "game_id": "stonemason",
+    "name": "Stonemason",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/stonemason.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "swordmaster",
+    "game_id": "swordmaster",
+    "name": "Swordmaster",
+    "faction": "Horde",
+    "rarity": "Legendary",
+    "role": "Tank",
+    "image": "/img/heroes/swordmaster.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "Crimson Sword",
+    "positions": [
+      "Back",
+      "Front",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Whirlwind",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Blade Storm",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Crazy Cut",
+        "type": "Active",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Battle Will",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Suppression",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "treeguard",
+    "game_id": "treeguard",
+    "name": "Treeguard",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Tank",
+    "image": "/img/heroes/treeguard.webp",
+    "gear_set": "Fury of Blood",
+    "unique_weapon": "",
+    "positions": [
+      "Front"
+    ],
+    "skills": []
+  },
+  {
+    "id": "warlock",
+    "game_id": "warlock",
+    "name": "Warlock",
+    "faction": "Horde",
+    "rarity": "Legendary",
+    "role": "Supporter",
+    "image": "/img/heroes/warlock.webp",
+    "gear_set": "Glory of the Knight",
+    "unique_weapon": "Cursed Scythe",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Whispered Shadows",
+        "type": "Skill",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Shadow Rite",
+        "type": "Skill",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Malicious Passion",
+        "type": "Skill",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Debilitation",
+        "type": "Skill",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Bloodlust",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "watcher",
+    "game_id": "watcher",
+    "name": "Watcher",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Controller",
+    "image": "/img/heroes/watcher.webp",
+    "gear_set": "Titan's Might",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "wilderness-hunter",
+    "game_id": "wildernesshunter",
+    "name": "Wilderness Hunter",
+    "faction": "Horde",
+    "rarity": "Legendary",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/wilderness-hunter.webp",
+    "gear_set": "Titan's Might",
+    "unique_weapon": "Giant Slayer",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": [
+      {
+        "name": "Barb",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Fatal Preyer",
+        "type": "Ultimate",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Hunter",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Tradition",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      },
+      {
+        "name": "Impulse Instinct",
+        "type": "Passive",
+        "description": "",
+        "tips": ""
+      }
+    ]
+  },
+  {
+    "id": "windwalker",
+    "game_id": "windwalker",
+    "name": "Windwalker",
+    "faction": "Nature",
+    "rarity": "Legendary",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/windwalker.webp",
+    "gear_set": "Titan's Might",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "dancer",
+    "game_id": "dancer",
+    "name": "Dancer",
+    "faction": "Nature",
+    "rarity": "Epic",
+    "role": "",
+    "image": "/img/heroes/dancer.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "knight",
+    "game_id": "knight",
+    "name": "Knight",
+    "faction": "League",
+    "rarity": "Epic",
+    "role": "Tank",
+    "image": "/img/heroes/knight.webp",
+    "gear_set": null,
+    "unique_weapon": "",
+    "positions": [
+      "Front"
+    ],
+    "skills": []
+  },
+  {
+    "id": "minister",
+    "game_id": "minister",
+    "name": "Minister",
+    "faction": "League",
+    "rarity": "Epic",
+    "role": "Supporter",
+    "image": "/img/heroes/minister.webp",
+    "gear_set": null,
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "outlaw",
+    "game_id": "outlaw",
+    "name": "Outlaw",
+    "faction": "Horde",
+    "rarity": "Epic",
+    "role": "Supporter",
+    "image": "/img/heroes/outlaw.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "priestess",
+    "game_id": "priestess",
+    "name": "Priestess",
+    "faction": "Nature",
+    "rarity": "Epic",
+    "role": "Healer",
+    "image": "/img/heroes/priestess.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "ranger",
+    "game_id": "ranger",
+    "name": "Ranger",
+    "faction": "League",
+    "rarity": "Epic",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/ranger.webp",
+    "gear_set": null,
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "rogue",
+    "game_id": "rogue",
+    "name": "Rogue",
+    "faction": "Horde",
+    "rarity": "Epic",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/rogue.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "archer",
+    "game_id": "archer",
+    "name": "Archer",
+    "faction": "Nature",
+    "rarity": "Rare",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/archer.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "blacksmith",
+    "game_id": "blacksmith",
+    "name": "Blacksmith",
+    "faction": "Horde",
+    "rarity": "Rare",
+    "role": "Supporter",
+    "image": "/img/heroes/blacksmith.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "guard",
+    "game_id": "guard",
+    "name": "Guard",
+    "faction": "Horde",
+    "rarity": "Rare",
+    "role": "Tank",
+    "image": "/img/heroes/guard.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Front"
+    ],
+    "skills": []
+  },
+  {
+    "id": "pharmacist",
+    "game_id": "pharmacist",
+    "name": "Pharmacist",
+    "faction": "Nature",
+    "rarity": "Rare",
+    "role": "Healer",
+    "image": "/img/heroes/pharmacist.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  },
+  {
+    "id": "warrior",
+    "game_id": "warrior",
+    "name": "Warrior",
+    "faction": "League",
+    "rarity": "Rare",
+    "role": "Tank",
+    "image": "/img/heroes/warrior.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Front"
+    ],
+    "skills": []
+  },
+  {
+    "id": "wizard",
+    "game_id": "wizard",
+    "name": "Wizard",
+    "faction": "League",
+    "rarity": "Rare",
+    "role": "Damage Dealer",
+    "image": "/img/heroes/wizard.webp",
+    "gear_set": "None",
+    "unique_weapon": "",
+    "positions": [
+      "Back",
+      "Mid"
+    ],
+    "skills": []
+  }
+]
