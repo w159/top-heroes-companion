@@ -1,0 +1,452 @@
+{
+  "giftCodes": [
+    {
+      "code": "THKR2026",
+      "rewards": "Recruit Vouchers, Resource Chests",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "THJP2026",
+      "rewards": "Recruit Vouchers, Diamonds",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "BC4125FC8",
+      "rewards": "Resource Chests",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "THMerrYXmaS",
+      "rewards": "Free Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "ReinDeERTH",
+      "rewards": "Free Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "CAndyCAneTH",
+      "rewards": "Free Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "NORUMORS",
+      "rewards": "Free Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "THANKS2025",
+      "rewards": "Free Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "2025TOPHEROES",
+      "rewards": "2 Recruitment Tokens, 5 Level-tied Stone Chests, 5 Level-tied Ruby Chests, 5 Level-tied Meat Chests",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "DB70EAC6B",
+      "rewards": "Resource Packs",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "71FD831C6",
+      "rewards": "Resource Packs",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "B356D783FF",
+      "rewards": "Resource Packs",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "HalloweenAwakens",
+      "rewards": "Event Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "4AFCE82C",
+      "rewards": "Resource Packs",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "3D8AF500",
+      "rewards": "Resource Packs",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "GOLDENMOON2025",
+      "rewards": "Event Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "TH2gether",
+      "rewards": "Anniversary Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "TopHeroesTurn2",
+      "rewards": "Anniversary Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "TwoTHYears",
+      "rewards": "Anniversary Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "obon2025",
+      "rewards": "Event Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "TOPLOVE5000",
+      "rewards": "Celebration Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "TopHeroes20M",
+      "rewards": "Milestone Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "TopHeroes2025",
+      "rewards": "New Year Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    },
+    {
+      "code": "SerpentTH",
+      "rewards": "Event Rewards",
+      "status": "active",
+      "addedDate": "2026-01-15"
+    }
+  ],
+  "beginnerGuide": {
+    "title": "New Player Roadmap",
+    "steps": [
+      {
+        "step": 1,
+        "title": "The 7-Day Sprint",
+        "description": "Complete the Beginner's Goals event daily for seven consecutive days",
+        "rewards": "Secret Keeper (Legendary) and Knight (Epic) shards",
+        "tips": [
+          "Don't miss a single day - rewards are cumulative",
+          "Have a friend reach Castle Level 5 to get Wilderness Hunter",
+          "Focus on daily quests first thing each day"
+        ],
+        "priority": "critical"
+      },
+      {
+        "step": 2,
+        "title": "Adventure Mode Strategy",
+        "description": "Farm bosses and explore every corner of the map",
+        "tips": [
+          "Farm bosses repeatedly with spare energy to collect Epic Gear",
+          "Search corners for hidden decorative items",
+          "Rescue all encountered villagers for production bonuses",
+          "Epic gear drops significantly boost your power"
+        ],
+        "priority": "high"
+      },
+      {
+        "step": 3,
+        "title": "Construction Queues",
+        "description": "Get your second building queue as soon as possible",
+        "tips": [
+          "Purchase permanently if you can afford it",
+          "Or spend 500 Diamonds for 2-day rental during events",
+          "Having 2 queues doubles your building speed"
+        ],
+        "priority": "high"
+      },
+      {
+        "step": 4,
+        "title": "Join an Active Guild",
+        "description": "Find a guild that provides regular assistance and rewards",
+        "tips": [
+          "Look for guilds with 40+ active members",
+          "Enable auto-join rallies in the War tab",
+          "Participate in Guild Arms Race for huge rewards",
+          "Request assistance on all buildings/research"
+        ],
+        "priority": "critical"
+      },
+      {
+        "step": 5,
+        "title": "Focus Your Hero Leveling",
+        "description": "Concentrate resources on your main roster only",
+        "tips": [
+          "For F2P: Prioritize League faction heroes Pyro and Secret Keeper",
+          "Pyro's 'Meteor Blaze' ability is incredibly powerful",
+          "Don't waste resources leveling heroes you won't use",
+          "Keep 5-6 main heroes at your castle level"
+        ],
+        "priority": "critical"
+      },
+      {
+        "step": 6,
+        "title": "Smart Diamond Spending",
+        "description": "Diamonds are precious - spend them wisely",
+        "tips": [
+          "Event shop items are the best value",
+          "VIP Points give permanent bonuses",
+          "Wheel Tokens aligned with your faction schedule",
+          "Never buy resource packs with diamonds",
+          "Save for special events and limited offers"
+        ],
+        "priority": "high"
+      },
+      {
+        "step": 7,
+        "title": "Daily Optimization Routine",
+        "description": "Maximize your daily rewards",
+        "tasks": [
+          "Clear all Bounties for improved rewards",
+          "Use Carriages 4x daily (prioritize Mythic variants with Legendary Shards)",
+          "Complete Plunder activities 4x per session",
+          "Collect all free chests",
+          "Spend all energy on Adventure mode or events"
+        ],
+        "priority": "high"
+      },
+      {
+        "step": 8,
+        "title": "Building Priority Order",
+        "description": "Follow this sequence for optimal progression",
+        "order": [
+          "Castle Level 5 (unlocks more features)",
+          "Research Cottage Level 5 (faster tech)",
+          "Barracks Level 4 (more troops)",
+          "Resource Mines Level 3 (steady income)"
+        ],
+        "tips": [
+          "Always keep Castle upgrading",
+          "Research Cottage should match Castle level",
+          "Resource buildings can wait until you have spare builders"
+        ],
+        "priority": "high"
+      },
+      {
+        "step": 9,
+        "title": "Research Focus",
+        "description": "Prioritize these research paths",
+        "priorities": [
+          "Queue/March Size (more heroes in battles)",
+          "Growth technologies (faster progression)",
+          "Arms Race preparation (event dominance)",
+          "Combat Power (when you have spare time)"
+        ],
+        "priority": "medium"
+      },
+      {
+        "step": 10,
+        "title": "Learn from the Community",
+        "description": "Use tier lists and avoid common mistakes",
+        "tips": [
+          "Check hero tier lists before investing heavily",
+          "Join Discord for real-time help",
+          "Watch for meta shifts when new heroes release",
+          "Don't blindly follow guides - adapt to your situation"
+        ],
+        "priority": "medium"
+      }
+    ]
+  },
+  "corePrinciples": {
+    "title": "Core Gameplay Principles",
+    "principles": [
+      {
+        "title": "Focus on One Faction",
+        "description": "Pick League, Horde, or Nature and stick with it",
+        "reasoning": "Spreading resources across multiple factions will severely slow your progression",
+        "tips": [
+          "Nature: Best for PvP defense, master of sustain",
+          "Horde: Raw damage, kings of PvE and bosses, cheapest to build",
+          "League: Heavy skill damage, expensive but powerful"
+        ],
+        "importance": "critical"
+      },
+      {
+        "title": "Soldiers are Mandatory",
+        "description": "Always ensure your heroes have max soldiers",
+        "reasoning": "Soldiers are a significant part of your team's power and often the difference between winning and losing",
+        "tips": [
+          "Upgrade your Barracks regularly",
+          "Research soldier capacity technologies",
+          "Train soldiers constantly",
+          "Soldiers can be 30-40% of your total power"
+        ],
+        "importance": "critical"
+      },
+      {
+        "title": "Save Universal Shards for Mythics",
+        "description": "Never use Universal Legendary Shards on Legendary heroes",
+        "reasoning": "Mythic heroes are much stronger in the long run and harder to obtain",
+        "tips": [
+          "Universal Shards are extremely rare",
+          "Mythics need 300+ shards to max",
+          "Legendaries will come naturally over time",
+          "This mistake can set you back months"
+        ],
+        "importance": "critical"
+      },
+      {
+        "title": "Manage Meat Resources Carefully",
+        "description": "Don't waste meat on heroes you won't use long-term",
+        "reasoning": "Meat becomes a major bottleneck in mid-game",
+        "tips": [
+          "Only level heroes in your main lineup",
+          "Epic heroes are fine for early game but don't over-invest",
+          "Keep 50k+ meat in reserve for events",
+          "Meat production is limited - treat it like a premium resource"
+        ],
+        "importance": "high"
+      }
+    ]
+  },
+  "factionGuide": {
+    "title": "Faction Strategy Guide",
+    "system": {
+      "name": "Rock-Paper-Scissors System",
+      "description": "Nature beats Horde, Horde beats League, League beats Nature",
+      "damageBonus": "Winning faction deals 30% more damage and takes 30% less",
+      "importance": "Understanding faction advantages is crucial for PvP"
+    },
+    "factions": [
+      {
+        "name": "Nature",
+        "description": "Master of sustain and summons. Excellent for PvP defense",
+        "strengths": [
+          "Best sustain and healing in the game",
+          "Strong summons that distract enemies",
+          "Tidecaller is arguably the best hero in the game",
+          "Hard to kill in PvP defense"
+        ],
+        "weaknesses": [
+          "Lower raw damage output",
+          "Slower clear times in PvE",
+          "Weak against League faction"
+        ],
+        "recommendedLineup": {
+          "front": ["Altar Marshal", "Monk"],
+          "middle": ["Petalis", "Tidecaller"],
+          "back": ["Pixie", "Forest Maiden"]
+        },
+        "keyHero": {
+          "name": "Tidecaller",
+          "role": "Tank/Heal/DPS hybrid",
+          "description": "Arguably the best hero in the game. Can tank, heal, and deal damage",
+          "priority": "Get this hero as early as possible"
+        },
+        "buildingCost": "Medium - requires balanced investment",
+        "bestFor": ["F2P players", "PvP focused", "Defensive strategies"]
+      },
+      {
+        "name": "Horde",
+        "description": "Raw damage output. The absolute kings of PvE and Boss damage",
+        "strengths": [
+          "Highest raw damage output",
+          "Best faction for boss battles",
+          "Fastest PvE clear times",
+          "Cheapest faction to build (fewer awakened Legendaries needed)",
+          "Wanderer is an insane damage carry"
+        ],
+        "weaknesses": [
+          "Squishier than other factions",
+          "Less utility and sustain",
+          "Weak against Nature faction"
+        ],
+        "recommendedLineup": {
+          "front": ["Beastmaster", "Desert Prince"],
+          "middle": ["Wanderer", "Horde DPS 2"],
+          "back": ["Horde Support 1", "Horde Support 2"]
+        },
+        "keyHero": {
+          "name": "Wanderer",
+          "role": "Primary damage carry",
+          "description": "Essential for Horde. Highest single-target damage in game",
+          "priority": "Must-have for Horde players"
+        },
+        "buildingCost": "Low - cheapest faction to build competitively",
+        "bestFor": ["F2P players", "PvE focused", "Boss hunters", "Budget builds"]
+      },
+      {
+        "name": "League",
+        "description": "Heavy skill damage. Powerful but expensive to build",
+        "strengths": [
+          "Highest burst damage potential",
+          "Strong AoE abilities",
+          "Paragon is a monster damage dealer",
+          "Excellent mid-game scaling"
+        ],
+        "weaknesses": [
+          "Most expensive faction to build",
+          "Requires up to 27 Soul Stones for full roster",
+          "Needs heavy investment to shine",
+          "Weak against Horde faction"
+        ],
+        "recommendedLineup": {
+          "front": ["League Tank 1", "League Tank 2"],
+          "middle": ["Paragon", "League DPS 2"],
+          "back": ["League Support 1", "League Support 2"]
+        },
+        "keyHero": {
+          "name": "Paragon",
+          "role": "Primary damage dealer",
+          "description": "League's main carry. High skill damage with AoE potential",
+          "priority": "Core hero for League faction"
+        },
+        "buildingCost": "High - requires 27 Soul Stones for full roster development",
+        "bestFor": ["Spenders", "Mid-game dominance", "Burst damage lovers"]
+      }
+    ]
+  },
+  "epicHeroTraits": {
+    "title": "Epic Hero Passive Traits (2-Star Platinum)",
+    "description": "Epic heroes unlock global passive bonuses at 2-Star Platinum",
+    "highestPriority": [
+      {
+        "hero": "Brawler",
+        "bonus": "+30% Tech Research Speed",
+        "priority": "Highest Priority",
+        "reasoning": "Research speed is one of the most valuable permanent bonuses in the game"
+      },
+      {
+        "hero": "Knight",
+        "bonus": "+30% Training Speed",
+        "priority": "Highest Priority",
+        "reasoning": "More soldiers = more power. Training speed is critical"
+      }
+    ],
+    "tips": [
+      "These bonuses are permanent and global",
+      "Work even if the hero isn't in your active lineup",
+      "Prioritize getting these two heroes to 2-Star Platinum early",
+      "Other Epic heroes have useful but less critical bonuses"
+    ]
+  }
+}

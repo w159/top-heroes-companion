@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutGrid, Users, Calendar, Settings, Shield, Menu, X, Terminal } from 'lucide-react';
+import { LayoutGrid, Users, Calendar, Settings, Shield, Menu, X, Terminal, BookOpen } from 'lucide-react';
 import '../styles/ios.css';
 
 interface IOSLayoutProps {
@@ -15,6 +15,7 @@ const IOSLayout: React.FC<IOSLayoutProps> = ({ children }) => {
     { name: 'Dashboard', path: '/', icon: LayoutGrid },
     { name: 'Heroes', path: '/heroes', icon: Shield },
     { name: 'Roster', path: '/roster', icon: Users },
+    { name: 'Guides', path: '/guides', icon: BookOpen },
     { name: 'Events', path: '/events', icon: Calendar },
     { name: 'Codes', path: '/codes', icon: Terminal },
     { name: 'Settings', path: '/settings', icon: Settings },

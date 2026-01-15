@@ -11,7 +11,8 @@ const Heroes = lazy(() => import('./pages/Heroes'));
 const HeroDetail = lazy(() => import('./pages/HeroDetail'));
 const Roster = lazy(() => import('./pages/Roster'));
 const Events = lazy(() => import('./pages/Events'));
-const Codes = lazy(() => import('./pages/Codes'));
+const GiftCodes = lazy(() => import('./pages/GiftCodes'));
+const Guides = lazy(() => import('./pages/Guides'));
 const TeamBuilder = lazy(() => import('./pages/TeamBuilder'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Pets = lazy(() => import('./pages/Pets'));
@@ -30,7 +31,8 @@ const App: React.FC = () => {
             <Route path="/roster" element={<Roster />} />
             <Route path="/team" element={<TeamBuilder />} />
             <Route path="/events" element={<Events />} />
-            <Route path="/codes" element={<Codes />} />
+            <Route path="/codes" element={<GiftCodes />} />
+            <Route path="/guides" element={<Guides />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/pets" element={<Pets />} />
             <Route path="/relics" element={<Relics />} />

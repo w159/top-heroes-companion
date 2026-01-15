@@ -1,0 +1,306 @@
+{
+  "events": [
+    {
+      "id": "kingdom-duel",
+      "name": "Kingdom Duel (KvK)",
+      "type": "Major Event",
+      "description": "6-Stage Server War with Territory, Tech, and Cross-Server Conquest",
+      "duration": "Multiple weeks across 6 stages",
+      "frequency": "Rotating major event",
+      "rewards": {
+        "type": "Massive rewards for top-performing servers",
+        "key_items": ["Legendary hero shards", "Mythic equipment", "Premium resources"]
+      },
+      "stages": [
+        {
+          "stage": 1,
+          "name": "Preparation Phase",
+          "focus": "Building and Infrastructure",
+          "priority_items": ["Construction speedups", "Building materials", "Resource production"],
+          "strategy": "Max out your Castle level and key buildings. Stock up on speedups.",
+          "tips": [
+            "Save all construction speedups for this stage",
+            "Prioritize Castle, Research Cottage, and Barracks",
+            "Join rallies for bonus points"
+          ]
+        },
+        {
+          "stage": 2,
+          "name": "Technology Phase",
+          "focus": "Research Progress",
+          "priority_items": ["Research speedups", "Knowledge books"],
+          "strategy": "Push high-level research that you've been saving. Research points = big scores.",
+          "tips": [
+            "Have Brawler (Epic) at 2-Star Platinum for +30% research speed",
+            "Save long research timers for this stage",
+            "Use all research speedups you've been hoarding"
+          ]
+        },
+        {
+          "stage": 3,
+          "name": "Power Phase",
+          "focus": "Hero Development",
+          "priority_items": ["Hero exp items", "Skill books", "Trait stones"],
+          "strategy": "Level up heroes, upgrade skills, enhance traits",
+          "tips": [
+            "Save hero exp bottles for this stage",
+            "Skill upgrades give huge power boosts",
+            "Focus on your main 5-6 heroes"
+          ]
+        },
+        {
+          "stage": 4,
+          "name": "Recruitment Phase",
+          "focus": "Hero Summoning",
+          "priority_items": ["Recruitment tokens", "Hero shards", "Summoning items"],
+          "strategy": "Mass summon heroes. Every summon gives points.",
+          "tips": [
+            "Save all recruitment tokens for this stage",
+            "Even Common summons give points",
+            "Use faction-specific summons for bonus points"
+          ]
+        },
+        {
+          "stage": 5,
+          "name": "Pet Phase",
+          "focus": "Pet Development",
+          "priority_items": ["Pet food", "Pet exp items", "Pet upgrade materials"],
+          "strategy": "Level and evolve your pets. Pet power counts heavily.",
+          "tips": [
+            "Stock up on pet food in advance",
+            "Pets give massive combat power",
+            "Focus on leveling over evolving for points"
+          ]
+        },
+        {
+          "stage": 6,
+          "name": "Final Conquest",
+          "focus": "Cross-Server Competition",
+          "priority_items": ["Combat boosts", "Troop training", "Healing items"],
+          "strategy": "All-out war phase. Rally, defend, attack. Team coordination is key.",
+          "tips": [
+            "Coordinate with your guild",
+            "Use shields strategically",
+            "Save best troops for crucial battles",
+            "Communication wins wars"
+          ]
+        }
+      ],
+      "preparation": {
+        "title": "How to Prepare for KvK",
+        "timeline": "Start preparing 2-3 weeks before event",
+        "steps": [
+          "Hoard speedups (don't use any for 2 weeks before)",
+          "Save recruitment tokens (minimum 100+)",
+          "Stock pet food (5000+ recommended)",
+          "Prepare long research timers",
+          "Coordinate with guild leadership"
+        ]
+      },
+      "mistakes_to_avoid": [
+        "Using speedups before the event starts",
+        "Summoning heroes before Stage 4",
+        "Leveling pets before Stage 5",
+        "Not coordinating with your server",
+        "Ignoring early stages (they all count!)"
+      ]
+    },
+    {
+      "id": "guild-arms-race",
+      "name": "Guild Arms Race",
+      "type": "Weekly Event",
+      "description": "6-Day cycle where guilds compete on different development aspects each day",
+      "duration": "Monday through Sunday",
+      "frequency": "Weekly",
+      "dailySchedule": [
+        {
+          "day": "Monday",
+          "focus": "Building",
+          "priority": ["Construction speedups", "Building materials"],
+          "strategy": "Complete building upgrades. Save big upgrades for Monday."
+        },
+        {
+          "day": "Tuesday",
+          "focus": "Research",
+          "priority": ["Research speedups", "Knowledge books"],
+          "strategy": "Start long research timers. Use speedups to finish them."
+        },
+        {
+          "day": "Wednesday",
+          "focus": "Hero Development",
+          "priority": ["Hero exp", "Skill books"],
+          "strategy": "Level heroes and upgrade skills."
+        },
+        {
+          "day": "Thursday",
+          "focus": "Recruitment",
+          "priority": ["Recruitment tokens"],
+          "strategy": "Mass summon heroes."
+        },
+        {
+          "day": "Friday",
+          "focus": "Pets",
+          "priority": ["Pet food", "Pet materials"],
+          "strategy": "Level and evolve pets."
+        },
+        {
+          "day": "Saturday-Sunday",
+          "focus": "综合/Guild Activities",
+          "priority": ["Mixed activities", "Guild participation"],
+          "strategy": "Participate in all guild events. Donate to guild tech."
+        }
+      ],
+      "tips": [
+        "Save activities for the matching day when possible",
+        "Coordinate with guild to maximize points",
+        "Even small contributions matter",
+        "Daily participation rewards add up",
+        "Top guilds get exclusive rewards"
+      ]
+    },
+    {
+      "id": "citadel-clash",
+      "name": "Citadel Clash",
+      "type": "Tournament Event",
+      "description": "4-Round Guild Tournament with betting mechanics and tier advancement",
+      "format": "Guild vs Guild elimination tournament",
+      "rounds": 4,
+      "features": [
+        "Betting system - wager on match outcomes",
+        "Tier advancement - win to move up tiers",
+        "Guild glory - represent your guild",
+        "Strategic matchups - counter opponent's lineup"
+      ],
+      "strategy": {
+        "title": "How to Win Citadel Clash",
+        "tips": [
+          "Scout opponent lineups before attacking",
+          "Use faction advantage (Nature > Horde > League > Nature)",
+          "Save your best team for crucial matches",
+          "Coordinate attacks with guild members",
+          "Bet on matches you understand",
+          "Learn from losses - adapt your lineup"
+        ]
+      }
+    },
+    {
+      "id": "frostfield-battle",
+      "name": "Frostfield Battle",
+      "type": "Guild War",
+      "description": "45-minute guild war with unlimited troop deployment",
+      "duration": "45 minutes per battle",
+      "mechanics": {
+        "title": "Core Mechanics",
+        "systems": [
+          "Magic Core economy - manage resources during battle",
+          "Unlimited deployment - send troops repeatedly",
+          "Building advantages - capture and hold key structures",
+          "Dynamic battlefield - conditions change mid-battle"
+        ]
+      },
+      "strategy": {
+        "early_game": "Capture resource buildings first. You need Magic Cores to deploy more troops.",
+        "mid_game": "Control key strategic points. Deny enemy resources.",
+        "late_game": "Final push for enemy stronghold. Coordinate massive attacks.",
+        "tips": [
+          "Communication is everything",
+          "Rotate your heroes - they can die and respawn",
+          "Resource buildings > kills early game",
+          "Save ultimates for team fights",
+          "Defend your core buildings"
+        ]
+      }
+    },
+    {
+      "id": "ancient-battlefield",
+      "name": "Ancient Battlefield",
+      "type": "5v5 PvP",
+      "description": "5v5 squad strategy on a three-lane map with tower control",
+      "format": "3 lanes, 5 heroes per team",
+      "objectives": [
+        "Destroy enemy towers",
+        "Control Dark Medal spawns (power-ups)",
+        "Push lanes strategically",
+        "Coordinate with teammates",
+        "Win by destroying enemy core or higher score at time limit"
+      ],
+      "roles": {
+        "title": "Team Composition",
+        "recommended": [
+          "1-2 Tanks in front lanes",
+          "2-3 DPS for damage output",
+          "1-2 Support for healing/buffs"
+        ]
+      },
+      "strategy": {
+        "laning": "Tanks front, DPS middle, Support rotating",
+        "objectives": "Dark Medals give huge advantages - fight for them",
+        "teamfights": "Group up for major objectives. Don't fight alone.",
+        "tips": [
+          "Map awareness is crucial",
+          "Ping objectives for your team",
+          "Defend is easier than attack - use that",
+          "Comeback mechanics exist - never give up"
+        ]
+      }
+    },
+    {
+      "id": "glory-battlefield",
+      "name": "Glory Battlefield",
+      "type": "Point Race PvP",
+      "description": "Race to 200,000 points through captures and eliminations",
+      "win_condition": "First team to 200,000 points OR higher score when time expires",
+      "point_sources": [
+        {
+          "action": "Capture Point A/B/C",
+          "points": "Variable, central points worth more",
+          "strategy": "Control center point for consistent points"
+        },
+        {
+          "action": "Hero Elimination",
+          "points": "Bonus points per kill",
+          "strategy": "Target weak enemies, don't die carelessly"
+        },
+        {
+          "action": "Hold Points",
+          "points": "Passive points while controlling",
+          "strategy": "Defense is key - hold your points"
+        }
+      ],
+      "strategy": {
+        "early": "Rush to capture points quickly. Early lead matters.",
+        "mid": "Rotate between points. Don't let enemy capture freely.",
+        "late": "If ahead, play defensive. If behind, take risks.",
+        "tips": [
+          "Center point usually worth most - fight for it",
+          "Don't chase kills if you're ahead - protect points",
+          "Split push can work if enemy groups up",
+          "Respawn and rejoin fights quickly"
+        ]
+      }
+    }
+  ],
+  "eventTips": {
+    "title": "General Event Strategy",
+    "preparation": [
+      "Always check event schedule in advance",
+      "Hoard resources before major events",
+      "Join active guild for guild events",
+      "Save speedups and tokens for event days",
+      "Read event rules carefully - they change"
+    ],
+    "during": [
+      "Complete daily event tasks first",
+      "Use event-specific items wisely",
+      "Coordinate with guild members",
+      "Track your progress regularly",
+      "Adjust strategy if falling behind"
+    ],
+    "rewards": [
+      "Claim rewards immediately (they can expire)",
+      "Prioritize time-limited rewards",
+      "Compare reward tiers - sometimes next tier isn't worth effort",
+      "Save premium rewards for when you need them"
+    ]
+  }
+}
