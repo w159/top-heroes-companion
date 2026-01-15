@@ -1,7 +1,7 @@
 
 export type Faction = 'Nature' | 'League' | 'Horde';
 export type Rarity = 'Mythic' | 'Legendary' | 'Epic' | 'Rare';
-export type Role = 'Tank' | 'DPS' | 'Support' | 'Healer' | 'Controller' | 'Hybrid';
+export type Role = 'Tank' | 'DPS' | 'Support' | 'Supporter' | 'Healer' | 'Controller' | 'Hybrid' | 'Damage Dealer';
 export type Tier = 'S' | 'A' | 'B' | 'C' | 'D';
 
 export interface Skill {
@@ -39,7 +39,7 @@ export interface Hero {
   faction: Faction;
   rarity: Rarity;
   role: Role;
-  tier: Tier;
+  tier?: Tier;
   imageUrl?: string;
   description?: string;
   skills?: Skill[];

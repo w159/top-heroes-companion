@@ -4,11 +4,12 @@ import HeroDetailView from '../components/HeroDetailView';
 import heroesData from '../src/data/heroes.json';
 import { useUserData } from '../utils';
 import { ArrowLeft } from 'lucide-react';
+import { Faction, Rarity, Role, Hero } from '../types';
 
 const HeroDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data, addToRoster } = useUserData();
-  
+
   // Find hero in our JSON data
   const hero = heroesData.find((h: any) => h.id === id);
 
@@ -19,9 +20,9 @@ const HeroDetail: React.FC = () => {
         <p style={{ color: 'var(--ios-text-secondary)', marginBottom: 20 }}>
           The hero you are looking for does not exist in our database.
         </p>
-        <Link 
+        <Link
           to="/heroes"
-          style={{ 
+          style={{
             color: 'var(--ios-blue)', fontWeight: 600, textDecoration: 'none',
             display: 'inline-flex', alignItems: 'center', gap: 4
           }}
@@ -38,10 +39,25 @@ const HeroDetail: React.FC = () => {
   const userHero = data.roster.find((h: any) => h.id === hero.id);
 
   return (
-    <HeroDetailView 
-        hero={hero} 
-        userHero={userHero} 
-        onRecruit={() => addToRoster({ ...hero, level: 1, stars: 1, power: 0 })}
+    <HeroDetailView
+      hero={hero}
+      userHero={userHero}
+      onRecruit={() => {
+        const normalizedRole: Role =
+          hero.role === 'Damage Dealer' ? 'DPS' :
+            hero.role === 'Supporter' ? 'Support' :
+              (hero.role as Role);
+
+        const baseHero: Hero = {
+          id: hero.id,
+          name: hero.name,
+          faction: hero.faction as Faction,
+          rarity: hero.rarity as Rarity,
+          role: normalizedRole,
+        };
+
+        addToRoster(baseHero);
+      }}
     />
   );
 };

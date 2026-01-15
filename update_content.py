@@ -131,6 +131,9 @@ def main():
         href = link.get('href')
         if isinstance(href, list):
             href = href[0]
+        
+        if not href:
+            continue
             
         web_slug = href.split('/')[-1]
         
