@@ -177,38 +177,38 @@
       {
         "name": "Fair Strike",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals extra damage against summoned units",
+        "tips": "Perfect counter to Nature summon-heavy teams"
       },
       {
         "name": "Divine Descent",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Increases ATK and damage reduction, grants AOE normal attacks temporarily",
+        "tips": "Transforms Bishop into AOE powerhouse - massive damage spike"
       },
       {
         "name": "Solar Shield",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases crit rate and crit resistance",
+        "tips": "Offensive and defensive crit stats - versatile passive"
       },
       {
         "name": "Confession",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage, applies Weaken debuff, extra effective vs summons",
+        "tips": "Anti-summon specialist - shuts down Nature strategies"
       },
       {
         "name": "Sacred Burst",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Triggers AOE damage automatically when enemies die",
+        "tips": "Snowball mechanic - gets stronger as enemies fall"
       },
       {
         "name": "War Messenger",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases soldiers' attack per 1000 deployed",
+        "tips": "Army damage boost for campaign and guild content"
       }
     ]
   },
@@ -284,38 +284,38 @@
       {
         "name": "Mountain Strike",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage, increases max HP, and grants damage immunity",
+        "tips": "Use to engage enemies and boost survivability during critical moments"
       },
       {
         "name": "Ultimate Zen Power",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Grants dodge, damage reduction, and counterattacks when hit",
+        "tips": "Powerful defensive ultimate that turns incoming damage into counterattacks"
       },
       {
         "name": "Thundering Kick",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Adds a chance to follow up Mountain Strike with a stun",
+        "tips": "Provides additional crowd control to lock down priority targets"
       },
       {
         "name": "Fiery Breath",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage and grants control immunity",
+        "tips": "Use to break free from CC and continue dealing damage"
       },
       {
         "name": "Merciful Victor",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Gains a shield when units die or are sacrificed",
+        "tips": "Synergizes with summon-heavy comps for constant shield uptime"
       },
       {
         "name": "Guardian Messenger",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases soldier HP per 1000 deployed",
+        "tips": "Makes your army tankier - crucial for campaign and guild events"
       }
     ]
   },
@@ -337,38 +337,38 @@
       {
         "name": "Commanding Call",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals rectangular AOE damage and grants allies shield",
+        "tips": "Primary damage dealer for League - highest DPS in faction"
       },
       {
         "name": "Celestial Blade",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Grants control immunity, deals massive AOE damage, applies burn stacks, and gains damage reduction",
+        "tips": "Game-changing ultimate. Position Paragon to hit maximum enemies"
       },
       {
         "name": "Final Verdict",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases damage against enemies above 70% HP. Reduces ultimate cooldown by 2s per enemy defeated",
+        "tips": "Makes Paragon excellent at burst damage and ability cycling"
       },
       {
         "name": "Moral Fury",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Waves flag to increase all allies' attack and deals damage per second",
+        "tips": "Team-wide damage buff - critical for sustained fights"
       },
       {
         "name": "Ultimate Execution",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Extends normal attack range, adds additional target, and boosts normal attack damage",
+        "tips": "Significantly increases sustained DPS between skill rotations"
       },
       {
         "name": "Conqueror",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Boosts castle attack per Legendary+ hero; grants skill crit at 6 heroes",
+        "tips": "Scales with team quality - becomes stronger as you build more Legendaries"
       }
     ]
   },
@@ -443,38 +443,38 @@
       {
         "name": "Be Brave",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Gains Courage stacks providing damage reduction; damage taken converts to Resentment",
+        "tips": "Core tanking mechanic - stores damage taken as resource for counterattack"
       },
       {
         "name": "Bloom",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Consumes Resentment stacks to deal massive damage and apply Heal Ban",
+        "tips": "Convert tanked damage into burst - timing is critical"
       },
       {
         "name": "Thorns",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Damage scales with accumulated Resentment stacks",
+        "tips": "More damage taken = more damage dealt back"
       },
       {
         "name": "Weapon Up!",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Damage reduction scales with ATK stat",
+        "tips": "Unique mechanic - offensive stats make her tankier"
       },
       {
         "name": "Roses",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Gains Courage and HP when enemies die",
+        "tips": "Gets stronger as fight progresses and enemies fall"
       },
       {
         "name": "Guardian Messenger",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases soldiers' HP per 1000 deployed",
+        "tips": "Makes your army more resilient in campaign"
       }
     ]
   },
@@ -512,38 +512,38 @@
       {
         "name": "Whirlwind Feathers",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage, later upgrades also increase movement and attack speed",
+        "tips": "Core damage ability with speed scaling"
       },
       {
         "name": "Lightning Storm",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Deals massive damage and launches enemies into the air",
+        "tips": "High burst AOE with CC - excellent for team fights"
       },
       {
         "name": "Wings of Freedom",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Was previously called 'Wind of Freedom' - grants dodge to all heroes in queue",
+        "tips": "Team-wide evasion buff - counters auto-attack heavy comps"
       },
       {
         "name": "Tornado",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Channels whirlwind that blocks projectiles, then deals damage",
+        "tips": "Defensive tool that transitions into offense"
       },
       {
         "name": "Wind Field",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Each Tornado cast permanently increases team attack",
+        "tips": "Stacking damage buff - gets stronger throughout the fight"
       },
       {
         "name": "War Messenger",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases soldier attack per 1000 soldiers deployed",
+        "tips": "Army damage amplifier for campaign progression"
       }
     ]
   },
@@ -565,38 +565,38 @@
       {
         "name": "Hydro Hammer",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage, stuns, and summons a guardian water elemental",
+        "tips": "Best Nature hero - use to control enemies and add summon damage"
       },
       {
         "name": "Surge",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Normal attacks heal all allies",
+        "tips": "Makes Tidecaller a viable healer replacement in late game"
       },
       {
         "name": "Evolve",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Normal attacks can hit an additional target",
+        "tips": "Increases damage output significantly in multi-target fights"
       },
       {
         "name": "Ascend",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage, knocks enemies up, and summons Water Lord",
+        "tips": "Powerful crowd control and summon ultimate"
       },
       {
         "name": "Purification Lance",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage and summons a ranged elemental",
+        "tips": "Additional summon for more sustained damage"
       },
       {
-        "name": "Missing Skill",
-        "type": "Unknown",
-        "description": "",
-        "tips": ""
+        "name": "War Messenger",
+        "type": "Passive",
+        "description": "Increases soldier attack per 1000 deployed",
+        "tips": "Boosts army damage - important for campaign progression"
       }
     ]
   },
@@ -671,38 +671,38 @@
       {
         "name": "Dark Healing",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Heals allies with dark magic",
+        "tips": "Primary healing ability for Horde teams"
       },
       {
         "name": "Dread Golem",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Summons a powerful golem that fears enemies and deals damage",
+        "tips": "Offensive ultimate with CC - adds pressure while healing"
       },
       {
         "name": "Curse Fire",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "After Dark Healing, grants damage reduction and additional healing to allies",
+        "tips": "Follow-up buff to amplify healing effect"
       },
       {
         "name": "Dark Magic Boost",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Boosts allies' attack and grants temporary stun immunity barrier",
+        "tips": "Offensive support - prevents CC while boosting damage"
       },
       {
         "name": "Dark Magic Shield",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Provides passive defensive bonuses",
+        "tips": "Helps Witch survive to keep healing team"
       },
       {
         "name": "Guardian Messenger",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases soldiers' HP per 1000 deployed",
+        "tips": "Makes your army tankier in campaign and guild events"
       }
     ]
   },
@@ -725,38 +725,38 @@
       {
         "name": "Guardian Discipline",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage, stuns enemies, grants damage reduction and control immunity to self",
+        "tips": "Aggressive tanking tool - control enemies while staying immune to CC"
       },
       {
         "name": "Shield of Faith",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Summons massive shield that explodes for damage when it expires",
+        "tips": "Huge defensive cooldown that also punishes enemies"
       },
       {
         "name": "Judgment",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage, stuns target, and heals self",
+        "tips": "Sustain and control in one ability"
       },
       {
         "name": "Indomitable",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Grants damage reduction to all allies",
+        "tips": "Team-wide defensive buff - makes entire lineup tankier"
       },
       {
         "name": "Eternal",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "HP cannot drop below 1 when near death - grants brief invincibility",
+        "tips": "Near-immortal mechanic - known for soaking lethal boss damage"
       },
       {
         "name": "Order of Sanctity",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Additional defensive bonuses for League team",
+        "tips": "Further enhances League survivability"
       }
     ]
   },
@@ -826,32 +826,32 @@
       {
         "name": "Fortified Defense",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Grants a shield that absorbs incoming damage",
+        "tips": "Use proactively to mitigate burst damage from enemy abilities"
       },
       {
         "name": "Insatiable Hunger",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases HP and Attack stats",
+        "tips": "Makes Barbarian tankier and adds some offensive pressure"
       },
       {
         "name": "Horde Defender",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases damage reduction for all Horde heroes in the queue",
+        "tips": "Core Horde tank - his presence makes entire Horde team tankier"
       },
       {
         "name": "Savage Strike",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage and stuns enemies",
+        "tips": "Crowd control tool to lock down priority targets"
       },
       {
         "name": "Taunt",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Forces enemies to attack Barbarian instead of allies",
+        "tips": "Protect your damage dealers by redirecting enemy focus"
       }
     ]
   },
@@ -873,32 +873,32 @@
       {
         "name": "Cheer",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Increases movement and attack speed of allies; may also deal damage",
+        "tips": "Core buff ability - speeds up entire team"
       },
       {
         "name": "Endgame Serenade",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Reduces allies' skill cooldowns after using Resonant Chord",
+        "tips": "CDR mechanic - allows team to cast abilities more frequently"
       },
       {
         "name": "Fight Song",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases crit rate for all League heroes",
+        "tips": "Team-wide crit buff for League comps"
       },
       {
         "name": "Resonant Chord",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Deals massive damage and stuns enemies",
+        "tips": "High impact ultimate - AOE damage and CC"
       },
       {
         "name": "Grace",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Increases allies' crit rate; may also deal damage",
+        "tips": "Another crit boost - stacks with Fight Song"
       }
     ]
   },
@@ -936,38 +936,38 @@
       {
         "name": "Baa-Baa Charge",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Summons sheep that deal damage and stun enemies",
+        "tips": "Adorable but deadly - provides CC and damage"
       },
       {
         "name": "Sheepherd",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Summons a powerful lamb to fight for the team",
+        "tips": "Core summon ability - adds sustained damage"
       },
       {
         "name": "Song of Life",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "When units die or are sacrificed, all heroes recover HP",
+        "tips": "Turns summon deaths into healing - synergy with sacrifice mechanics"
       },
       {
         "name": "Forest Lullaby",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Was previously 'Shepherd's Bell' - grants damage reduction to nearby allies",
+        "tips": "Team defensive buff"
       },
       {
         "name": "Revenge",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Each time a unit dies or is sacrificed, all heroes gain permanent damage increase",
+        "tips": "Snowball mechanic - team gets stronger as summons die"
       },
       {
         "name": "Blessing of Spring",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Additional supportive bonuses for Nature team",
+        "tips": "Further enhances Nature synergies"
       }
     ]
   },
@@ -1083,32 +1083,32 @@
       {
         "name": "Therapy",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Heals single ally with lowest HP and increases healing received",
+        "tips": "Primary single-target heal - focus heals where needed most"
       },
       {
         "name": "Radiant Song",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Increases max HP and grants final damage reduction temporarily to all allies",
+        "tips": "Powerful defensive ultimate for surviving burst damage"
       },
       {
         "name": "Prayer of Healing",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Heals all allies at once",
+        "tips": "AOE heal for sustained team recovery"
       },
       {
         "name": "Holy Grace",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Grants self damage reduction",
+        "tips": "Makes Nun harder to kill - essential for healer survival"
       },
       {
         "name": "Sacred Union",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases max HP of all League heroes",
+        "tips": "Team-wide HP boost makes entire League lineup tankier"
       }
     ]
   },
@@ -1146,38 +1146,38 @@
       {
         "name": "Root Absorption",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Summons roots that deal damage and steal attack from enemies",
+        "tips": "Debuffs enemy damage while boosting your team's attack"
       },
       {
         "name": "Sunflower Core",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Summons a powerful core that damages and stuns all enemies",
+        "tips": "Strong AOE stun - combo with Tidecaller for maximum control"
       },
       {
         "name": "Phantom Pollen",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Reduces enemy hit rate and deals damage over time",
+        "tips": "Was previously called 'Bewildering Powder' - makes enemies miss attacks"
       },
       {
         "name": "Forest Ally",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Each dead or sacrificed unit reduces Sunflower Core cooldown",
+        "tips": "Synergizes with summon-heavy Nature comps for faster ultimates"
       },
       {
         "name": "Protector",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases defensive stats",
+        "tips": "Provides survivability for a damage dealer"
       },
       {
         "name": "Nature's Harmony",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Gains damage reduction for each living Nature hero",
+        "tips": "Becomes tankier in pure Nature teams - synergy with Monk"
       }
     ]
   },
@@ -1199,38 +1199,38 @@
       {
         "name": "Detonate",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage and applies burn status effect to enemies",
+        "tips": "Apply burn first, then use other heroes who gain bonus damage vs burned targets"
       },
       {
         "name": "Skyfire",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Massive area damage dealing multiple hits to all enemies",
+        "tips": "High burst AOE damage - excellent for clearing enemy teams"
       },
       {
         "name": "Flame Shield",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Provides shield to self and damages nearby enemies",
+        "tips": "Use defensively when focused or offensively to increase DPS"
       },
       {
         "name": "Elemental Mastery",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases all skill damage output",
+        "tips": "Core passive that amplifies all of Pyromancer's abilities"
       },
       {
         "name": "Ember",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Grants attack boost when HP drops below threshold",
+        "tips": "Pyromancer becomes more dangerous when low on health"
       },
       {
         "name": "Burst Rune",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Further enhances burst damage from skills",
+        "tips": "Makes Pyromancer's combo damage extremely high"
       }
     ]
   },
@@ -1269,32 +1269,32 @@
       {
         "name": "Arcane Shield",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Increases damage reduction and removes debuffs from self",
+        "tips": "Cleanse and defensive buff - essential for survivability"
       },
       {
         "name": "Forbidden Realm",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Silences all enemies and deals damage",
+        "tips": "AOE silence - shuts down enemy abilities completely"
       },
       {
         "name": "Spell Reflection",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage and grants brief immunity to incoming abilities",
+        "tips": "Counter enemy skills - timing is critical"
       },
       {
         "name": "Arcane Link",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases max HP",
+        "tips": "More HP for better tanking"
       },
       {
         "name": "Arcane Guardian",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Grants damage-absorbing shield periodically",
+        "tips": "Passive shield generation for sustained tankiness"
       }
     ]
   },
@@ -1316,32 +1316,32 @@
       {
         "name": "Healing Breeze",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Heals the ally with the lowest HP",
+        "tips": "Prioritizes critical healing automatically"
       },
       {
         "name": "Rain Blessing",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases the healing effect of all allies",
+        "tips": "Amplifies all healing in your team, not just Shaman's"
       },
       {
         "name": "Wolf Soul",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Summons 2 wolves to fight alongside team",
+        "tips": "Free summons for additional damage and tanking"
       },
       {
         "name": "Restorative Totem",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Summons a healing totem that continuously restores HP",
+        "tips": "Provides sustained AOE healing over time"
       },
       {
         "name": "Ancestor's Soul",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Possesses the ally with lowest HP, preventing their death",
+        "tips": "Life-saving ultimate - can turn fights by preventing key hero deaths"
       }
     ]
   },
@@ -1363,32 +1363,32 @@
       {
         "name": "Soul Link",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Links with an ally to share damage and becomes immune to part of it",
+        "tips": "Core mechanic - absorbs team damage at reduced rate. Deploy mid or front"
       },
       {
         "name": "Soul Empowerment",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases HP of all Horde heroes in the queue",
+        "tips": "Team-wide HP boost for Horde comps"
       },
       {
         "name": "Pain Diffusion",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Triggers Soul Freeze automatically when HP falls below threshold",
+        "tips": "Defensive trigger for survivability"
       },
       {
         "name": "Soul Recall",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Upon near-death, deals AOE damage and cannot die for a duration",
+        "tips": "Resurrection mechanic with damage - turns death into offensive tool"
       },
       {
         "name": "Soul Freeze",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage and may freeze the target",
+        "tips": "CC tool with damage component"
       }
     ]
   },
@@ -1427,32 +1427,32 @@
       {
         "name": "Whirlwind",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Attacks all surrounding enemies with spinning blade attack",
+        "tips": "AOE damage for frontline pressure"
       },
       {
         "name": "Blade Storm",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Massive spinning attack dealing heavy damage to all nearby enemies",
+        "tips": "High damage AOE ultimate - position in middle of enemy formation"
       },
       {
         "name": "Crazy Cut",
         "type": "Active",
-        "description": "",
-        "tips": ""
+        "description": "Deals damage and gains damage reduction temporarily",
+        "tips": "Offensive skill with defensive benefit - use aggressively"
       },
       {
         "name": "Battle Will",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Prevents death once by staying at 1 HP for a short time",
+        "tips": "Second chance mechanic - allows clutch plays and comebacks"
       },
       {
         "name": "Suppression",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases damage based on missing HP",
+        "tips": "Becomes more dangerous when low on health - high risk/reward"
       }
     ]
   },
@@ -1469,7 +1469,38 @@
     "positions": [
       "Front"
     ],
-    "skills": []
+    "skills": [
+      {
+        "name": "Growth",
+        "type": "Active",
+        "description": "Increases max HP, reduces damage taken, and heals self",
+        "tips": "Core tanking ability - stacks survivability bonuses"
+      },
+      {
+        "name": "Timber Shell",
+        "type": "Passive",
+        "description": "Increases damage reduction and max HP, and provides healing",
+        "tips": "Passive sustain makes Treeguard extremely durable"
+      },
+      {
+        "name": "Vine",
+        "type": "Passive",
+        "description": "While Growth is active, attacks deal extra damage and apply poison",
+        "tips": "Offensive pressure while in defensive stance"
+      },
+      {
+        "name": "Titanwood Assault",
+        "type": "Ultimate",
+        "description": "Summons thorns that deal damage and heal Treeguard",
+        "tips": "Offensive ultimate with self-healing"
+      },
+      {
+        "name": "Vitality Surge",
+        "type": "Active",
+        "description": "Increases damage output and heals self",
+        "tips": "Hybrid offense/defense ability"
+      }
+    ]
   },
   {
     "id": "warlock",
@@ -1488,33 +1519,33 @@
     "skills": [
       {
         "name": "Whispered Shadows",
-        "type": "Skill",
-        "description": "",
-        "tips": ""
+        "type": "Active",
+        "description": "Deals damage to enemies and heals allies simultaneously",
+        "tips": "Hybrid support - damages and heals at same time"
       },
       {
         "name": "Shadow Rite",
-        "type": "Skill",
-        "description": "",
-        "tips": ""
+        "type": "Passive",
+        "description": "Increases HP of all Horde heroes",
+        "tips": "Makes entire Horde team tankier - essential team buff"
       },
       {
         "name": "Malicious Passion",
-        "type": "Skill",
-        "description": "",
-        "tips": ""
+        "type": "Active",
+        "description": "Increases damage of allied Horde heroes",
+        "tips": "Key damage amplifier for pure Horde compositions"
       },
       {
         "name": "Debilitation",
-        "type": "Skill",
-        "description": "",
-        "tips": ""
+        "type": "Active",
+        "description": "Reduces enemies' skill damage and damage reduction",
+        "tips": "Powerful debuff that makes enemies more vulnerable"
       },
       {
         "name": "Bloodlust",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Grants HP drain to self and boosts allies' attack speed",
+        "tips": "Team-wide attack speed buff with self-sustain"
       }
     ]
   },
@@ -1552,32 +1583,32 @@
       {
         "name": "Barb",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases normal attack count and applies bleeding effect",
+        "tips": "Core passive - boosts basic attack frequency and adds DOT"
       },
       {
         "name": "Fatal Preyer",
         "type": "Ultimate",
-        "description": "",
-        "tips": ""
+        "description": "Was previously 'Fatal Prayer' - deals damage, knocks back enemies, increases attack",
+        "tips": "High damage ultimate with self-buff"
       },
       {
         "name": "Hunter",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases attack stat",
+        "tips": "Simple but effective damage amplifier"
       },
       {
         "name": "Tradition",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases damage of Horde heroes in the queue",
+        "tips": "Team-wide Horde damage buff"
       },
       {
         "name": "Impulse Instinct",
         "type": "Passive",
-        "description": "",
-        "tips": ""
+        "description": "Increases attack speed",
+        "tips": "Synergizes with Barb for more attacks and bleeding procs"
       }
     ]
   },
