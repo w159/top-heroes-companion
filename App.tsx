@@ -1,37 +1,42 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import IOSLayout from './components/IOSLayout';
 import ChatAssistant from './components/ChatAssistant';
+import LoadingSpinner from './components/LoadingSpinner';
 import './styles/ios.css';
-import Dashboard from './pages/Dashboard';
-import Heroes from './pages/Heroes';
-import HeroDetail from './pages/HeroDetail';
-import Roster from './pages/Roster';
-import Events from './pages/Events';
-import Codes from './pages/Codes';
-import TeamBuilder from './pages/TeamBuilder';
-import Settings from './pages/Settings';
-import Pets from './pages/Pets';
-import Relics from './pages/Relics';
-import Gear from './pages/Gear';
+
+// Lazy load all pages for optimal code splitting
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Heroes = lazy(() => import('./pages/Heroes'));
+const HeroDetail = lazy(() => import('./pages/HeroDetail'));
+const Roster = lazy(() => import('./pages/Roster'));
+const Events = lazy(() => import('./pages/Events'));
+const Codes = lazy(() => import('./pages/Codes'));
+const TeamBuilder = lazy(() => import('./pages/TeamBuilder'));
+const Settings = lazy(() => import('./pages/Settings'));
+const Pets = lazy(() => import('./pages/Pets'));
+const Relics = lazy(() => import('./pages/Relics'));
+const Gear = lazy(() => import('./pages/Gear'));
 
 const App: React.FC = () => {
   return (
     <Router>
       <IOSLayout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/heroes" element={<Heroes />} />
-          <Route path="/heroes/:id" element={<HeroDetail />} />
-          <Route path="/roster" element={<Roster />} />
-          <Route path="/team" element={<TeamBuilder />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/codes" element={<Codes />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/pets" element={<Pets />} />
-          <Route path="/relics" element={<Relics />} />
-          <Route path="/gear" element={<Gear />} />
-        </Routes>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/heroes" element={<Heroes />} />
+            <Route path="/heroes/:id" element={<HeroDetail />} />
+            <Route path="/roster" element={<Roster />} />
+            <Route path="/team" element={<TeamBuilder />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/codes" element={<Codes />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/pets" element={<Pets />} />
+            <Route path="/relics" element={<Relics />} />
+            <Route path="/gear" element={<Gear />} />
+          </Routes>
+        </Suspense>
       </IOSLayout>
       <ChatAssistant />
     </Router>

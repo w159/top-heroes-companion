@@ -18,6 +18,27 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
-      }
+      },
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              // Vendor splitting for better caching
+              'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+              'ui-vendor': ['lucide-react', 'recharts'],
+            },
+          },
+        },
+        // Optimize chunk size warnings
+        chunkSizeWarningLimit: 600,
+        // Enable source maps for production debugging
+        sourcemap: false,
+        // Minification settings (using esbuild - faster than terser)
+        minify: 'esbuild',
+      },
+      // Performance optimizations
+      optimizeDeps: {
+        include: ['react', 'react-dom', 'react-router-dom', 'lucide-react', 'recharts'],
+      },
     };
 });
