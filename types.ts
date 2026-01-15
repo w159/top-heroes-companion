@@ -3,6 +3,7 @@ export type Faction = 'Nature' | 'League' | 'Horde';
 export type Rarity = 'Mythic' | 'Legendary' | 'Epic' | 'Rare';
 export type Role = 'Tank' | 'DPS' | 'Support' | 'Supporter' | 'Healer' | 'Controller' | 'Hybrid' | 'Damage Dealer';
 export type Tier = 'S' | 'A' | 'B' | 'C' | 'D';
+export type SpendProfile = 'F2P' | 'LowSpender' | 'Whale';
 
 export interface Skill {
   name: string;
@@ -54,6 +55,8 @@ export interface UserHero extends Hero {
   level: number;
   stars: number;
   awakening: number;
+  power: number;
+  gear?: Record<string, any>;
   isOwned: boolean;
   notes?: string;
 }
@@ -128,7 +131,7 @@ export interface GameEvent {
   name: string;
   type: 'Recurring' | 'Special' | 'Season';
   description: string;
-  phases?: EventPhase[]; 
+  phases?: EventPhase[];
   preparationChecklist?: string[];
   rewardsHighlight?: string[];
   isActive?: boolean;
@@ -143,8 +146,55 @@ export interface GiftCode {
   addedDate?: string;
 }
 
+export interface ProgressSnapshot {
+  date: string;
+  totalInfluence: number;
+  notes?: string;
+}
+
+export interface PlayerProgressModel {
+  spendProfile: SpendProfile;
+  snapshots: ProgressSnapshot[];
+}
+
+export interface UserInventory {
+  diamonds: number;
+  gold: number;
+  experience: number;
+  stamina: number;
+  speedups: {
+    generic: number;
+    building: number;
+    training: number;
+    research: number;
+  };
+  shards: {
+    generic: {
+      legendary: number;
+      mythic: number;
+    };
+    specific: Record<string, number>;
+  };
+  guildCoins: number;
+  ruinsCoins: number;
+  arenaTokens: number;
+}
+
+export interface UserBuildings {
+  castle: number;
+  trainingGrounds: number;
+}
+
+export interface UserResearch {
+  economy: Record<string, number>;
+  military: Record<string, number>;
+}
+
 export interface UserData {
   roster: UserHero[];
+  inventory: UserInventory;
+  buildings: UserBuildings;
+  research: UserResearch;
   redeemedCodes: string[];
   settings: {
     mainFaction: Faction;
@@ -153,6 +203,8 @@ export interface UserData {
   queues: Queue[];
   teamPresets: TeamPreset[];
   lastUpdated: string;
+  progressLog?: ProgressSnapshot[];
+  progressModel?: PlayerProgressModel;
 }
 
 export interface TeamPreset {

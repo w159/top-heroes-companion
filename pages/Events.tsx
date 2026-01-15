@@ -2,19 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import { EVENTS } from '../constants';
 import { GameEvent } from '../types';
-import { getEventState, getTimeUntilReset } from '../utils';
-import { 
-  Calendar, Clock, AlertTriangle, CheckCircle, 
-  ChevronDown, ChevronUp, Sword, Hammer, 
+import { getEventState, getTimeUntilReset, useUserData } from '../utils';
+import { recommendEventStrategies } from '../utils/recommendations';
+import {
+  Calendar, Clock, AlertTriangle, CheckCircle,
+  ChevronDown, ChevronUp, Sword, Hammer,
   UserPlus, Zap, Info, Target, List, Gift, Trophy, CheckSquare, Square
 } from 'lucide-react';
 
 const Events: React.FC = () => {
+  const { data } = useUserData();
   const [activeTab, setActiveTab] = useState<'active' | 'library'>('active');
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
   const [checkedTasks, setCheckedTasks] = useState<Record<string, boolean>>({});
   const [resetCountdown, setResetCountdown] = useState<string>(getTimeUntilReset());
-  
+
   useEffect(() => {
     const timer = setInterval(() => {
       setResetCountdown(getTimeUntilReset());
@@ -24,6 +26,11 @@ const Events: React.FC = () => {
 
   const activeEventsWithState = EVENTS.map(e => ({ ...e, state: getEventState(e) })).filter(e => e.state.isActive);
   const inactiveEvents = EVENTS.filter(e => !getEventState(e).isActive);
+
+  const eventStrategies = React.useMemo(
+    () => recommendEventStrategies(data, EVENTS),
+    [data],
+  );
 
   const toggleEvent = (id: string) => {
       setExpandedEventId(expandedEventId === id ? null : id);
@@ -48,7 +55,7 @@ const Events: React.FC = () => {
 
       return (
           <div className={`bg-bg-secondary border rounded-xl overflow-hidden transition-all duration-300 ${isActiveView ? 'border-yellow-500/50 shadow-lg shadow-yellow-900/10' : 'border-border hover:border-gray-600'}`}>
-              <div 
+          <div
                 className="p-5 cursor-pointer flex justify-between items-start"
                 onClick={() => toggleEvent(event.id)}
               >
@@ -87,7 +94,7 @@ const Events: React.FC = () => {
                                   <Clock size={14} className="mr-2" /> ACTIVE NOW: {event.phases[activePhaseIdx].name}
                               </h3>
                               <p className="text-white text-lg font-bold mb-2">{event.phases[activePhaseIdx].description}</p>
-                              
+
                               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                   <div className="text-[10px] uppercase font-bold text-gray-500">Key Tasks</div>
@@ -118,8 +125,8 @@ const Events: React.FC = () => {
                                     {event.phases.map((phase, idx) => {
                                         const isCurrent = isActiveView && activePhaseIdx === idx;
                                         return (
-                                            <div 
-                                              key={idx} 
+                                          <div
+                                            key={idx}
                                               className={`p-4 rounded-lg border transition-all ${isCurrent ? 'bg-blue-900/10 border-blue-500/40 shadow-inner' : 'bg-bg-tertiary border-gray-700 opacity-60 hover:opacity-100'}`}
                                             >
                                                 <div className="flex justify-between items-center mb-1">
@@ -127,7 +134,7 @@ const Events: React.FC = () => {
                                                     {isCurrent && <span className="text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded font-mono animate-pulse">CURRENT</span>}
                                                 </div>
                                                 <p className="text-xs text-gray-500 mb-3">{phase.description}</p>
-                                                
+
                                                 {phase.tips && (
                                                    <div className="bg-black/20 p-3 rounded border border-gray-800/50">
                                                       <div className="flex items-center text-[10px] font-bold text-blue-400 mb-1 uppercase"><Info size={10} className="mr-1"/> Pro Tips</div>
@@ -160,8 +167,8 @@ const Events: React.FC = () => {
                                           const taskId = `${event.id}-task-${idx}`;
                                           const isChecked = checkedTasks[taskId];
                                           return (
-                                              <li 
-                                                key={idx} 
+                                            <li
+                                              key={idx}
                                                 onClick={() => toggleTask(taskId)}
                                                 className={`flex items-start text-xs cursor-pointer select-none transition-colors ${isChecked ? 'text-gray-600' : 'text-gray-300 hover:text-white'}`}
                                               >
@@ -214,14 +221,56 @@ const Events: React.FC = () => {
           </div>
       </div>
 
+      <div className="bg-bg-secondary p-4 rounded-2xl border border-border flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
+            <Target size={14} className="mr-1" /> Recommended focus
+          </div>
+          {eventStrategies.length === 0 ? (
+            <p className="text-xs text-gray-400">Event data not available yet.</p>
+          ) : (
+            <>
+              <p className="text-sm text-gray-200">
+                {eventStrategies
+                  .filter(s => s.priority === 'High')
+                  .slice(0, 1)
+                  .map(s => s.focus)[0] || eventStrategies[0].focus}
+              </p>
+              <ul className="mt-1 text-xs text-gray-400 list-disc list-inside space-y-0.5">
+                {eventStrategies
+                  .filter(s => s.priority === 'High')
+                  .flatMap(s => s.actions.slice(0, 2))
+                  .slice(0, 3)
+                  .map(item => (
+                    <li key={item}>{item}</li>
+                  ))}
+              </ul>
+            </>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {eventStrategies
+            .filter(s => s.priority === 'High')
+            .slice(0, 3)
+            .map(s => (
+              <span
+                key={s.eventId}
+                className="px-2 py-1 rounded-full text-[11px] bg-blue-900/30 border border-blue-500/40 text-blue-300 font-medium"
+              >
+                {s.eventName}
+              </span>
+            ))}
+        </div>
+      </div>
+
       <div className="flex space-x-1 bg-bg-secondary p-1 rounded-xl w-fit border border-border">
-          <button 
+        <button
             onClick={() => setActiveTab('active')}
             className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'active' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}
           >
               Live Events
           </button>
-          <button 
+        <button
             onClick={() => setActiveTab('library')}
             className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'library' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}
           >

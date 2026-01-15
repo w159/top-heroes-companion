@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * Multi-Agent Performance Monitoring Utility
  * Tracks performance metrics across the application
@@ -12,14 +14,14 @@ interface PerformanceMetrics {
 
 class PerformanceMonitor {
   private metrics: Map<string, PerformanceMetrics> = new Map();
-  private enabled: boolean = import.meta.env.DEV;
+  private enabled: boolean = (import.meta as any).env?.DEV || false;
 
   /**
    * Start tracking a performance metric
    */
   startMetric(name: string): void {
     if (!this.enabled) return;
-    
+
     this.metrics.set(name, {
       name,
       startTime: performance.now(),
@@ -31,19 +33,19 @@ class PerformanceMonitor {
    */
   endMetric(name: string): number | null {
     if (!this.enabled) return null;
-    
+
     const metric = this.metrics.get(name);
     if (!metric) return null;
 
     const endTime = performance.now();
     const duration = endTime - metric.startTime;
-    
+
     metric.endTime = endTime;
     metric.duration = duration;
 
     // Log to console in dev mode
     console.log(`⚡ ${name}: ${duration.toFixed(2)}ms`);
-    
+
     return duration;
   }
 
@@ -86,6 +88,19 @@ class PerformanceMonitor {
           });
         });
         fidObserver.observe({ entryTypes: ['first-input'] });
+
+        // Cumulative Layout Shift (CLS)
+        const clsObserver = new PerformanceObserver((list) => {
+          let clsValue = 0;
+          for (const entry of list.getEntries()) {
+            if (!(entry as any).hadRecentInput) {
+              clsValue += (entry as any).value;
+            }
+          }
+          console.log('📊 CLS:', clsValue.toFixed(4));
+        });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+
       } catch (e) {
         // Observer not supported
       }
@@ -97,18 +112,43 @@ class PerformanceMonitor {
 export const performanceMonitor = new PerformanceMonitor();
 
 /**
- * React Hook for performance tracking
+ * React Hook for tracking component mount duration
  */
-export function usePerformanceTracking(componentName: string) {
-  const metricName = `Component: ${componentName}`;
-  
+export function useMountDuration(componentName: string) {
+  const metricName = `Mount: ${componentName}`;
+
   React.useEffect(() => {
-    performanceMonitor.startMetric(metricName);
-    
+    const start = performance.now();
+
     return () => {
-      performanceMonitor.endMetric(metricName);
+      const duration = performance.now() - start;
+      if ((import.meta as any).env?.DEV) {
+        console.log(`⏱️ ${metricName} active for ${duration.toFixed(2)}ms`);
+      }
     };
   }, [metricName]);
+}
+
+/**
+ * React Hook for tracking render duration
+ */
+export function useRenderTracker(componentName: string) {
+  const renderStart = React.useRef(performance.now());
+
+  React.useLayoutEffect(() => {
+    const duration = performance.now() - renderStart.current;
+    if ((import.meta as any).env?.DEV) {
+      console.log(`🎨 Render: ${componentName} took ${duration.toFixed(2)}ms`);
+    }
+    renderStart.current = performance.now(); // Reset for next render
+  });
+}
+
+/**
+ * Deprecated: Use useMountDuration or useRenderTracker instead
+ */
+export function usePerformanceTracking(componentName: string) {
+  useMountDuration(componentName);
 }
 
 /**
@@ -119,12 +159,9 @@ export function withPerformanceTracking<P extends object>(
   componentName?: string
 ) {
   const name = componentName || Component.displayName || Component.name || 'Unknown';
-  
+
   return (props: P) => {
-    usePerformanceTracking(name);
+    useMountDuration(name);
     return <Component {...props} />;
   };
 }
-
-// Import React for hooks
-import React from 'react';

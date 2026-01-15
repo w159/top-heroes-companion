@@ -25,6 +25,36 @@ const INITIAL_QUEUES: Queue[] = Array.from({ length: 5 }, (_, i) => ({
 
 const DEFAULT_DATA: UserData = {
   roster: [],
+  inventory: {
+    diamonds: 0,
+    gold: 0,
+    experience: 0,
+    stamina: 0,
+    speedups: {
+      generic: 0,
+      building: 0,
+      training: 0,
+      research: 0,
+    },
+    shards: {
+      generic: {
+        legendary: 0,
+        mythic: 0,
+      },
+      specific: {},
+    },
+    guildCoins: 0,
+    ruinsCoins: 0,
+    arenaTokens: 0,
+  },
+  buildings: {
+    castle: 1,
+    trainingGrounds: 1,
+  },
+  research: {
+    economy: {},
+    military: {},
+  },
   redeemedCodes: [],
   settings: {
     mainFaction: 'Nature',
@@ -33,6 +63,11 @@ const DEFAULT_DATA: UserData = {
   queues: INITIAL_QUEUES,
   teamPresets: [],
   lastUpdated: new Date().toISOString(),
+  progressLog: [],
+  progressModel: {
+    spendProfile: 'F2P',
+    snapshots: [],
+  },
 };
 
 export const useUserData = () => {
@@ -43,7 +78,7 @@ export const useUserData = () => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
-        const parsed = JSON.parse(stored);
+        const parsed: UserData = JSON.parse(stored);
         if (!parsed.queues) {
             parsed.queues = INITIAL_QUEUES;
         } else {
@@ -51,6 +86,15 @@ export const useUserData = () => {
                  ...q,
                  relics: q.relics || { Attack: null, Defense: null, Assist: null }
              }));
+        }
+        if (!parsed.progressLog) {
+          parsed.progressLog = [];
+        }
+        if (!parsed.progressModel) {
+          parsed.progressModel = {
+            spendProfile: 'F2P',
+            snapshots: [],
+          };
         }
         setData(parsed);
       } catch (e) {
@@ -72,6 +116,7 @@ export const useUserData = () => {
       level: 1,
       stars: hero.rarity === 'Mythic' ? 0 : 1,
       awakening: 0,
+      power: 0,
       isOwned: true
     };
     saveData({ ...data, roster: [...data.roster, newHero] });
@@ -82,8 +127,8 @@ export const useUserData = () => {
         ...q,
         heroIds: q.heroIds.map(hid => hid === heroId ? null : hid)
     }));
-    saveData({ 
-        ...data, 
+    saveData({
+      ...data,
         roster: data.roster.filter(h => h.id !== heroId),
         queues: newQueues
     });
@@ -116,6 +161,26 @@ export const useUserData = () => {
       saveData({ ...data, queues: newQueues });
   };
 
+  const recordProgressSnapshot = (notes?: string) => {
+    const totalInfluence = data.queues.reduce((sum, q) => sum + calculateQueueInfluence(q, data.roster), 0);
+    const snapshot = {
+      date: new Date().toISOString(),
+      totalInfluence,
+      notes,
+    };
+    const updatedLog = [...(data.progressLog || []), snapshot];
+    const updatedModel = {
+      spendProfile: data.progressModel?.spendProfile || 'F2P',
+      snapshots: [...(data.progressModel?.snapshots || []), snapshot],
+    };
+    saveData({
+      ...data,
+      progressLog: updatedLog,
+      progressModel: updatedModel,
+      lastUpdated: new Date().toISOString(),
+    });
+  };
+
   return {
     data,
     isLoaded,
@@ -125,7 +190,22 @@ export const useUserData = () => {
     toggleCodeRedeemed,
     updateSettings,
     updateQueue,
-    saveData 
+    recordProgressSnapshot,
+    saveData
+  };
+};
+
+export const addProgressSnapshot = (data: UserData, snapshot: { date: string; totalInfluence: number; notes?: string }): UserData => {
+  const progressLog = [...(data.progressLog || []), snapshot];
+  const progressModel = {
+    spendProfile: data.progressModel?.spendProfile || 'F2P',
+    snapshots: [...(data.progressModel?.snapshots || []), snapshot],
+  };
+  return {
+    ...data,
+    progressLog,
+    progressModel,
+    lastUpdated: snapshot.date,
   };
 };
 
@@ -133,12 +213,12 @@ export const getTimeUntilReset = (): string => {
     const now = new Date();
     const nextReset = new Date();
     nextReset.setUTCHours(24, 0, 0, 0);
-    
+
     const diff = nextReset.getTime() - now.getTime();
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
+
     return `${hours}h ${minutes}m ${seconds}s`;
 };
 
@@ -151,21 +231,21 @@ export const getEventState = (event: GameEvent): { isActive: boolean; activePhas
             if (day === 0) return { isActive: false, activePhaseIndex: -1 };
             const phaseIndex = day - 1;
             if (event.phases && event.phases[phaseIndex]) {
-                return { 
-                    isActive: true, 
+              return {
+                isActive: true,
                     activePhaseIndex: phaseIndex,
                     activePhaseName: event.phases[phaseIndex].name
                 };
             }
         }
-        
+
         // Sunday specific events
         if (event.id === 'ancient-ruins') {
             const isWeekend = day === 0 || day === 6;
             return { isActive: isWeekend, activePhaseIndex: 0 };
         }
     }
-    
+
     return {
         isActive: !!event.isActive,
         activePhaseIndex: event.activePhaseIndex || 0,
@@ -211,6 +291,18 @@ export const calculateQueueInfluence = (queue: Queue, roster: UserHero[]): numbe
         if (skin) total += skin.baseInfluence;
     }
     return total;
+};
+
+export const calculateTotalInfluence = (data: UserData): number => {
+  return data.queues.reduce((sum, queue) => sum + calculateQueueInfluence(queue, data.roster), 0);
+};
+
+export const calculateProgressTrend = (snapshots: { totalInfluence: number }[]): number => {
+  if (!snapshots || snapshots.length < 2) return 0;
+  const first = snapshots[0].totalInfluence;
+  const last = snapshots[snapshots.length - 1].totalInfluence;
+  if (first === 0) return 0;
+  return ((last - first) / first) * 100;
 };
 
 export const isHeroUsedElsewhere = (heroId: string, currentQueueId: number, allQueues: Queue[]): boolean => {
