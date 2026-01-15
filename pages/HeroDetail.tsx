@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import HeroDetailView from '../components/HeroDetailView';
 import heroesData from '../src/data/heroes.json';
+import heroesEnhanced from '../src/data/heroesEnhanced.json';
 import { useUserData } from '../utils';
 import { ArrowLeft } from 'lucide-react';
 import { Faction, Rarity, Role, Hero } from '../types';
@@ -42,6 +43,7 @@ const HeroDetail: React.FC = () => {
     <HeroDetailView
       hero={hero}
       userHero={userHero}
+      enhancedData={heroesEnhanced}
       onRecruit={() => {
         const normalizedRole: Role =
           hero.role === 'Damage Dealer' ? 'DPS' :
