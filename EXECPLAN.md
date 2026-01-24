@@ -1,5 +1,28 @@
 # ExecPlan: Clean Architecture Refactor + Agentic RAG + Analytics
 
+## ExecPlan: Script Cleanup + Content Update Automation (2026-01-24)
+
+### Purpose / Big Picture
+Clean the workspace root, make content update scripts reliable, and expose a single automated entrypoint for updating hero data and RAG content.
+
+### Scope
+- Move debug/inspect/legacy scripts into `scripts/` subfolders.
+- Consolidate content updates into `scripts/content/update_content.py`.
+- Add an npm script for user-triggered updates.
+- Resolve obvious Python lint issues (unused imports, inconsistent style).
+
+### Non-Goals
+- No UI-based updates (browser cannot run Python).
+- No schema redesign of existing JSON or RAG content formats.
+
+### Risks & Mitigations
+- Source markup changes: keep selectors localized and safe defaults.
+- Rate limiting: configurable delay between requests.
+
+### Validation Plan
+- Manual: run `python3 scripts/content/update_content.py --all` and confirm `src/data/heroes.json` + `rag-content/*` updated.
+
+
 ## Purpose / Big Picture
 
 Refactor the Top Heroes Companion into clean architectural layers while adding agentic content updates, a production-ready RAG chat assistant, and purchase analytics. Preserve existing functionality, keep bundle size lean, and maintain the local-first UX.

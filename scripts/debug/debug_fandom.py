@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 
 url = "https://topheroes1.fandom.com/wiki/Warlock"
 headers = {

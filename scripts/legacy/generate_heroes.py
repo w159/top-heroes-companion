@@ -1,6 +1,3 @@
-
-import os
-
 heroes = [
     {"name": "Adjudicator", "faction": "League", "role": "Tank", "desc": "Frontline durability expert."},
     {"name": "Bishop", "faction": "League", "role": "Support", "desc": " Healer and buffer for League teams."},

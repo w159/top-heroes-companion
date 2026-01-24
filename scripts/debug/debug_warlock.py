@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import json
 
 url = "https://topheroes.info/hero/warlock"
 headers = {

@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "start": "vite preview --host 0.0.0.0 --port $PORT"
+    "start": "vite preview --host 0.0.0.0 --port $PORT",
+    "content:update": "python3 scripts/content/update_content.py --all"
   },
   "dependencies": {
     "lucide-react": "^0.562.0",
