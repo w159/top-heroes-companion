@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import IOSLayout from './components/IOSLayout';
-import ChatAssistant from './components/ChatAssistant';
+import PremiumLayout from './components/PremiumLayout';
+import ChatAssistantEnhanced from './components/ChatAssistantEnhanced';
 import LoadingSpinner from './components/LoadingSpinner';
-import './styles/ios.css';
+import './styles/design-system.css';
 
 // Lazy load all pages for optimal code splitting
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -22,7 +22,7 @@ const Gear = lazy(() => import('./pages/Gear'));
 const App: React.FC = () => {
   return (
     <Router>
-      <IOSLayout>
+      <PremiumLayout>
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
@@ -39,8 +39,8 @@ const App: React.FC = () => {
             <Route path="/gear" element={<Gear />} />
           </Routes>
         </Suspense>
-      </IOSLayout>
-      <ChatAssistant />
+      </PremiumLayout>
+      <ChatAssistantEnhanced />
     </Router>
   );
 };

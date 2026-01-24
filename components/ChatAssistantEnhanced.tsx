@@ -1,33 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Sparkles, X, MessageCircle } from 'lucide-react';
+import { Send, Bot, User, Loader2, Sparkles, X, MessageCircle, BookOpen } from 'lucide-react';
+import { services } from '../src/core/ServiceContainer';
+import { RAGContentLoader } from '../src/core/infrastructure/RAGContentLoader';
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  sources?: Array<{ title: string; category: string }>;
 }
 
-interface ChatAssistantProps {
-  apiEndpoint?: string;
-  ragContentPath?: string;
-}
-
-const ChatAssistant: React.FC<ChatAssistantProps> = ({
-  apiEndpoint = '/api/chat',
-  ragContentPath = '/rag-content'
-}) => {
+const ChatAssistantEnhanced: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
       role: 'assistant',
-      content: "Hi! I'm your Top Heroes companion assistant. Ask me anything about heroes, team builds, gear, pets, relics, or game strategies!",
+      content: "Hi! I'm your enhanced Top Heroes assistant powered by RAG. I can provide accurate, sourced information about heroes, teams, gear, strategies, and optimization. Ask me anything!",
       timestamp: new Date()
     }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isIndexed, setIsIndexed] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -45,6 +41,24 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
     }
   }, [isOpen]);
 
+  // Initialize RAG index on first open
+  useEffect(() => {
+    if (isOpen && !isIndexed) {
+      initializeRAG();
+    }
+  }, [isOpen, isIndexed]);
+
+  const initializeRAG = async () => {
+    try {
+      const chunks = await RAGContentLoader.loadAllContent();
+      await services.rag.indexContent(chunks);
+      setIsIndexed(true);
+      console.log('RAG index initialized with', chunks.length, 'chunks');
+    } catch (error) {
+      console.error('Failed to initialize RAG:', error);
+    }
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -60,23 +74,34 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
     setIsLoading(true);
 
     try {
-      // For now, simulate a response based on keywords
-      // In production, this would call an actual API with RAG
-      const response = await simulateRAGResponse(userMessage.content);
-      
+      // Use RAG service to generate response
+      const searchResults = await services.rag.search({
+        query: userMessage.content,
+      });
+
+      const ragResponse = await services.rag.generateResponse(
+        { query: userMessage.content },
+        searchResults
+      );
+
       const assistantMessage: Message = {
         id: `assistant-${Date.now()}`,
         role: 'assistant',
-        content: response,
-        timestamp: new Date()
+        content: ragResponse.answer,
+        timestamp: new Date(),
+        sources: ragResponse.sources.map(s => ({
+          title: s.chunk.source,
+          category: s.chunk.category,
+        })),
       };
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
+      console.error('RAG query failed:', error);
       const errorMessage: Message = {
         id: `error-${Date.now()}`,
         role: 'assistant',
-        content: "Sorry, I'm having trouble connecting. Please try again.",
+        content: "I'm having trouble processing that request. Please try rephrasing your question!",
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -93,10 +118,10 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
   };
 
   const quickPrompts = [
-    "Best Nature team?",
+    "Best Nature team composition?",
     "How does awakening work?",
+    "F2P progression tips?",
     "Which gear for Pyromancer?",
-    "F2P hero recommendations?"
   ];
 
   return (
@@ -120,7 +145,8 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           <div className="chat-header">
             <div className="chat-header-info">
               <Bot size={20} />
-              <span>Top Heroes Assistant</span>
+              <span>RAG-Powered Assistant</span>
+              {isIndexed && <Sparkles size={14} style={{ color: '#30D158' }} />}
             </div>
             <button onClick={() => setIsOpen(false)} className="chat-close">
               <X size={18} />
@@ -143,21 +169,27 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
                 </div>
                 <div className="chat-message-content">
                   {message.content}
+                  {message.sources && message.sources.length > 0 && (
+                    <div className="chat-sources">
+                      <BookOpen size={12} />
+                      <span>Sources: {message.sources.map(s => s.category).join(', ')}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
-            
+
             {isLoading && (
               <div className="chat-message assistant">
                 <div className="chat-message-avatar">
                   <Loader2 size={16} className="animate-spin" />
                 </div>
                 <div className="chat-message-content">
-                  Thinking...
+                  Searching knowledge base...
                 </div>
               </div>
             )}
-            
+
             <div ref={messagesEndRef} />
           </div>
 
@@ -221,19 +253,19 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           z-index: 1000;
           transition: transform 0.2s, box-shadow 0.2s;
         }
-        
+
         .chat-fab:hover {
           transform: scale(1.05);
           box-shadow: 0 6px 24px rgba(0, 122, 255, 0.5);
         }
-        
+
         .chat-fab-sparkle {
           position: absolute;
           top: 8px;
           right: 8px;
           color: #FFD60A;
         }
-        
+
         .chat-window {
           position: fixed;
           bottom: 24px;
@@ -250,7 +282,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           z-index: 1000;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
-        
+
         .chat-header {
           padding: 16px;
           background: rgba(255, 255, 255, 0.05);
@@ -259,7 +291,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           justify-content: space-between;
           align-items: center;
         }
-        
+
         .chat-header-info {
           display: flex;
           align-items: center;
@@ -267,7 +299,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           color: white;
           font-weight: 600;
         }
-        
+
         .chat-close {
           background: none;
           border: none;
@@ -277,12 +309,12 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           border-radius: 8px;
           transition: all 0.2s;
         }
-        
+
         .chat-close:hover {
           background: rgba(255, 255, 255, 0.1);
           color: white;
         }
-        
+
         .chat-messages {
           flex: 1;
           overflow-y: auto;
@@ -291,18 +323,18 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           flex-direction: column;
           gap: 12px;
         }
-        
+
         .chat-message {
           display: flex;
           gap: 10px;
           max-width: 85%;
         }
-        
+
         .chat-message.user {
           align-self: flex-end;
           flex-direction: row-reverse;
         }
-        
+
         .chat-message-avatar {
           width: 28px;
           height: 28px;
@@ -314,39 +346,50 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           flex-shrink: 0;
           color: rgba(255, 255, 255, 0.8);
         }
-        
+
         .chat-message.assistant .chat-message-avatar {
           background: linear-gradient(135deg, #007AFF, #5856D6);
         }
-        
+
         .chat-message.user .chat-message-avatar {
           background: #30D158;
         }
-        
+
         .chat-message-content {
           padding: 10px 14px;
           border-radius: 16px;
           font-size: 14px;
           line-height: 1.5;
         }
-        
+
         .chat-message.assistant .chat-message-content {
           background: rgba(255, 255, 255, 0.08);
           color: rgba(255, 255, 255, 0.9);
         }
-        
+
         .chat-message.user .chat-message-content {
           background: #007AFF;
           color: white;
         }
-        
+
+        .chat-sources {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          margin-top: 8px;
+          padding-top: 8px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          font-size: 11px;
+          color: rgba(255, 255, 255, 0.6);
+        }
+
         .chat-quick-prompts {
           padding: 8px 16px;
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
         }
-        
+
         .chat-quick-prompt {
           padding: 6px 12px;
           border-radius: 16px;
@@ -357,12 +400,12 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           cursor: pointer;
           transition: all 0.2s;
         }
-        
+
         .chat-quick-prompt:hover {
           background: rgba(255, 255, 255, 0.12);
           color: white;
         }
-        
+
         .chat-input-container {
           padding: 12px 16px;
           background: rgba(255, 255, 255, 0.05);
@@ -370,7 +413,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           display: flex;
           gap: 10px;
         }
-        
+
         .chat-input {
           flex: 1;
           padding: 10px 14px;
@@ -382,15 +425,15 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           outline: none;
           transition: border-color 0.2s;
         }
-        
+
         .chat-input::placeholder {
           color: rgba(255, 255, 255, 0.4);
         }
-        
+
         .chat-input:focus {
           border-color: #007AFF;
         }
-        
+
         .chat-send {
           width: 40px;
           height: 40px;
@@ -404,21 +447,21 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
           justify-content: center;
           transition: all 0.2s;
         }
-        
+
         .chat-send:hover:not(:disabled) {
           background: #0066CC;
         }
-        
+
         .chat-send:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
-        
+
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
         }
-        
+
         .animate-spin {
           animation: spin 1s linear infinite;
         }
@@ -430,7 +473,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
             bottom: 80px;
             right: 16px;
           }
-          
+
           .chat-fab {
             bottom: 16px;
             right: 16px;
@@ -441,68 +484,4 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({
   );
 };
 
-// Simulated RAG response function
-// In production, this would call your backend API
-async function simulateRAGResponse(query: string): Promise<string> {
-  // This is now a placeholder - the actual ChatAssistant component
-  // will be updated to use the RAGService from ServiceContainer
-  await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 500));
-  
-  const lowerQuery = query.toLowerCase();
-  
-  // Hero-related queries
-  if (lowerQuery.includes('tidecaller')) {
-    return "**Tidecaller** is one of the best heroes in the game! As a Nature Mythic, they're a unique hybrid that can Tank, Heal, AND deal DPS. Best paired with Cactini pet, Oath of Sacred Forest relic set, and Titan or Knight gear. S-Tier pick for any Nature team!";
-  }
-  
-  if (lowerQuery.includes('pyromancer')) {
-    return "**Pyromancer** is the recommended early carry for League faction! Max her **Meteor Blaze** skill first for devastating AoE damage. Use Glory of the Knight gear for skill damage bonus. Awaken to Tier 2 early for a major power spike. Pair with Secret Keeper for shields!";
-  }
-  
-  if (lowerQuery.includes('wanderer')) {
-    return "**Wanderer** is the essential DPS carry for Horde! Despite being classified as 'Tank', they're your main damage dealer. Use Titan's Might gear, Dragon's Might relics, and pair with Desert Prince tank. Horde builds slowly but Wanderer makes it worth it late game!";
-  }
-  
-  // Team composition queries
-  if (lowerQuery.includes('nature team') || lowerQuery.includes('best nature')) {
-    return "**Best Nature Team:** Front: Altar Marshal + Monk | Middle: Petalis + Tidecaller | Back: Pixie + Forest Maiden. Use Oath of Sacred Forest relics and Cactini pet. Nature excels at sustain - outlast your enemies!";
-  }
-  
-  if (lowerQuery.includes('horde team') || lowerQuery.includes('best horde')) {
-    return "**Best Horde Team:** Front: Beastmaster + Desert Prince | Middle: Wanderer + Soulmancer | Back: Storm Maiden + Witch. Use Dragon's Might relics and Flickerkit/Howli pet. Horde = raw damage, great for PvE/bosses!";
-  }
-  
-  if (lowerQuery.includes('league team') || lowerQuery.includes('best league')) {
-    return "**Best League Team:** Front: Adjudicator + Rose Princess | Middle: Paragon + Bishop | Back: Pyromancer + Nun. Use Arcane Vault relics and Eggy pet. League dominates with skill damage and CC!";
-  }
-  
-  // Gear queries
-  if (lowerQuery.includes('gear') || lowerQuery.includes('armor')) {
-    return "**Gear Sets:**\n• **Knight (Glory of the Knight)**: +40% ATK, +80% HP, +8% Skill Dmg - for skill-based DPS\n• **Blood (Fury of Blood)**: +160% HP, +6% Dmg Reduction - for tanks & healers\n• **Titan (Titan's Might)**: +80% ATK, +6% Dmg - for flat attack scalers\n\nAlways match to hero role!";
-  }
-  
-  // Pet queries
-  if (lowerQuery.includes('pet')) {
-    return "**Pet Priorities:**\n• **League**: Eggy (Critical Rate buffs)\n• **Nature**: Cactini (best sustain scaling)\n• **Horde**: Flickerkit (BiS) or Howli (F2P)\n\n**Key tip**: Focus 100% of Pet Food on ONE pet matching your main faction. Level to 120+ for Mythic promotion!";
-  }
-  
-  // Awakening queries
-  if (lowerQuery.includes('awaken')) {
-    return "**Awakening System:**\n• Requires 5★ Legendary hero (11 stars total)\n• 4 tiers to full Mythic status\n• Costs: 9 Soul Stones + ~115 hero copies total\n• Each faction has specific Soul Stones\n\n**Priority:** Awaken your main DPS first, usually Pyromancer (League), Pixie (Nature), or Warlock (Horde)!";
-  }
-  
-  // F2P queries
-  if (lowerQuery.includes('f2p') || lowerQuery.includes('free to play')) {
-    return "**F2P Tips:**\n1. **Save diamonds** for events only\n2. **Pick ONE faction** and focus on it\n3. **League** is easiest to start\n4. **Join active guild** ASAP (Castle 7)\n5. **Don't invest in Rare heroes**\n6. **Use resources during events** for double value\n7. **Rush Castle to 25** for unlocks!";
-  }
-  
-  // Relic queries
-  if (lowerQuery.includes('relic')) {
-    return "**Relic Sets by Faction:**\n• **Nature**: Oath of Sacred Forest (Survival + CC)\n• **League**: Arcane Vault (Control + Skill Dmg)\n• **Horde**: Dragon's Might (Raw Damage)\n\n**Tip**: Max ONE relic at a time for star bonuses. 5★ Epic beats 1★ Legendary!";
-  }
-  
-  // Default response
-  return "I can help with heroes, team builds, gear sets, pets, relics, awakening, events, and strategies! Try asking about specific heroes like 'Tidecaller' or 'Pyromancer', or topics like 'best Nature team', 'how does awakening work', or 'F2P tips'.";
-}
-
-export default ChatAssistant;
+export default ChatAssistantEnhanced;

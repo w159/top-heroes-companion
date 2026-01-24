@@ -23,3 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 downloaded-logs-20260106-155355.json
+node_modules.nosync.noindex
