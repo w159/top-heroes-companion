@@ -8,7 +8,11 @@
       "mcp__codex__codex",
       "mcp__serena__replace_symbol_body",
       "mcp__serena__find_symbol",
-      "mcp__serena__write_memory"
+      "mcp__serena__write_memory",
+      "mcp__serena__check_onboarding_performed",
+      "Bash(npm run build:*)",
+      "Bash(find:*)",
+      "Bash(timeout 10 npm run dev:*)"
     ]
   }
 }

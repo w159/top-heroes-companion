@@ -5,7 +5,7 @@
 
 import { IDataRepository, IUserDataRepository, IStorageService } from '../domain/interfaces';
 import { Hero, GameEvent, Pet, Relic, Skin, GiftCode, UserHero } from '../../../types';
-import { HEROES, EVENTS, PETS, RELICS, SKINS, GIFT_CODES } from '../../../constants';
+import { HEROES, EVENTS, PETS, RELICS, SKINS, GIFT_CODES } from '../../shared/types/constants';
 
 const KEYS = {
   HEROES: 'app_data_heroes_v2',

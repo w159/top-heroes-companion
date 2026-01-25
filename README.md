@@ -115,6 +115,7 @@ This app is crafted for **TBB** to coordinate upgrades, align queue strategies, 
 2. View content freshness (days since last update)
 3. Click **Check for Updates** to refresh
 4. Stale content (7+ days) is highlighted
+5. For repo maintainers: `npm run content:update`
 
 ### Data Management
 1. Navigate to **Settings → General**
