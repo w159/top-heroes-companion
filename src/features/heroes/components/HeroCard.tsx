@@ -37,23 +37,24 @@ const HeroCard: React.FC<HeroCardProps> = ({ hero, isOwned, onAction, actionLabe
   };
 
   // Advanced Image Loading Strategy
-  // 1. topheroes.info assets (main location)
-  // 2. topheroes.info alternative location
-  // 3. User provided imageUrl (if present)
-  // 4. Fandom Wiki assets
+  // 1. Local image (primary - fast and reliable)
+  // 2. User provided imageUrl (if present)
+  // 3. topheroes.info assets (fallback)
+  // 4. Fandom Wiki assets (fallback)
   // 5. UI Avatars (Final fallback)
-  
+
   const formattedSlug = (hero.id || hero.name).toLowerCase().replace(/\s+/g, '-');
+  const localImage = hero.image || hero.imageUrl;
   const topHeroesInfoUrl = `https://topheroes.info/assets/img/hero/avatars/${formattedSlug}.webp`;
   const topHeroesAltUrl = `https://topheroes.info/assets/heroes/${formattedSlug}.webp`;
   const wikiImageUrl = `https://topheroes1.fandom.com/wiki/Special:FilePath/${hero.name.replace(/\s+/g, '_')}.png`;
   const placeholderImage = `https://ui-avatars.com/api/?name=${hero.name.replace(/\s+/g, '+')}&background=1f2937&color=fff&size=256`;
-  
+
   const imageSources = useMemo(() => {
-    const sources = [topHeroesInfoUrl, topHeroesAltUrl, hero.imageUrl, wikiImageUrl, placeholderImage]
+    const sources = [localImage, topHeroesInfoUrl, topHeroesAltUrl, wikiImageUrl, placeholderImage]
       .filter((src): src is string => Boolean(src));
     return sources.filter((src, index) => sources.indexOf(src) === index);
-  }, [topHeroesInfoUrl, topHeroesAltUrl, hero.imageUrl, wikiImageUrl, placeholderImage]);
+  }, [localImage, topHeroesInfoUrl, topHeroesAltUrl, wikiImageUrl, placeholderImage]);
 
   const [imgSrc, setImgSrc] = useState(imageSources[0]);
   const [attempt, setAttempt] = useState(0);

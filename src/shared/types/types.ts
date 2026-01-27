@@ -41,6 +41,7 @@ export interface Hero {
   rarity: Rarity;
   role: Role;
   tier?: Tier;
+  image?: string;
   imageUrl?: string;
   description?: string;
   skills?: Skill[];
@@ -116,7 +117,8 @@ export interface Queue {
 export interface EventPhase {
     name: string;
     description: string;
-    keyTasks: string[];
+    preparation?: string[]; // What to do BEFORE this phase starts
+    keyTasks: string[]; // What to do DURING this phase
     tips?: string[];
     pointsStrategy?: string;
 }
@@ -129,14 +131,20 @@ export interface EventReward {
 export interface GameEvent {
   id: string;
   name: string;
-  type: 'Recurring' | 'Special' | 'Season';
+  type: 'Guild' | 'PvP' | 'PvP Arena' | 'PvE' | 'Daily' | 'Seasonal' | 'Server War' | 'Bi-Weekly';
   description: string;
   phases?: EventPhase[];
   preparationChecklist?: string[];
   rewardsHighlight?: string[];
   isActive?: boolean;
   activePhaseIndex?: number;
-  scheduleType?: 'Weekly-UTC' | 'Manual';
+  scheduleType?: 'Weekly-UTC' | 'Bi-Weekly' | 'Manual' | 'Daily';
+  // Critical scheduling information
+  nextOccurrence?: string; // ISO date string for next event start
+  duration?: string; // e.g., "6 days", "2 days", "24 hours"
+  frequency?: string; // e.g., "Weekly on Mondays", "Every 2 weeks"
+  preparationTime?: string; // How far in advance to prepare, e.g., "2 weeks before"
+  criticalDays?: number[]; // Which days are most important (1-indexed)
 }
 
 export interface GiftCode {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Trophy,
@@ -6,17 +6,17 @@ import {
   ArrowUpRight,
   Shield,
   Zap,
-  Sword,
-  Target,
   Calendar,
   Users,
   Star,
-  Activity,
-  BarChart3,
   Clock,
   Sparkles,
   Award,
-  Flame
+  Flame,
+  BookOpen,
+  Gift,
+  Target,
+  ChevronRight,
 } from 'lucide-react';
 import { useUserData } from '../../../shared/utils';
 import {
@@ -25,21 +25,188 @@ import {
   simulateProgression
 } from '../../../shared/utils/recommendations';
 import {
-  addProgressSnapshot,
   calculateProgressTrend,
   calculateTotalInfluence
 } from '../../../shared/utils';
-import '../../../styles/main.css';
+import { Button } from '../../../shared/ui/components/button';
+import { Card, CardHeader, CardTitle, CardContent } from '../../../shared/ui/components/card';
+import { Badge } from '../../../shared/ui/components/badge';
+import { IconButton } from '../../../shared/ui/components/icon-button';
+import { cn, formatNumber } from '../../../shared/lib/utils';
 
+// Stat Card Component
+interface StatCardProps {
+  label: string;
+  value: string;
+  icon: React.ElementType;
+  change?: string;
+  trend?: 'up' | 'down' | 'neutral';
+}
+
+const StatCard: React.FC<StatCardProps> = ({ label, value, icon: Icon, change, trend = 'neutral' }) => (
+  <div className="flex items-center gap-3 p-4 bg-surface-800 rounded-lg">
+    <div className="w-12 h-12 rounded-lg bg-primary-900/50 flex items-center justify-center flex-shrink-0">
+      <Icon className="w-6 h-6 text-primary-300" />
+    </div>
+    <div className="flex-1 min-w-0">
+      <p className="text-label-md text-muted-foreground truncate">{label}</p>
+      <div className="flex items-baseline gap-2">
+        <span className="text-title-lg font-semibold">{value}</span>
+        {change && (
+          <Badge
+            variant={trend === 'up' ? 'success' : trend === 'down' ? 'error' : 'default'}
+            size="sm"
+          >
+            {trend === 'up' && <TrendingUp className="w-3 h-3 mr-0.5" />}
+            {change}
+          </Badge>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
+// Quick Action Item
+interface QuickActionProps {
+  label: string;
+  description: string;
+  icon: React.ElementType;
+  onClick: () => void;
+  variant?: 'default' | 'gold';
+}
+
+const QuickAction: React.FC<QuickActionProps> = ({
+  label,
+  description,
+  icon: Icon,
+  onClick,
+  variant = 'default'
+}) => (
+  <button
+    onClick={onClick}
+    className={cn(
+      'flex items-center gap-4 p-4 rounded-lg w-full text-left transition-all duration-200',
+      variant === 'gold'
+        ? 'bg-gradient-to-r from-gold-900/40 to-gold-800/20 border border-gold-700/50 hover:from-gold-900/60 hover:to-gold-800/40'
+        : 'bg-surface-800 hover:bg-surface-700'
+    )}
+  >
+    <div className={cn(
+      'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
+      variant === 'gold' ? 'bg-gold-800' : 'bg-surface-700'
+    )}>
+      <Icon className={cn('w-5 h-5', variant === 'gold' ? 'text-gold-200' : 'text-foreground')} />
+    </div>
+    <div className="flex-1 min-w-0">
+      <p className={cn('text-label-lg font-medium', variant === 'gold' && 'text-gold-100')}>{label}</p>
+      <p className="text-body-sm text-muted-foreground truncate">{description}</p>
+    </div>
+    <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+  </button>
+);
+
+// Priority Upgrade Card
+interface UpgradeCardProps {
+  heroName: string;
+  heroId: string;
+  reason: string;
+  score: number;
+  targetLevel: number;
+  priority: number;
+  onClick: () => void;
+}
+
+const UpgradeCard: React.FC<UpgradeCardProps> = ({
+  heroName,
+  reason,
+  score,
+  targetLevel,
+  priority,
+  onClick
+}) => (
+  <Card
+    variant="filled"
+    interactive
+    onClick={onClick}
+    className="relative overflow-hidden"
+  >
+    <div className="absolute top-3 right-3">
+      <div className={cn(
+        'w-8 h-8 rounded-full flex items-center justify-center text-label-lg font-bold',
+        priority === 1 ? 'bg-gold-600 text-gold-950' : 'bg-primary-700 text-white'
+      )}>
+        {priority}
+      </div>
+    </div>
+    <CardContent className="p-4">
+      <div className="flex items-start gap-3">
+        <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center text-title-lg font-bold flex-shrink-0">
+          {heroName.charAt(0)}
+        </div>
+        <div className="flex-1 min-w-0 pr-8">
+          <h4 className="text-title-md font-medium truncate">{heroName}</h4>
+          <p className="text-body-sm text-muted-foreground line-clamp-2 mt-1">{reason}</p>
+          <div className="flex items-center gap-3 mt-3">
+            <Badge variant="primary" size="sm">Score: {score.toFixed(0)}</Badge>
+            <span className="text-label-sm text-muted-foreground">
+              Target: <span className="text-gold-400 font-medium">Lv.{targetLevel}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
+
+// Event Card
+interface EventCardProps {
+  name: string;
+  endsIn: string;
+  rewards: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+const EventCard: React.FC<EventCardProps> = ({ name, endsIn, rewards, priority }) => (
+  <div className={cn(
+    'p-4 rounded-lg border transition-colors',
+    priority === 'high' && 'bg-error-900/20 border-error-700/50',
+    priority === 'medium' && 'bg-warning-900/20 border-warning-700/50',
+    priority === 'low' && 'bg-surface-800 border-border'
+  )}>
+    <div className="flex items-start justify-between mb-2">
+      <div>
+        <h4 className="text-title-sm font-medium">{name}</h4>
+        <div className="flex items-center gap-1.5 text-label-sm text-muted-foreground mt-0.5">
+          <Clock className="w-3.5 h-3.5" />
+          Ends in {endsIn}
+        </div>
+      </div>
+      <Badge
+        variant={priority === 'high' ? 'error' : priority === 'medium' ? 'warning' : 'default'}
+        size="sm"
+      >
+        {priority.toUpperCase()}
+      </Badge>
+    </div>
+    <div className="flex items-center gap-1.5 text-body-sm mt-2 p-2 bg-surface-900/50 rounded">
+      <Sparkles className="w-4 h-4 text-gold-400 flex-shrink-0" />
+      <span className="text-muted-foreground">Rewards:</span>
+      <span className="text-gold-300 font-medium truncate">{rewards}</span>
+    </div>
+  </div>
+);
+
+// Main Dashboard Component
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { data, isLoaded, saveData } = useUserData();
+  const { data, isLoaded } = useUserData();
 
-  // Wait for data to load
   if (!isLoaded || !data) {
-    return <div className="flex items-center justify-center" style={{ minHeight: '400px' }}>
-      <div className="spinner"></div>
-    </div>;
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin w-10 h-10 border-3 border-primary-400 border-t-transparent rounded-full" />
+      </div>
+    );
   }
 
   // Calculate metrics
@@ -50,548 +217,294 @@ export const Dashboard: React.FC = () => {
   const resourcePlan = recommendResourcePlan(data);
   const simulation = simulateProgression({ days: 30, userData: data });
 
-  // Mock data for demonstration (replace with real data)
-  const recentAchievements = [
-    { name: 'First S-Tier Hero', icon: Star, rarity: 'gold' },
-    { name: 'Team Power 1M', icon: Trophy, rarity: 'primary' },
-    { name: 'Event Champion', icon: Award, rarity: 'gold' }
+  // Mock data for demonstration
+  const quickStats: StatCardProps[] = [
+    { label: 'Total Heroes', value: '42', icon: Shield, change: '+3', trend: 'up' },
+    { label: 'Team Power', value: formatNumber(totalInfluence), icon: Zap, change: `${trendPercentage > 0 ? '+' : ''}${trendPercentage.toFixed(1)}%`, trend: trendPercentage >= 0 ? 'up' : 'down' },
+    { label: 'Guild Rank', value: '#127', icon: Users, change: '+12', trend: 'up' },
+    { label: 'Login Streak', value: '47', icon: Calendar, change: 'days' },
   ];
 
-  const activeEvents = [
+  const activeEvents: EventCardProps[] = [
     { name: 'Guild War', endsIn: '2h 45m', rewards: 'Epic Gear', priority: 'high' },
     { name: 'Hero Trial', endsIn: '1d 5h', rewards: 'Summon Tickets', priority: 'medium' },
-    { name: 'Daily Challenges', endsIn: '8h 12m', rewards: 'Resources', priority: 'low' }
+    { name: 'Daily Challenges', endsIn: '8h 12m', rewards: 'Resources', priority: 'low' },
   ];
 
-  const quickStats = [
-    { label: 'Total Heroes', value: '42', icon: Shield, change: '+3' },
-    { label: 'Team Power', value: `${(totalInfluence / 1000000).toFixed(2)}M`, icon: Zap, change: `+${trendPercentage.toFixed(1)}%` },
-    { label: 'Guild Rank', value: '#127', icon: Users, change: '+12' },
-    { label: 'Daily Login', value: '47', icon: Calendar, change: 'Streak' }
+  const recentAchievements = [
+    { name: 'First S-Tier Hero', icon: Star, rarity: 'gold' as const },
+    { name: 'Team Power 1M', icon: Trophy, rarity: 'primary' as const },
+    { name: 'Event Champion', icon: Award, rarity: 'gold' as const },
   ];
 
   return (
-    <div style={{ paddingBottom: 'var(--space-4xl)' }} className="animate-fadeIn">
-      {/* Hero Section - Welcome Banner */}
-      <div className="card card-glass" style={{
-        marginBottom: 'var(--space-2xl)',
-        padding: 'var(--space-2xl)',
-        position: 'relative',
-        overflow: 'hidden',
-        background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(10, 14, 26, 0.9) 50%)',
-        border: '1px solid var(--color-primary)'
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: '40%',
-          height: '100%',
-          background: 'var(--gradient-radial-glow)',
-          opacity: 0.3,
-          pointerEvents: 'none'
-        }} />
+    <div className="space-y-6 animate-in pb-8">
+      {/* Welcome Section */}
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary-900/40 via-surface-900 to-surface-950 border border-primary-800/30 p-6">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary-500/10 to-transparent pointer-events-none" />
 
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 'var(--space-lg)' }}>
-            <div>
-              <div style={{
-                fontSize: 'var(--text-sm)',
-                color: 'var(--color-text-tertiary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: 'var(--space-sm)'
-              }}>
-                Welcome Back, Commander
-              </div>
-              <h1 className="font-display" style={{
-                fontSize: 'var(--text-4xl)',
-                margin: 0,
-                marginBottom: 'var(--space-md)'
-              }}>
-                COMMAND CENTER
-              </h1>
-              <p style={{
-                fontSize: 'var(--text-base)',
-                color: 'var(--color-text-secondary)',
-                maxWidth: '600px'
-              }}>
-                Server {data.settings.serverGroup} • {data.settings.mainFaction} Faction
-              </p>
-            </div>
+        <div className="relative z-10">
+          <p className="text-label-md text-muted-foreground uppercase tracking-widest mb-1">
+            Welcome Back, Commander
+          </p>
+          <h1 className="text-display-sm font-semibold mb-2">Command Center</h1>
+          <p className="text-body-lg text-muted-foreground">
+            Server {data.settings.serverGroup} • {data.settings.mainFaction} Faction
+          </p>
 
-            <button className="btn btn-gold btn-lg" onClick={() => navigate('/heroes')}>
-              <Shield size={20} />
-              View Heroes
-              <ArrowUpRight size={18} />
-            </button>
-          </div>
-
-          {/* Quick Stats Row */}
-          <div className="grid grid-4" style={{ marginTop: 'var(--space-2xl)' }}>
-            {quickStats.map((stat, i) => (
-              <div key={i} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-md)',
-                padding: 'var(--space-lg)',
-                background: 'rgba(18, 24, 38, 0.5)',
-                borderRadius: 'var(--radius-lg)',
-                border: '1px solid var(--color-border)'
-              }}>
-                <div style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: 'var(--radius-lg)',
-                  background: 'var(--gradient-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0
-                }}>
-                  <stat.icon size={24} color="white" strokeWidth={2.5} />
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{
-                    fontSize: 'var(--text-xs)',
-                    color: 'var(--color-text-tertiary)',
-                    marginBottom: '2px'
-                  }}>
-                    {stat.label}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-sm)' }}>
-                    <span className="font-heading" style={{ fontSize: 'var(--text-xl)' }}>{stat.value}</span>
-                    <span className="badge badge-success" style={{ fontSize: '10px' }}>{stat.change}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Button
+            variant="gold"
+            size="lg"
+            className="mt-6"
+            onClick={() => navigate('/heroes')}
+          >
+            <Shield className="w-5 h-5" />
+            View Heroes
+            <ArrowUpRight className="w-4 h-4" />
+          </Button>
         </div>
       </div>
 
-      {/* Main Grid Layout */}
-      <div className="grid" style={{
-        gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-        gap: 'var(--space-xl)'
-      }}>
-        {/* Power Progression Card */}
-        <div className="card" style={{ gridColumn: 'span 1' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 'var(--space-xl)' }}>
+      {/* Quick Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {quickStats.map((stat, index) => (
+          <StatCard key={index} {...stat} />
+        ))}
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Power Progression */}
+        <Card variant="outlined">
+          <CardHeader className="flex-row items-start justify-between">
             <div>
-              <h3 className="font-heading" style={{
-                fontSize: 'var(--text-lg)',
-                color: 'var(--color-text-tertiary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: 'var(--space-sm)'
-              }}>
+              <p className="text-label-md text-muted-foreground uppercase tracking-wide mb-1">
                 Total Influence
-              </h3>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-md)' }}>
-                <span className="font-display text-gradient-primary" style={{ fontSize: 'var(--text-4xl)' }}>
-                  {(totalInfluence / 1000000).toFixed(2)}M
+              </p>
+              <div className="flex items-baseline gap-3">
+                <span className="text-display-sm font-semibold text-gradient">
+                  {formatNumber(totalInfluence)}
                 </span>
-                <div className={trendPercentage >= 0 ? 'badge badge-success' : 'badge badge-danger'} style={{ padding: 'var(--space-sm) var(--space-md)' }}>
-                  <TrendingUp size={14} />
+                <Badge variant={trendPercentage >= 0 ? 'success' : 'error'}>
+                  <TrendingUp className="w-3.5 h-3.5 mr-1" />
                   {trendPercentage > 0 ? '+' : ''}{trendPercentage.toFixed(1)}%
+                </Badge>
+              </div>
+            </div>
+            <IconButton variant="outlined" size="sm">
+              <TrendingUp className="w-4 h-4" />
+            </IconButton>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {/* Progress Bar */}
+            <div className="relative h-20 bg-surface-800 rounded-lg p-4 overflow-hidden">
+              <div
+                className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-primary-600/30 to-primary-500/10"
+                style={{ width: `${Math.min((trendPercentage + 50) * 2, 100)}%` }}
+              />
+              <div className="relative flex justify-between items-center h-full">
+                <div>
+                  <p className="text-label-sm text-muted-foreground">Current</p>
+                  <p className="text-title-md font-semibold">{formatNumber(totalInfluence)}</p>
+                </div>
+                <ArrowUpRight className="w-6 h-6 text-primary-400" />
+                <div className="text-right">
+                  <p className="text-label-sm text-muted-foreground">30-Day Projection</p>
+                  <p className="text-title-md font-semibold">{formatNumber(simulation.projectedTotalInfluence)}</p>
                 </div>
               </div>
             </div>
-            <button className="btn btn-ghost btn-sm">
-              <Activity size={16} />
-              Track
-            </button>
-          </div>
 
-          {/* Progress Visual */}
-          <div style={{
-            height: '80px',
-            background: 'var(--color-bg-tertiary)',
-            borderRadius: 'var(--radius-lg)',
-            padding: 'var(--space-lg)',
-            marginBottom: 'var(--space-xl)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: `${Math.min((trendPercentage + 50) * 2, 100)}%`,
-              background: 'var(--gradient-primary)',
-              opacity: 0.2,
-              transition: 'width 1s ease-out'
-            }} />
-            <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
-              <div>
-                <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginBottom: '4px' }}>Current</div>
-                <div className="font-heading" style={{ fontSize: 'var(--text-lg)' }}>{(totalInfluence / 1000000).toFixed(2)}M</div>
+            {/* Strategy Note */}
+            <div className="p-4 bg-surface-800 rounded-lg border border-border">
+              <div className="flex items-center gap-2 mb-2">
+                <Flame className="w-4 h-4 text-gold-400" />
+                <span className="text-label-lg font-medium">Growth Strategy</span>
               </div>
-              <ArrowUpRight size={24} color="var(--color-primary)" />
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginBottom: '4px' }}>30-Day Projection</div>
-                <div className="font-heading" style={{ fontSize: 'var(--text-lg)' }}>{(simulation.projectedTotalInfluence / 1000000).toFixed(2)}M</div>
-              </div>
+              <p className="text-body-md text-muted-foreground">
+                {resourcePlan.spendProfile} spending pattern detected. Focus on {resourcePlan.weeklyFocusEvents.join(', ')} events for optimal progression.
+              </p>
             </div>
-          </div>
+          </CardContent>
+        </Card>
 
-          {/* Growth Insights */}
-          <div style={{
-            padding: 'var(--space-lg)',
-            background: 'var(--color-bg-tertiary)',
-            borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--color-border)'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
-              <Flame size={16} color="var(--color-accent-gold)" />
-              <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>Growth Strategy</span>
-            </div>
-            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-              {resourcePlan.spendProfile} spending pattern detected. Focus on {resourcePlan.weeklyFocusEvents.join(', ')} events for optimal progression.
-            </div>
-          </div>
-        </div>
-
-        {/* Priority Upgrades Card */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xl)' }}>
-            <h3 className="font-heading" style={{ fontSize: 'var(--text-xl)', margin: 0 }}>
-              Priority Upgrades
-            </h3>
-            <button className="btn btn-ghost btn-sm" onClick={() => navigate('/roster')}>
+        {/* Priority Upgrades */}
+        <Card variant="outlined">
+          <CardHeader className="flex-row items-center justify-between">
+            <CardTitle>Priority Upgrades</CardTitle>
+            <Button variant="text" size="sm" onClick={() => navigate('/roster')}>
               View All
-              <ArrowUpRight size={14} />
-            </button>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-lg)' }}>
-            {upgrades.length === 0 && (
-              <div style={{
-                padding: 'var(--space-2xl)',
-                textAlign: 'center',
-                color: 'var(--color-text-tertiary)',
-                background: 'var(--color-bg-tertiary)',
-                borderRadius: 'var(--radius-lg)'
-              }}>
-                <Shield size={48} style={{ opacity: 0.3, marginBottom: 'var(--space-md)' }} />
-                <p>No urgent upgrades found. Your roster is optimized!</p>
-              </div>
-            )}
-
-            {upgrades.map((rec, index) => (
-              <div key={rec.heroId} style={{
-                display: 'flex',
-                gap: 'var(--space-lg)',
-                padding: 'var(--space-lg)',
-                background: 'var(--color-bg-tertiary)',
-                borderRadius: 'var(--radius-lg)',
-                border: '1px solid var(--color-border)',
-                cursor: 'pointer',
-                transition: 'all var(--transition-base)',
-                position: 'relative',
-                overflow: 'hidden'
-              }}
-                className="card"
-                onClick={() => navigate(`/heroes/${rec.heroId}`)}
-              >
-                {/* Priority Badge */}
-                <div style={{
-                  position: 'absolute',
-                  top: 'var(--space-md)',
-                  right: 'var(--space-md)',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: index === 0 ? 'var(--gradient-gold)' : 'var(--gradient-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 700,
-                  fontSize: 'var(--text-sm)',
-                  color: 'white'
-                }}>
-                  {index + 1}
-                </div>
-
-                {/* Hero Avatar */}
-                <div style={{
-                  width: '72px',
-                  height: '72px',
-                  borderRadius: 'var(--radius-lg)',
-                  background: 'var(--gradient-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 'var(--text-2xl)',
-                  fontWeight: 700,
-                  flexShrink: 0,
-                  boxShadow: 'var(--shadow-glow)'
-                }}>
-                  {rec.heroName.substring(0, 1)}
-                </div>
-
-                {/* Hero Info */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-sm)' }}>
-                    <h4 className="font-heading" style={{ fontSize: 'var(--text-lg)', margin: 0 }}>{rec.heroName}</h4>
-                    <span className="badge badge-primary">Score: {rec.score.toFixed(0)}</span>
-                  </div>
-                  <p style={{
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--color-text-secondary)',
-                    margin: 0,
-                    marginBottom: 'var(--space-md)'
-                  }}>
-                    {rec.reason}
-                  </p>
-                  <div style={{ display: 'flex', gap: 'var(--space-md)', fontSize: 'var(--text-xs)' }}>
-                    <div>
-                      <span style={{ color: 'var(--color-text-tertiary)' }}>Target: </span>
-                      <span className="font-heading" style={{ color: 'var(--color-accent-gold)' }}>Lv.{rec.recommendedLevel}</span>
-                    </div>
-                    <div style={{ color: 'var(--color-text-tertiary)' }}>•</div>
-                    <div>
-                      <span style={{ color: 'var(--color-text-tertiary)' }}>Impact: </span>
-                      <span style={{ color: 'var(--color-success)' }}>High</span>
-                    </div>
-                  </div>
-                </div>
-
-                <button className="btn btn-primary btn-sm" style={{ alignSelf: 'center' }}>
-                  Upgrade
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Active Events Card */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xl)' }}>
-            <h3 className="font-heading" style={{ fontSize: 'var(--text-xl)', margin: 0 }}>
-              Active Events
-            </h3>
-            <button className="btn btn-ghost btn-sm" onClick={() => navigate('/events')}>
-              <Calendar size={14} />
-              View All
-            </button>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-            {activeEvents.map((event, i) => (
-              <div key={i} style={{
-                padding: 'var(--space-lg)',
-                background: 'var(--color-bg-tertiary)',
-                borderRadius: 'var(--radius-lg)',
-                border: `1px solid ${event.priority === 'high' ? 'var(--color-danger)' : event.priority === 'medium' ? 'var(--color-warning)' : 'var(--color-border)'}`,
-                transition: 'all var(--transition-base)'
-              }}
-                className="card"
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 'var(--space-md)' }}>
-                  <div>
-                    <h4 className="font-heading" style={{ fontSize: 'var(--text-base)', margin: 0, marginBottom: '4px' }}>{event.name}</h4>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>
-                      <Clock size={12} />
-                      Ends in {event.endsIn}
-                    </div>
-                  </div>
-                  <span className={`badge ${event.priority === 'high' ? 'badge-danger' : event.priority === 'medium' ? 'badge-warning' : 'badge-primary'}`}>
-                    {event.priority.toUpperCase()}
-                  </span>
-                </div>
-                <div style={{
-                  padding: 'var(--space-md)',
-                  background: 'rgba(0, 212, 255, 0.05)',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: 'var(--text-sm)'
-                }}>
-                  <Sparkles size={14} style={{ display: 'inline', marginRight: '6px', color: 'var(--color-accent-gold)' }} />
-                  Rewards: <span style={{ color: 'var(--color-accent-gold)', fontWeight: 600 }}>{event.rewards}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent Achievements */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xl)' }}>
-            <h3 className="font-heading" style={{ fontSize: 'var(--text-xl)', margin: 0 }}>
-              Recent Achievements
-            </h3>
-            <button className="btn btn-ghost btn-sm">
-              <Trophy size={14} />
-              View All
-            </button>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 'var(--space-md)' }}>
-            {recentAchievements.map((achievement, i) => (
-              <div key={i} style={{
-                padding: 'var(--space-lg)',
-                background: 'var(--color-bg-tertiary)',
-                borderRadius: 'var(--radius-lg)',
-                textAlign: 'center',
-                border: `1px solid ${achievement.rarity === 'gold' ? 'var(--color-accent-gold)' : 'var(--color-primary)'}`,
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
-                {achievement.rarity === 'gold' && (
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'var(--gradient-gold)',
-                    opacity: 0.1
-                  }} />
-                )}
-                <div style={{
-                  width: '64px',
-                  height: '64px',
-                  margin: '0 auto var(--space-md)',
-                  borderRadius: '50%',
-                  background: achievement.rarity === 'gold' ? 'var(--gradient-gold)' : 'var(--gradient-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: achievement.rarity === 'gold' ? 'var(--shadow-glow-gold)' : 'var(--shadow-glow)',
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  <achievement.icon size={32} color="white" strokeWidth={2.5} />
-                </div>
-                <p style={{
-                  fontSize: 'var(--text-sm)',
-                  fontWeight: 600,
-                  margin: 0,
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  {achievement.name}
+              <ArrowUpRight className="w-4 h-4" />
+            </Button>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {upgrades.length === 0 ? (
+              <div className="text-center py-8 bg-surface-800 rounded-lg">
+                <Shield className="w-12 h-12 mx-auto mb-3 text-muted-foreground/30" />
+                <p className="text-body-md text-muted-foreground">
+                  No urgent upgrades found. Your roster is optimized!
                 </p>
               </div>
+            ) : (
+              upgrades.map((rec, index) => (
+                <UpgradeCard
+                  key={rec.heroId}
+                  heroName={rec.heroName}
+                  heroId={rec.heroId}
+                  reason={rec.reason}
+                  score={rec.score}
+                  targetLevel={rec.recommendedLevel}
+                  priority={index + 1}
+                  onClick={() => navigate(`/heroes/${rec.heroId}`)}
+                />
+              ))
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Active Events */}
+        <Card variant="outlined">
+          <CardHeader className="flex-row items-center justify-between">
+            <CardTitle>Active Events</CardTitle>
+            <Button variant="text" size="sm" onClick={() => navigate('/events')}>
+              <Calendar className="w-4 h-4" />
+              View All
+            </Button>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {activeEvents.map((event, index) => (
+              <EventCard key={index} {...event} />
             ))}
-          </div>
+          </CardContent>
+        </Card>
+
+        {/* Achievements & Quick Actions */}
+        <div className="space-y-6">
+          {/* Recent Achievements */}
+          <Card variant="outlined">
+            <CardHeader className="flex-row items-center justify-between">
+              <CardTitle>Recent Achievements</CardTitle>
+              <IconButton variant="default" size="sm">
+                <Trophy className="w-4 h-4" />
+              </IconButton>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-3 gap-3">
+                {recentAchievements.map((achievement, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      'relative p-4 rounded-lg text-center overflow-hidden',
+                      achievement.rarity === 'gold'
+                        ? 'bg-gradient-to-br from-gold-900/30 to-gold-800/10 border border-gold-700/30'
+                        : 'bg-surface-800 border border-border'
+                    )}
+                  >
+                    <div className={cn(
+                      'w-14 h-14 mx-auto rounded-full flex items-center justify-center mb-2',
+                      achievement.rarity === 'gold'
+                        ? 'bg-gradient-to-br from-gold-500 to-gold-700 shadow-lg shadow-gold-500/20'
+                        : 'bg-gradient-to-br from-primary-500 to-primary-700'
+                    )}>
+                      <achievement.icon className="w-7 h-7 text-white" />
+                    </div>
+                    <p className="text-label-md font-medium line-clamp-2">{achievement.name}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Quick Actions */}
+          <Card variant="outlined">
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <QuickAction
+                label="Build Team"
+                description="Create optimal team compositions"
+                icon={Target}
+                onClick={() => navigate('/team')}
+              />
+              <QuickAction
+                label="Browse Heroes"
+                description="View all available heroes"
+                icon={Shield}
+                onClick={() => navigate('/heroes')}
+              />
+              <QuickAction
+                label="View Guides"
+                description="Tips and strategies"
+                icon={BookOpen}
+                onClick={() => navigate('/guides')}
+              />
+              <QuickAction
+                label="Redeem Gift Code"
+                description="Claim free rewards"
+                icon={Gift}
+                onClick={() => navigate('/codes')}
+                variant="gold"
+              />
+            </CardContent>
+          </Card>
         </div>
+      </div>
 
-        {/* Resource Strategy Card */}
-        <div className="card card-elevated" style={{ gridColumn: 'span 1' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xl)' }}>
-            <h3 className="font-heading" style={{ fontSize: 'var(--text-xl)', margin: 0 }}>
-              Resource Strategy
-            </h3>
-            <BarChart3 size={20} color="var(--color-primary)" />
-          </div>
-
-          <div className="grid grid-2" style={{ gap: 'var(--space-lg)' }}>
-            <div style={{
-              padding: 'var(--space-lg)',
-              background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, transparent 100%)',
-              borderRadius: 'var(--radius-lg)',
-              border: '1px solid var(--color-border)'
-            }}>
-              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginBottom: 'var(--space-sm)', textTransform: 'uppercase' }}>
+      {/* Resource Strategy */}
+      <Card variant="elevated" className="bg-gradient-to-br from-surface-900 to-surface-950">
+        <CardHeader className="flex-row items-center justify-between">
+          <CardTitle>Resource Strategy</CardTitle>
+          <IconButton variant="tonal" size="sm">
+            <TrendingUp className="w-4 h-4" />
+          </IconButton>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div className="p-4 rounded-lg bg-gradient-to-br from-primary-900/30 to-transparent border border-primary-800/30">
+              <p className="text-label-sm text-muted-foreground uppercase tracking-wide mb-1">
                 Daily Diamond Budget
-              </div>
-              <div className="font-display" style={{ fontSize: 'var(--text-3xl)', color: 'var(--color-primary)' }}>
+              </p>
+              <p className="text-headline-md font-semibold text-primary-300">
                 {resourcePlan.dailyDiamondBudget}
-                <span style={{ fontSize: 'var(--text-lg)', marginLeft: 'var(--space-sm)' }}>💎</span>
-              </div>
+                <span className="text-title-md ml-2">💎</span>
+              </p>
             </div>
-
-            <div style={{
-              padding: 'var(--space-lg)',
-              background: 'linear-gradient(135deg, rgba(245, 197, 99, 0.1) 0%, transparent 100%)',
-              borderRadius: 'var(--radius-lg)',
-              border: '1px solid var(--color-border)'
-            }}>
-              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginBottom: 'var(--space-sm)', textTransform: 'uppercase' }}>
+            <div className="p-4 rounded-lg bg-gradient-to-br from-gold-900/30 to-transparent border border-gold-800/30">
+              <p className="text-label-sm text-muted-foreground uppercase tracking-wide mb-1">
                 Spending Profile
-              </div>
-              <div className="font-heading" style={{ fontSize: 'var(--text-2xl)', color: 'var(--color-accent-gold)' }}>
+              </p>
+              <p className="text-headline-md font-semibold text-gold-300">
                 {resourcePlan.spendProfile}
-              </div>
+              </p>
             </div>
           </div>
 
-          <div style={{ marginTop: 'var(--space-xl)' }}>
-            <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, marginBottom: 'var(--space-md)' }}>
-              Focus Events This Week
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
-              {resourcePlan.weeklyFocusEvents.map((event, i) => (
-                <span key={i} className="badge badge-primary" style={{ padding: 'var(--space-sm) var(--space-md)' }}>
-                  {event}
-                </span>
+          <div className="mb-4">
+            <p className="text-label-lg font-medium mb-2">Focus Events This Week</p>
+            <div className="flex flex-wrap gap-2">
+              {resourcePlan.weeklyFocusEvents.map((event, index) => (
+                <Badge key={index} variant="primary" size="lg">{event}</Badge>
               ))}
             </div>
           </div>
 
-          <div style={{
-            marginTop: 'var(--space-xl)',
-            padding: 'var(--space-lg)',
-            background: 'var(--color-bg-tertiary)',
-            borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--color-border)'
-          }}>
-            <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <Target size={16} color="var(--color-primary)" />
-              Strategy Notes
+          <div className="p-4 bg-surface-800 rounded-lg border border-border">
+            <div className="flex items-center gap-2 mb-3">
+              <Target className="w-4 h-4 text-primary-400" />
+              <span className="text-label-lg font-medium">Strategy Notes</span>
             </div>
-            <ul style={{ margin: 0, paddingLeft: 'var(--space-xl)', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.8 }}>
-              {resourcePlan.notes.map((note, i) => (
-                <li key={i}>{note}</li>
+            <ul className="space-y-2">
+              {resourcePlan.notes.map((note, index) => (
+                <li key={index} className="text-body-md text-muted-foreground flex items-start gap-2">
+                  <span className="text-primary-400 mt-1">•</span>
+                  {note}
+                </li>
               ))}
             </ul>
           </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="card" style={{
-          background: 'linear-gradient(135deg, rgba(245, 197, 99, 0.15) 0%, rgba(10, 14, 26, 0.8) 100%)',
-          border: '1px solid var(--color-accent-gold)'
-        }}>
-          <h3 className="font-heading" style={{ fontSize: 'var(--text-xl)', marginBottom: 'var(--space-xl)' }}>
-            Quick Actions
-          </h3>
-
-          <div style={{ display: 'grid', gap: 'var(--space-md)' }}>
-            <button className="btn btn-secondary" style={{ width: '100%', justifyContent: 'space-between' }} onClick={() => navigate('/team')}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
-                <Target size={20} />
-                Build Team
-              </div>
-              <ArrowUpRight size={18} />
-            </button>
-
-            <button className="btn btn-secondary" style={{ width: '100%', justifyContent: 'space-between' }} onClick={() => navigate('/heroes')}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
-                <Shield size={20} />
-                Browse Heroes
-              </div>
-              <ArrowUpRight size={18} />
-            </button>
-
-            <button className="btn btn-secondary" style={{ width: '100%', justifyContent: 'space-between' }} onClick={() => navigate('/guides')}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
-                <BookOpen size={20} />
-                View Guides
-              </div>
-              <ArrowUpRight size={18} />
-            </button>
-
-            <button className="btn btn-gold" style={{ width: '100%', justifyContent: 'space-between', marginTop: 'var(--space-md)' }} onClick={() => navigate('/codes')}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
-                <Gift size={20} />
-                Redeem Gift Code
-              </div>
-              <Sparkles size={18} />
-            </button>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

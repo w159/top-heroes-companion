@@ -1,7 +1,61 @@
 import React, { useState } from 'react';
-import { BookOpen, Zap, Users, Trophy, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+import { BookOpen, Zap, Users, Trophy, ChevronDown, ChevronUp, ExternalLink, Star, AlertTriangle, Target, Sparkles, Shield } from 'lucide-react';
 import gameGuides from '../../../data/gameGuides.json';
 import eventGuides from '../../../data/eventGuides.json';
+import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
+import { Button } from '../../../shared/ui/components/button';
+import { Badge } from '../../../shared/ui/components/badge';
+import { cn } from '../../../shared/lib/utils';
+
+interface SectionProps {
+  title: string;
+  icon: React.ReactNode;
+  iconColor?: string;
+  isExpanded: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}
+
+const Section: React.FC<SectionProps> = ({
+  title,
+  icon,
+  iconColor = 'text-primary-400',
+  isExpanded,
+  onToggle,
+  children
+}) => {
+  return (
+    <Card variant="filled" className="overflow-hidden">
+      <button
+        onClick={onToggle}
+        className={cn(
+          'w-full p-4 flex items-center justify-between gap-4',
+          'hover:bg-surface-700/50 transition-colors',
+          isExpanded && 'bg-surface-800/50'
+        )}
+      >
+        <div className="flex items-center gap-3">
+          <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center bg-surface-700', iconColor)}>
+            {icon}
+          </div>
+          <h2 className="text-title-lg font-semibold">{title}</h2>
+        </div>
+        <div className={cn(
+          'w-8 h-8 rounded-lg flex items-center justify-center transition-transform',
+          'bg-surface-700/50',
+          isExpanded && 'rotate-180'
+        )}>
+          <ChevronDown className="w-5 h-5 text-muted-foreground" />
+        </div>
+      </button>
+      {isExpanded && (
+        <CardContent className="p-4 pt-0 animate-in">
+          {children}
+        </CardContent>
+      )}
+    </Card>
+  );
+};
 
 const Guides: React.FC = () => {
   const [expandedSection, setExpandedSection] = useState<string | null>('beginner');
@@ -16,57 +70,64 @@ const Guides: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto' }}>
+    <div className="space-y-6 animate-in">
       {/* Header */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{
-          fontSize: '28px',
-          fontWeight: 700,
-          marginBottom: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px'
-        }}>
-          <BookOpen size={32} color="var(--ios-blue)" />
-          Game Guides
-        </h1>
-        <p style={{ color: 'var(--ios-text-secondary)', fontSize: '15px' }}>
-          Comprehensive strategies from community experts
-        </p>
+      <div className="flex items-center gap-4">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-tertiary-500 to-tertiary-600 flex items-center justify-center shadow-lg shadow-tertiary-500/30">
+          <BookOpen className="w-7 h-7 text-white" />
+        </div>
+        <div>
+          <h1 className="text-headline-lg font-bold">Game Guides</h1>
+          <p className="text-body-md text-muted-foreground">
+            Comprehensive strategies from community experts
+          </p>
+        </div>
       </div>
 
       {/* Core Principles */}
       <Section
         title="Core Gameplay Principles"
-        icon={<Zap size={20} />}
+        icon={<Zap className="w-5 h-5" />}
+        iconColor="text-gold-400"
         isExpanded={expandedSection === 'principles'}
         onToggle={() => toggleSection('principles')}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="space-y-4 pt-4">
           {gameGuides.corePrinciples.principles.map((principle, idx) => (
-            <div key={idx} style={{
-              background: principle.importance === 'critical' ? 'var(--ios-red-tint)' : 'var(--ios-grouped-bg)',
-              border: `2px solid ${principle.importance === 'critical' ? 'var(--ios-red)' : 'var(--ios-border)'}`,
-              borderRadius: '12px',
-              padding: '16px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+            <div
+              key={idx}
+              className={cn(
+                'rounded-xl p-4 border-2',
+                principle.importance === 'critical'
+                  ? 'bg-error-500/10 border-error-500/50'
+                  : 'bg-surface-800/50 border-border'
+              )}
+            >
+              <div className="flex items-start gap-4">
                 {principle.importance === 'critical' && (
-                  <span style={{ fontSize: '24px' }}>⚠️</span>
+                  <div className="w-10 h-10 rounded-lg bg-error-500/20 flex items-center justify-center flex-shrink-0">
+                    <AlertTriangle className="w-5 h-5 text-error-400" />
+                  </div>
                 )}
-                <div style={{ flex: 1 }}>
-                  <h3 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '8px' }}>
+                <div className="flex-1">
+                  <h3 className="text-title-md font-semibold mb-2">
                     {principle.title}
+                    {principle.importance === 'critical' && (
+                      <Badge variant="error" size="sm" className="ml-2">Critical</Badge>
+                    )}
                   </h3>
-                  <p style={{ fontSize: '15px', color: 'var(--ios-text-secondary)', marginBottom: '8px' }}>
+                  <p className="text-body-md text-muted-foreground mb-3">
                     {principle.description}
                   </p>
-                  <p style={{ fontSize: '14px', color: 'var(--ios-text-tertiary)', fontStyle: 'italic', marginBottom: '12px' }}>
+                  <p className="text-body-sm text-muted-foreground italic mb-4 pl-4 border-l-2 border-primary-500/30">
                     Why: {principle.reasoning}
                   </p>
-                  <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
+                  <ul className="space-y-2">
                     {principle.tips.map((tip, tipIdx) => (
-                      <li key={tipIdx} style={{ marginBottom: '4px' }}>{tip}</li>
+                      <li key={tipIdx} className="flex items-start gap-2 text-body-sm">
+                        <Sparkles className="w-4 h-4 text-gold-400 mt-0.5 flex-shrink-0" />
+                        {tip}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -79,77 +140,80 @@ const Guides: React.FC = () => {
       {/* Beginner Guide */}
       <Section
         title="New Player Roadmap (10 Steps)"
-        icon={<BookOpen size={20} />}
+        icon={<BookOpen className="w-5 h-5" />}
+        iconColor="text-primary-400"
         isExpanded={expandedSection === 'beginner'}
         onToggle={() => toggleSection('beginner')}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="space-y-4 pt-4">
           {gameGuides.beginnerGuide.steps.map((step) => (
-            <div key={step.step} style={{
-              background: 'var(--ios-card-bg)',
-              border: `2px solid ${step.priority === 'critical' ? 'var(--ios-red)' : 'var(--ios-blue)'}`,
-              borderRadius: '12px',
-              padding: '16px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <div style={{
-                  minWidth: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: step.priority === 'critical' ? 'var(--ios-red)' : 'var(--ios-blue)',
-                  color: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 700,
-                  fontSize: '16px'
-                }}>
+            <div
+              key={step.step}
+              className={cn(
+                'rounded-xl p-4 border-2',
+                step.priority === 'critical'
+                  ? 'border-error-500/50 bg-error-500/5'
+                  : 'border-primary-500/30 bg-primary-500/5'
+              )}
+            >
+              <div className="flex items-start gap-4">
+                <div className={cn(
+                  'w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg text-white flex-shrink-0',
+                  step.priority === 'critical' ? 'bg-error-500' : 'bg-primary-500'
+                )}>
                   {step.step}
                 </div>
-                <div style={{ flex: 1 }}>
-                  <h3 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '8px' }}>
-                    {step.title}
-                  </h3>
-                  <p style={{ fontSize: '15px', color: 'var(--ios-text-secondary)', marginBottom: '12px' }}>
+                <div className="flex-1">
+                  <h3 className="text-title-md font-semibold mb-2">{step.title}</h3>
+                  <p className="text-body-md text-muted-foreground mb-3">
                     {step.description}
                   </p>
+
                   {step.rewards && (
-                    <div style={{
-                      background: 'var(--ios-green-tint)',
-                      padding: '8px 12px',
-                      borderRadius: '8px',
-                      marginBottom: '12px',
-                      fontSize: '14px',
-                      color: 'var(--ios-green)'
-                    }}>
-                      🎁 Rewards: {step.rewards}
+                    <div className="bg-success-500/10 border border-success-500/30 rounded-lg px-4 py-2 mb-3">
+                      <span className="text-body-sm text-success-400 font-medium">
+                        🎁 Rewards: {step.rewards}
+                      </span>
                     </div>
                   )}
+
                   {step.tips && (
-                    <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
+                    <ul className="space-y-1">
                       {step.tips.map((tip, idx) => (
-                        <li key={idx} style={{ marginBottom: '4px' }}>{tip}</li>
+                        <li key={idx} className="flex items-start gap-2 text-body-sm text-muted-foreground">
+                          <span className="text-primary-400">•</span>
+                          {tip}
+                        </li>
                       ))}
                     </ul>
                   )}
+
                   {step.tasks && (
-                    <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
+                    <ul className="space-y-1">
                       {step.tasks.map((task, idx) => (
-                        <li key={idx} style={{ marginBottom: '4px' }}>{task}</li>
+                        <li key={idx} className="flex items-start gap-2 text-body-sm text-muted-foreground">
+                          <span className="text-primary-400">•</span>
+                          {task}
+                        </li>
                       ))}
                     </ul>
                   )}
+
                   {step.order && (
-                    <ol style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
+                    <ol className="space-y-1 list-decimal list-inside">
                       {step.order.map((item, idx) => (
-                        <li key={idx} style={{ marginBottom: '4px' }}>{item}</li>
+                        <li key={idx} className="text-body-sm text-muted-foreground">{item}</li>
                       ))}
                     </ol>
                   )}
+
                   {step.priorities && (
-                    <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
+                    <ul className="space-y-1">
                       {step.priorities.map((priority, idx) => (
-                        <li key={idx} style={{ marginBottom: '4px' }}>{priority}</li>
+                        <li key={idx} className="flex items-start gap-2 text-body-sm text-muted-foreground">
+                          <span className="text-gold-400">{idx + 1}.</span>
+                          {priority}
+                        </li>
                       ))}
                     </ul>
                   )}
@@ -163,110 +227,98 @@ const Guides: React.FC = () => {
       {/* Faction Guide */}
       <Section
         title="Faction Strategy Guide"
-        icon={<Users size={20} />}
+        icon={<Users className="w-5 h-5" />}
+        iconColor="text-tertiary-400"
         isExpanded={expandedSection === 'factions'}
         onToggle={() => toggleSection('factions')}
       >
-        <div style={{
-          background: 'var(--ios-blue-tint)',
-          border: '2px solid var(--ios-blue)',
-          borderRadius: '12px',
-          padding: '16px',
-          marginBottom: '16px'
-        }}>
-          <h3 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '8px' }}>
-            🎯 {gameGuides.factionGuide.system.name}
-          </h3>
-          <p style={{ fontSize: '15px', marginBottom: '8px' }}>
-            {gameGuides.factionGuide.system.description}
-          </p>
-          <p style={{ fontSize: '14px', color: 'var(--ios-text-secondary)' }}>
-            {gameGuides.factionGuide.system.damageBonus}
-          </p>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {gameGuides.factionGuide.factions.map((faction) => (
-            <div key={faction.name} style={{
-              background: 'var(--ios-card-bg)',
-              border: '2px solid var(--ios-border)',
-              borderRadius: '12px',
-              padding: '16px'
-            }}>
-              <h3 style={{ fontSize: '19px', fontWeight: 700, marginBottom: '8px' }}>
-                {faction.name}
-              </h3>
-              <p style={{ fontSize: '15px', color: 'var(--ios-text-secondary)', marginBottom: '16px' }}>
-                {faction.description}
-              </p>
-
-              {/* Key Hero */}
-              <div style={{
-                background: 'var(--ios-yellow-tint)',
-                border: '1px solid var(--ios-yellow)',
-                borderRadius: '8px',
-                padding: '12px',
-                marginBottom: '16px'
-              }}>
-                <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ios-yellow)', marginBottom: '4px' }}>
-                  ⭐ KEY HERO: {faction.keyHero.name}
-                </div>
-                <div style={{ fontSize: '14px', marginBottom: '4px' }}>
-                  Role: {faction.keyHero.role}
-                </div>
-                <div style={{ fontSize: '14px', color: 'var(--ios-text-secondary)' }}>
-                  {faction.keyHero.description}
-                </div>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
-                <div>
-                  <h4 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '8px', color: 'var(--ios-green)' }}>
-                    ✓ Strengths
-                  </h4>
-                  <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
-                    {faction.strengths.map((strength, idx) => (
-                      <li key={idx} style={{ marginBottom: '4px' }}>{strength}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '8px', color: 'var(--ios-red)' }}>
-                    ✗ Weaknesses
-                  </h4>
-                  <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
-                    {faction.weaknesses.map((weakness, idx) => (
-                      <li key={idx} style={{ marginBottom: '4px' }}>{weakness}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div style={{
-                background: 'var(--ios-grouped-bg)',
-                borderRadius: '8px',
-                padding: '12px',
-                marginBottom: '12px'
-              }}>
-                <div style={{ fontSize: '15px', fontWeight: 600, marginBottom: '8px' }}>
-                  Recommended Lineup
-                </div>
-                <div style={{ fontSize: '14px' }}>
-                  <div><strong>Front:</strong> {faction.recommendedLineup.front.join(', ')}</div>
-                  <div><strong>Middle:</strong> {faction.recommendedLineup.middle.join(', ')}</div>
-                  <div><strong>Back:</strong> {faction.recommendedLineup.back.join(', ')}</div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: '12px', fontSize: '14px' }}>
-                <div>
-                  <strong>Cost:</strong> {faction.buildingCost}
-                </div>
-              </div>
-              <div style={{ marginTop: '8px', fontSize: '14px' }}>
-                <strong>Best For:</strong> {faction.bestFor.join(', ')}
-              </div>
+        <div className="space-y-4 pt-4">
+          {/* System Info */}
+          <div className="bg-primary-500/10 border-2 border-primary-500/30 rounded-xl p-4">
+            <div className="flex items-center gap-3 mb-2">
+              <Target className="w-5 h-5 text-primary-400" />
+              <h3 className="text-title-md font-semibold">{gameGuides.factionGuide.system.name}</h3>
             </div>
+            <p className="text-body-md text-muted-foreground mb-2">
+              {gameGuides.factionGuide.system.description}
+            </p>
+            <Badge variant="primary" size="sm">
+              {gameGuides.factionGuide.system.damageBonus}
+            </Badge>
+          </div>
+
+          {/* Factions */}
+          {gameGuides.factionGuide.factions.map((faction) => (
+            <Card key={faction.name} variant="outlined" className="overflow-hidden">
+              <CardContent className="p-4">
+                <h3 className="text-headline-sm font-bold mb-2">{faction.name}</h3>
+                <p className="text-body-md text-muted-foreground mb-4">
+                  {faction.description}
+                </p>
+
+                {/* Key Hero */}
+                <div className="bg-gold-500/10 border border-gold-500/30 rounded-xl p-4 mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Star className="w-4 h-4 text-gold-400" />
+                    <span className="text-label-lg font-semibold text-gold-400">
+                      KEY HERO: {faction.keyHero.name}
+                    </span>
+                  </div>
+                  <p className="text-body-sm mb-1">Role: {faction.keyHero.role}</p>
+                  <p className="text-body-sm text-muted-foreground">{faction.keyHero.description}</p>
+                </div>
+
+                {/* Strengths & Weaknesses */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div className="bg-success-500/10 rounded-xl p-4">
+                    <h4 className="text-label-lg font-semibold text-success-400 mb-3">✓ Strengths</h4>
+                    <ul className="space-y-2">
+                      {faction.strengths.map((strength, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-body-sm text-muted-foreground">
+                          <span className="text-success-400">•</span>
+                          {strength}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="bg-error-500/10 rounded-xl p-4">
+                    <h4 className="text-label-lg font-semibold text-error-400 mb-3">✗ Weaknesses</h4>
+                    <ul className="space-y-2">
+                      {faction.weaknesses.map((weakness, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-body-sm text-muted-foreground">
+                          <span className="text-error-400">•</span>
+                          {weakness}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Lineup */}
+                <div className="bg-surface-800 rounded-xl p-4 mb-4">
+                  <h4 className="text-label-lg font-semibold mb-3">Recommended Lineup</h4>
+                  <div className="grid grid-cols-3 gap-3 text-body-sm">
+                    <div>
+                      <span className="text-muted-foreground">Front:</span>
+                      <p className="font-medium">{faction.recommendedLineup.front.join(', ')}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Middle:</span>
+                      <p className="font-medium">{faction.recommendedLineup.middle.join(', ')}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Back:</span>
+                      <p className="font-medium">{faction.recommendedLineup.back.join(', ')}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-4 text-body-sm">
+                  <div><span className="text-muted-foreground">Cost:</span> <span className="font-medium">{faction.buildingCost}</span></div>
+                  <div><span className="text-muted-foreground">Best For:</span> <span className="font-medium">{faction.bestFor.join(', ')}</span></div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </Section>
@@ -274,237 +326,158 @@ const Guides: React.FC = () => {
       {/* Event Guides */}
       <Section
         title="Event Strategies"
-        icon={<Trophy size={20} />}
+        icon={<Trophy className="w-5 h-5" />}
+        iconColor="text-gold-400"
         isExpanded={expandedSection === 'events'}
         onToggle={() => toggleSection('events')}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="space-y-3 pt-4">
           {eventGuides.events.map((event) => (
-            <div key={event.id} style={{
-              background: 'var(--ios-card-bg)',
-              border: '2px solid var(--ios-border)',
-              borderRadius: '12px',
-              overflow: 'hidden'
-            }}>
-              <div
+            <Card
+              key={event.id}
+              variant="outlined"
+              className="overflow-hidden"
+            >
+              <button
                 onClick={() => toggleEvent(event.id)}
-                style={{
-                  padding: '16px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  background: 'var(--ios-grouped-bg)'
-                }}
+                className="w-full p-4 flex items-center justify-between gap-4 hover:bg-surface-800/50 transition-colors"
               >
-                <div>
-                  <h3 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '4px' }}>
-                    {event.name}
-                  </h3>
-                  <p style={{ fontSize: '14px', color: 'var(--ios-text-secondary)' }}>
+                <div className="text-left">
+                  <h3 className="text-title-md font-semibold">{event.name}</h3>
+                  <p className="text-body-sm text-muted-foreground">
                     {event.type} • {event.frequency}
                   </p>
                 </div>
-                {expandedEvent === event.id ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-              </div>
+                <ChevronDown className={cn(
+                  'w-5 h-5 text-muted-foreground transition-transform',
+                  expandedEvent === event.id && 'rotate-180'
+                )} />
+              </button>
 
               {expandedEvent === event.id && (
-                <div style={{ padding: '16px' }}>
-                  <p style={{ fontSize: '15px', marginBottom: '16px' }}>
+                <CardContent className="p-4 pt-0 border-t border-border animate-in">
+                  <p className="text-body-md text-muted-foreground mb-4 pt-4">
                     {event.description}
                   </p>
 
                   {event.stages && (
-                    <div>
-                      <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '12px' }}>
-                        Event Stages
-                      </h4>
-                      {event.stages.map((stage) => (
-                        <div key={stage.stage} style={{
-                          background: 'var(--ios-grouped-bg)',
-                          borderRadius: '8px',
-                          padding: '12px',
-                          marginBottom: '12px'
-                        }}>
-                          <div style={{ fontSize: '15px', fontWeight: 600, marginBottom: '8px' }}>
-                            Stage {stage.stage}: {stage.name}
+                    <div className="mb-4">
+                      <h4 className="text-title-sm font-semibold mb-3">Event Stages</h4>
+                      <div className="space-y-3">
+                        {event.stages.map((stage) => (
+                          <div key={stage.stage} className="bg-surface-800 rounded-xl p-4">
+                            <div className="flex items-center gap-3 mb-2">
+                              <div className="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center">
+                                <span className="text-label-lg font-bold text-primary-400">{stage.stage}</span>
+                              </div>
+                              <h5 className="text-title-sm font-semibold">{stage.name}</h5>
+                            </div>
+                            <p className="text-body-sm text-muted-foreground mb-2">
+                              Focus: {stage.focus}
+                            </p>
+                            <p className="text-body-sm mb-3">
+                              <span className="font-medium">Strategy:</span> {stage.strategy}
+                            </p>
+                            <ul className="space-y-1">
+                              {stage.tips.map((tip, idx) => (
+                                <li key={idx} className="flex items-start gap-2 text-body-sm text-muted-foreground">
+                                  <Sparkles className="w-3 h-3 text-gold-400 mt-1 flex-shrink-0" />
+                                  {tip}
+                                </li>
+                              ))}
+                            </ul>
                           </div>
-                          <div style={{ fontSize: '14px', color: 'var(--ios-text-secondary)', marginBottom: '8px' }}>
-                            Focus: {stage.focus}
-                          </div>
-                          <div style={{ fontSize: '14px', marginBottom: '8px' }}>
-                            <strong>Strategy:</strong> {stage.strategy}
-                          </div>
-                          <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
-                            {stage.tips.map((tip, idx) => (
-                              <li key={idx} style={{ marginBottom: '4px' }}>{tip}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   )}
 
                   {event.dailySchedule && (
-                    <div>
-                      <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '12px' }}>
-                        Daily Schedule
-                      </h4>
-                      {event.dailySchedule.map((day, idx) => (
-                        <div key={idx} style={{
-                          background: 'var(--ios-grouped-bg)',
-                          borderRadius: '8px',
-                          padding: '12px',
-                          marginBottom: '8px'
-                        }}>
-                          <div style={{ fontSize: '15px', fontWeight: 600, marginBottom: '4px' }}>
-                            {day.day}: {day.focus}
+                    <div className="mb-4">
+                      <h4 className="text-title-sm font-semibold mb-3">Daily Schedule</h4>
+                      <div className="space-y-2">
+                        {event.dailySchedule.map((day, idx) => (
+                          <div key={idx} className="bg-surface-800 rounded-lg p-3">
+                            <div className="text-title-sm font-semibold mb-1">
+                              {day.day}: {day.focus}
+                            </div>
+                            <div className="text-body-sm text-muted-foreground">
+                              {day.strategy}
+                            </div>
                           </div>
-                          <div style={{ fontSize: '14px' }}>
-                            {day.strategy}
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   )}
 
                   {event.strategy && (
-                    <div style={{
-                      background: 'var(--ios-blue-tint)',
-                      borderRadius: '8px',
-                      padding: '12px',
-                      marginTop: '12px'
-                    }}>
-                      <h4 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '8px' }}>
-                        💡 Pro Tips
+                    <div className="bg-primary-500/10 border border-primary-500/30 rounded-xl p-4">
+                      <h4 className="text-title-sm font-semibold text-primary-400 mb-3 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4" />
+                        Pro Tips
                       </h4>
                       {Array.isArray(event.strategy.tips) ? (
-                        <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
+                        <ul className="space-y-2">
                           {event.strategy.tips.map((tip, idx) => (
-                            <li key={idx} style={{ marginBottom: '4px' }}>{tip}</li>
+                            <li key={idx} className="flex items-start gap-2 text-body-sm text-muted-foreground">
+                              <span className="text-primary-400">•</span>
+                              {tip}
+                            </li>
                           ))}
                         </ul>
                       ) : (
-                        <div style={{ fontSize: '14px' }}>
-                          {event.strategy.early_game && <div><strong>Early:</strong> {event.strategy.early_game}</div>}
-                          {event.strategy.mid_game && <div><strong>Mid:</strong> {event.strategy.mid_game}</div>}
-                          {event.strategy.late_game && <div><strong>Late:</strong> {event.strategy.late_game}</div>}
+                        <div className="space-y-2 text-body-sm">
+                          {event.strategy.early_game && <div><span className="font-medium">Early:</span> {event.strategy.early_game}</div>}
+                          {event.strategy.mid_game && <div><span className="font-medium">Mid:</span> {event.strategy.mid_game}</div>}
+                          {event.strategy.late_game && <div><span className="font-medium">Late:</span> {event.strategy.late_game}</div>}
                         </div>
                       )}
                     </div>
                   )}
-                </div>
+                </CardContent>
               )}
-            </div>
+            </Card>
           ))}
         </div>
       </Section>
 
-      {/* Resources */}
-      <div style={{
-        marginTop: '32px',
-        padding: '16px',
-        background: 'var(--ios-grouped-bg)',
-        borderRadius: '12px'
-      }}>
-        <h3 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '12px' }}>
-          External Resources
-        </h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <a
-            href="https://topheroes.info/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: 'var(--ios-blue)',
-              fontSize: '14px',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-          >
-            <ExternalLink size={14} />
-            TopHeroes.info - Comprehensive Guides & Tools
-          </a>
-          <a
-            href="https://www.reddit.com/r/TopHeroes"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: 'var(--ios-blue)',
-              fontSize: '14px',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-          >
-            <ExternalLink size={14} />
-            r/TopHeroes - Community Discussion
-          </a>
-          <a
-            href="https://topheroes1.fandom.com/wiki/Top_Heroes_Wiki"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: 'var(--ios-blue)',
-              fontSize: '14px',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-          >
-            <ExternalLink size={14} />
-            Top Heroes Wiki - Hero Database
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Reusable Section Component
-const Section: React.FC<{
-  title: string;
-  icon: React.ReactNode;
-  isExpanded: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}> = ({ title, icon, isExpanded, onToggle, children }) => {
-  return (
-    <div style={{
-      background: 'var(--ios-card-bg)',
-      border: '1px solid var(--ios-border)',
-      borderRadius: '12px',
-      marginBottom: '16px',
-      overflow: 'hidden'
-    }}>
-      <div
-        onClick={onToggle}
-        style={{
-          padding: '16px',
-          cursor: 'pointer',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          background: 'var(--ios-grouped-bg)'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          {icon}
-          <h2 style={{ fontSize: '19px', fontWeight: 600, margin: 0 }}>
-            {title}
-          </h2>
-        </div>
-        {isExpanded ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
-      </div>
-      {isExpanded && (
-        <div style={{ padding: '16px' }}>
-          {children}
-        </div>
-      )}
+      {/* External Resources */}
+      <Card variant="filled">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-3">
+            <ExternalLink className="w-5 h-5 text-primary-400" />
+            <h2 className="text-title-lg font-semibold">External Resources</h2>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {[
+            { url: 'https://topheroes.info/', label: 'TopHeroes.info', description: 'Comprehensive Guides & Tools' },
+            { url: 'https://www.reddit.com/r/TopHeroes', label: 'r/TopHeroes', description: 'Community Discussion' },
+            { url: 'https://topheroes1.fandom.com/wiki/Top_Heroes_Wiki', label: 'Top Heroes Wiki', description: 'Hero Database' },
+          ].map((link) => (
+            <a
+              key={link.url}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                'flex items-center gap-3 p-4 bg-surface-800/50 rounded-xl',
+                'hover:bg-surface-800 transition-colors group border border-transparent hover:border-primary-500/30'
+              )}
+            >
+              <div className="w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
+                <ExternalLink className="w-5 h-5 text-primary-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-title-sm font-medium group-hover:text-primary-400 transition-colors">
+                  {link.label}
+                </p>
+                <p className="text-body-sm text-muted-foreground">{link.description}</p>
+              </div>
+            </a>
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 };

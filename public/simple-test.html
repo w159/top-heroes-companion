@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Image Test</title>
+    <style>
+        body { background: #000; color: #fff; font-family: system-ui; padding: 20px; }
+        .hero { display: inline-block; margin: 10px; text-align: center; }
+        .hero img { width: 150px; height: 150px; object-fit: cover; border: 2px solid #4d96e1; }
+        .bg-test { width: 200px; height: 200px; border: 2px solid #f00; background-size: cover; background-position: center; }
+    </style>
+</head>
+<body>
+    <h1>Simple Image Test</h1>
+    
+    <h2>Test 1: IMG tags</h2>
+    <div class="hero">
+        <img src="/img/heroes/tidecaller.webp" alt="Tidecaller">
+        <p>Tidecaller</p>
+    </div>
+    <div class="hero">
+        <img src="/img/heroes/pyromancer.webp" alt="Pyromancer">
+        <p>Pyromancer</p>
+    </div>
+    <div class="hero">
+        <img src="/img/heroes/altar-marshal.webp" alt="Altar Marshal">
+        <p>Altar Marshal</p>
+    </div>
+
+    <h2>Test 2: Background Images (like Heroes page uses)</h2>
+    <div class="bg-test" style="background-image: url(/img/heroes/tidecaller.webp)"></div>
+    
+    <h2>Test 3: Console Check</h2>
+    <p>Open console (F12) and check for errors</p>
+    
+    <script>
+        console.log('=== IMAGE TEST ===');
+        console.log('Testing image load...');
+        
+        const img = new Image();
+        img.onload = () => console.log('✓ Image loaded successfully');
+        img.onerror = () => console.error('✗ Image failed to load');
+        img.src = '/img/heroes/tidecaller.webp';
+        
+        // Test all images
+        fetch('/img/heroes/tidecaller.webp')
+            .then(r => console.log('Fetch status:', r.status, r.statusText))
+            .catch(e => console.error('Fetch error:', e));
+    </script>
+</body>
+</html>

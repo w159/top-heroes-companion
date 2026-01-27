@@ -92,9 +92,9 @@ const HeroGrid: React.FC = () => {
               overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               background: 'white', position: 'relative'
             }}>
-              <img 
-                src={hero.image} 
-                alt={hero.name} 
+              <img
+                src={hero.image || hero.imageUrl || '/img/heroes/placeholder.png'}
+                alt={hero.name}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 onError={(e) => { e.currentTarget.src = '/img/heroes/placeholder.png'; }}
               />

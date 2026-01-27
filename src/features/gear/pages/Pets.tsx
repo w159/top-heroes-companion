@@ -1,4 +1,8 @@
 import React from 'react';
+import { Target, Star, TrendingUp, Sparkles, Heart } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
+import { Badge } from '../../../shared/ui/components/badge';
+import { cn } from '../../../shared/lib/utils';
 
 interface PetInfo {
   name: string;
@@ -6,7 +10,6 @@ interface PetInfo {
   tier: string;
   specialty: string;
   recommendation: string;
-  imageUrl?: string;
 }
 
 const pets: PetInfo[] = [
@@ -71,17 +74,32 @@ const pets: PetInfo[] = [
   }
 ];
 
-const factionColors: Record<string, string> = {
-  'League': '#5856D6',
-  'Nature': '#34C759',
-  'Horde': '#FF3B30'
+const factionConfig: Record<string, { color: string; bgClass: string; textClass: string; borderClass: string }> = {
+  'League': {
+    color: 'primary',
+    bgClass: 'bg-primary-500/20',
+    textClass: 'text-primary-400',
+    borderClass: 'border-l-primary-500'
+  },
+  'Nature': {
+    color: 'success',
+    bgClass: 'bg-success-500/20',
+    textClass: 'text-success-400',
+    borderClass: 'border-l-success-500'
+  },
+  'Horde': {
+    color: 'error',
+    bgClass: 'bg-error-500/20',
+    textClass: 'text-error-400',
+    borderClass: 'border-l-error-500'
+  }
 };
 
-const tierColors: Record<string, string> = {
-  'S-Tier': '#FFD60A',
-  'A-Tier': '#FF9F0A',
-  'B-Tier': '#5AC8FA',
-  'C-Tier': '#8E8E93'
+const tierConfig: Record<string, { bgClass: string; textClass: string }> = {
+  'S-Tier': { bgClass: 'bg-gold-500/20', textClass: 'text-gold-400' },
+  'A-Tier': { bgClass: 'bg-warning-500/20', textClass: 'text-warning-400' },
+  'B-Tier': { bgClass: 'bg-primary-500/20', textClass: 'text-primary-400' },
+  'C-Tier': { bgClass: 'bg-surface-600', textClass: 'text-muted-foreground' }
 };
 
 const Pets: React.FC = () => {
@@ -96,232 +114,132 @@ const Pets: React.FC = () => {
   const groupedPets = groupByFaction(pets);
 
   return (
-    <div className="pets-page">
-      <div className="page-header">
-        <h1>Pet Guide</h1>
-        <p className="page-subtitle">Focus 100% of Pet Food on ONE pet matching your main faction</p>
+    <div className="space-y-6 animate-in">
+      {/* Header */}
+      <div className="flex items-center gap-4">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-tertiary-500 to-tertiary-600 flex items-center justify-center shadow-lg shadow-tertiary-500/30">
+          <Heart className="w-7 h-7 text-white" />
+        </div>
+        <div>
+          <h1 className="text-headline-lg font-bold">Pet Guide</h1>
+          <p className="text-body-md text-muted-foreground">
+            Focus 100% of Pet Food on ONE pet matching your main faction
+          </p>
+        </div>
       </div>
 
       {/* Strategy Tips */}
-      <div className="strategy-card">
-        <h3>🎯 Pet Strategy</h3>
-        <ul>
-          <li><strong>Focus on ONE pet</strong> - A Level 100+ pet beats multiple Level 30 pets</li>
-          <li><strong>Match your faction</strong> - Faction bonuses are massive</li>
-          <li><strong>Save Pet Essence</strong> - Only use for Mythic promotion at Level 120</li>
-          <li><strong>Complete Pet Rush events</strong> - Primary source of Pet Essence</li>
-        </ul>
-      </div>
-
-      {/* Pet Cards by Faction */}
-      {Object.entries(groupedPets).map(([faction, factionPets]) => (
-        <div key={faction} className="faction-section">
-          <h2 style={{ color: factionColors[faction] }}>{faction} Pets</h2>
-          <div className="pets-grid">
-            {factionPets.map((pet) => (
-              <div key={pet.name} className="pet-card">
-                <div className="pet-card-header">
-                  <div className="pet-avatar">
-                    {pet.name[0]}
-                  </div>
-                  <div className="pet-info">
-                    <h3>{pet.name}</h3>
-                    <span 
-                      className="tier-badge"
-                      style={{ backgroundColor: tierColors[pet.tier] }}
-                    >
-                      {pet.tier}
-                    </span>
-                  </div>
-                </div>
-                <div className="pet-details">
-                  <p className="specialty">{pet.specialty}</p>
-                  <p className="recommendation">
-                    <strong>📌</strong> {pet.recommendation}
-                  </p>
+      <Card variant="filled" className="border-2 border-primary-500/30 bg-primary-500/5">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-3">
+            <Target className="w-5 h-5 text-primary-400" />
+            <h2 className="text-title-lg font-semibold">Pet Strategy</h2>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {[
+              { label: 'Focus on ONE pet', desc: 'A Level 100+ pet beats multiple Level 30 pets' },
+              { label: 'Match your faction', desc: 'Faction bonuses are massive' },
+              { label: 'Save Pet Essence', desc: 'Only use for Mythic promotion at Level 120' },
+              { label: 'Complete Pet Rush events', desc: 'Primary source of Pet Essence' }
+            ].map((tip, idx) => (
+              <div key={idx} className="flex items-start gap-3 p-3 bg-surface-800/50 rounded-lg">
+                <Sparkles className="w-4 h-4 text-gold-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <span className="font-semibold text-title-sm">{tip.label}:</span>
+                  <span className="text-body-sm text-muted-foreground ml-2">{tip.desc}</span>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      ))}
+        </CardContent>
+      </Card>
+
+      {/* Pet Cards by Faction */}
+      {Object.entries(groupedPets).map(([faction, factionPets]) => {
+        const config = factionConfig[faction];
+        return (
+          <div key={faction}>
+            <h2 className={cn('text-title-lg font-semibold mb-4', config.textClass)}>
+              {faction} Pets
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {factionPets.map((pet) => {
+                const tier = tierConfig[pet.tier] || tierConfig['C-Tier'];
+                return (
+                  <Card
+                    key={pet.name}
+                    variant="filled"
+                    className={cn(
+                      'overflow-hidden border-l-4 hover:scale-[1.02] transition-transform',
+                      config.borderClass
+                    )}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className={cn(
+                          'w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold',
+                          'bg-gradient-to-br from-primary-500 to-tertiary-500 text-white'
+                        )}>
+                          {pet.name[0]}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-title-md font-semibold truncate">{pet.name}</h3>
+                          <Badge
+                            variant="default"
+                            size="sm"
+                            className={cn(tier.bgClass, tier.textClass, 'border-transparent')}
+                          >
+                            {pet.tier}
+                          </Badge>
+                        </div>
+                      </div>
+                      <p className="text-body-sm text-muted-foreground mb-2">{pet.specialty}</p>
+                      <p className="text-label-sm text-success-400 flex items-start gap-2">
+                        <Star className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                        {pet.recommendation}
+                      </p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
 
       {/* Level Milestones */}
-      <div className="milestones-card">
-        <h3>📈 Level Milestones</h3>
-        <div className="milestones-grid">
-          <div className="milestone">
-            <span className="level">Lv 30</span>
-            <span className="unlock">Star upgrades unlock</span>
+      <Card variant="filled">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-3">
+            <TrendingUp className="w-5 h-5 text-gold-400" />
+            <h2 className="text-title-lg font-semibold">Level Milestones</h2>
           </div>
-          <div className="milestone">
-            <span className="level">Lv 60</span>
-            <span className="unlock">Significant stat boost</span>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { level: 'Lv 30', unlock: 'Star upgrades unlock' },
+              { level: 'Lv 60', unlock: 'Significant stat boost' },
+              { level: 'Lv 100', unlock: 'Major power spike' },
+              { level: 'Lv 120', unlock: 'Mythic promotion available' }
+            ].map((milestone, idx) => (
+              <div
+                key={idx}
+                className="bg-surface-800/50 rounded-xl p-4 text-center border border-border"
+              >
+                <span className="block text-title-lg font-bold text-gold-400 mb-1">
+                  {milestone.level}
+                </span>
+                <span className="text-label-sm text-muted-foreground">
+                  {milestone.unlock}
+                </span>
+              </div>
+            ))}
           </div>
-          <div className="milestone">
-            <span className="level">Lv 100</span>
-            <span className="unlock">Major power spike</span>
-          </div>
-          <div className="milestone">
-            <span className="level">Lv 120</span>
-            <span className="unlock">Mythic promotion available</span>
-          </div>
-        </div>
-      </div>
-
-      <style>{`
-        .pets-page {
-          padding: 20px;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-        
-        .page-header {
-          text-align: center;
-          margin-bottom: 24px;
-        }
-        
-        .page-header h1 {
-          font-size: 28px;
-          margin-bottom: 8px;
-        }
-        
-        .page-subtitle {
-          color: rgba(255, 255, 255, 0.6);
-          font-size: 14px;
-        }
-        
-        .strategy-card, .milestones-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 16px;
-          padding: 20px;
-          margin-bottom: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .strategy-card h3, .milestones-card h3 {
-          margin-bottom: 16px;
-          font-size: 18px;
-        }
-        
-        .strategy-card ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        
-        .strategy-card li {
-          padding: 8px 0;
-          font-size: 14px;
-          color: rgba(255, 255, 255, 0.8);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .strategy-card li:last-child {
-          border-bottom: none;
-        }
-        
-        .faction-section {
-          margin-bottom: 32px;
-        }
-        
-        .faction-section h2 {
-          font-size: 20px;
-          margin-bottom: 16px;
-        }
-        
-        .pets-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 16px;
-        }
-        
-        .pet-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 16px;
-          padding: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .pet-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
-        
-        .pet-card-header {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 12px;
-        }
-        
-        .pet-avatar {
-          width: 48px;
-          height: 48px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, #007AFF, #5856D6);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 20px;
-          font-weight: bold;
-        }
-        
-        .pet-info h3 {
-          font-size: 16px;
-          margin-bottom: 4px;
-        }
-        
-        .tier-badge {
-          padding: 2px 8px;
-          border-radius: 8px;
-          font-size: 11px;
-          font-weight: 600;
-          color: black;
-        }
-        
-        .pet-details {
-          font-size: 13px;
-        }
-        
-        .specialty {
-          color: rgba(255, 255, 255, 0.7);
-          margin-bottom: 8px;
-        }
-        
-        .recommendation {
-          color: #30D158;
-          font-size: 12px;
-        }
-        
-        .milestones-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-          gap: 12px;
-        }
-        
-        .milestone {
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 12px;
-          padding: 12px;
-          text-align: center;
-          border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .milestone .level {
-          display: block;
-          font-size: 18px;
-          font-weight: bold;
-          color: #FFD60A;
-          margin-bottom: 4px;
-        }
-        
-        .milestone .unlock {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.6);
-        }
-      `}</style>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -3,20 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import {
   Search,
   Filter,
-  SlidersHorizontal,
   Grid3x3,
   List,
-  Star,
   Shield,
   Sword,
   Heart,
   Zap,
+  Star,
   X,
   ChevronDown,
-  ArrowUpDown
 } from 'lucide-react';
 import heroesData from '../../../data/heroes.json';
-import '../../../styles/main.css';
+import { Button } from '../../../shared/ui/components/button';
+import { Card, CardContent } from '../../../shared/ui/components/card';
+import { Badge } from '../../../shared/ui/components/badge';
+import { Chip } from '../../../shared/ui/components/chip';
+import { Input } from '../../../shared/ui/components/input';
+import { IconButton } from '../../../shared/ui/components/icon-button';
+import { cn, getRarityColor, getRarityBorderColor } from '../../../shared/lib/utils';
 
 type ViewMode = 'grid' | 'list';
 type SortBy = 'name' | 'rarity' | 'faction' | 'role';
@@ -44,19 +48,8 @@ const Heroes: React.FC = () => {
   const roles = [...new Set(heroesData.map(h => h.role))].sort();
   const rarities = ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic'];
 
-  const getRarityColor = (rarity: string) => {
-    const colors: Record<string, string> = {
-      'Common': 'var(--color-text-tertiary)',
-      'Rare': 'var(--color-info)',
-      'Epic': '#9f7aea',
-      'Legendary': 'var(--color-warning)',
-      'Mythic': 'var(--color-danger)'
-    };
-    return colors[rarity] || 'var(--color-text-primary)';
-  };
-
   const getRoleIcon = (role: string) => {
-    const icons: Record<string, any> = {
+    const icons: Record<string, React.ElementType> = {
       'Tank': Shield,
       'Warrior': Sword,
       'Mage': Star,
@@ -72,7 +65,6 @@ const Heroes: React.FC = () => {
       const matchesFaction = !selectedFaction || hero.faction === selectedFaction;
       const matchesRole = !selectedRole || hero.role === selectedRole;
       const matchesRarity = !selectedRarity || hero.rarity === selectedRarity;
-
       return matchesSearch && matchesFaction && matchesRole && matchesRarity;
     });
 
@@ -99,366 +91,217 @@ const Heroes: React.FC = () => {
   };
 
   return (
-    <div className="animate-fadeIn" style={{ paddingBottom: 'var(--space-4xl)' }}>
+    <div className="space-y-6 animate-in">
       {/* Header Section */}
-      <div style={{ marginBottom: 'var(--space-2xl)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 'var(--space-lg)' }}>
-          <div>
-            <h1 className="font-display" style={{
-              fontSize: 'var(--text-4xl)',
-              margin: 0,
-              marginBottom: 'var(--space-sm)'
-            }}>
-              HERO ARSENAL
-            </h1>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-secondary)', margin: 0 }}>
-              {filteredAndSortedHeroes.length} of {heroesData.length} heroes
-              {activeFiltersCount > 0 && ` • ${activeFiltersCount} filter${activeFiltersCount > 1 ? 's' : ''} active`}
-            </p>
-          </div>
-
-          <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
-            <button
-              className={`btn ${viewMode === 'grid' ? 'btn-primary' : 'btn-ghost'}`}
-              onClick={() => setViewMode('grid')}
-              style={{ padding: 'var(--space-md)' }}
-            >
-              <Grid3x3 size={20} />
-            </button>
-            <button
-              className={`btn ${viewMode === 'list' ? 'btn-primary' : 'btn-ghost'}`}
-              onClick={() => setViewMode('list')}
-              style={{ padding: 'var(--space-md)' }}
-            >
-              <List size={20} />
-            </button>
-          </div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-headline-lg font-semibold">Hero Arsenal</h1>
+          <p className="text-body-md text-muted-foreground mt-1">
+            {filteredAndSortedHeroes.length} of {heroesData.length} heroes
+            {activeFiltersCount > 0 && ` • ${activeFiltersCount} filter${activeFiltersCount > 1 ? 's' : ''} active`}
+          </p>
         </div>
 
-        {/* Search and Filter Bar */}
-        <div className="card" style={{ padding: 'var(--space-lg)' }}>
-          <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-            {/* Search Input */}
-            <div style={{ position: 'relative', flex: 1, minWidth: '280px' }}>
-              <Search
-                size={18}
-                style={{
-                  position: 'absolute',
-                  left: 'var(--space-md)',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: 'var(--color-text-tertiary)'
-                }}
-              />
-              <input
-                type="text"
-                placeholder="Search heroes..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="input"
-                style={{
-                  paddingLeft: 'var(--space-3xl)',
-                  height: '48px',
-                  fontSize: 'var(--text-sm)',
-                  background: 'var(--color-bg-tertiary)',
-                  width: '100%'
-                }}
-              />
-            </div>
-
-            {/* Filter Toggle */}
-            <button
-              className={`btn ${isFilterOpen ? 'btn-primary' : 'btn-secondary'}`}
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              style={{ position: 'relative' }}
-            >
-              <Filter size={18} />
-              Filters
-              {activeFiltersCount > 0 && (
-                <span className="badge badge-danger" style={{
-                  position: 'absolute',
-                  top: '-6px',
-                  right: '-6px',
-                  fontSize: '10px',
-                  padding: '2px 6px',
-                  minWidth: '20px'
-                }}>
-                  {activeFiltersCount}
-                </span>
-              )}
-            </button>
-
-            {/* Sort Dropdown */}
-            <div style={{ position: 'relative' }}>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortBy)}
-                className="btn btn-secondary"
-                style={{
-                  appearance: 'none',
-                  paddingRight: 'var(--space-2xl)',
-                  cursor: 'pointer'
-                }}
-              >
-                <option value="name">Sort: Name</option>
-                <option value="rarity">Sort: Rarity</option>
-                <option value="faction">Sort: Faction</option>
-                <option value="role">Sort: Role</option>
-              </select>
-              <ChevronDown
-                size={16}
-                style={{
-                  position: 'absolute',
-                  right: 'var(--space-md)',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  pointerEvents: 'none',
-                  color: 'var(--color-text-tertiary)'
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Filter Panel */}
-          {isFilterOpen && (
-            <div className="animate-fadeIn" style={{
-              marginTop: 'var(--space-xl)',
-              paddingTop: 'var(--space-xl)',
-              borderTop: '1px solid var(--color-divider)',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 'var(--space-xl)'
-            }}>
-              {/* Faction Filter */}
-              <div>
-                <div style={{
-                  fontSize: 'var(--text-xs)',
-                  fontWeight: 600,
-                  color: 'var(--color-text-tertiary)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginBottom: 'var(--space-md)'
-                }}>
-                  Faction
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
-                  {factions.map(faction => (
-                    <button
-                      key={faction}
-                      className={`badge ${selectedFaction === faction ? 'badge-primary' : ''}`}
-                      onClick={() => setSelectedFaction(selectedFaction === faction ? null : faction)}
-                      style={{
-                        cursor: 'pointer',
-                        padding: 'var(--space-sm) var(--space-md)',
-                        background: selectedFaction === faction ? 'var(--gradient-primary)' : 'var(--color-bg-elevated)',
-                        border: selectedFaction === faction ? 'none' : '1px solid var(--color-border)',
-                        color: selectedFaction === faction ? 'white' : 'var(--color-text-primary)'
-                      }}
-                    >
-                      {faction}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Role Filter */}
-              <div>
-                <div style={{
-                  fontSize: 'var(--text-xs)',
-                  fontWeight: 600,
-                  color: 'var(--color-text-tertiary)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginBottom: 'var(--space-md)'
-                }}>
-                  Role
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
-                  {roles.map(role => {
-                    const RoleIcon = getRoleIcon(role);
-                    return (
-                      <button
-                        key={role}
-                        className={`badge ${selectedRole === role ? 'badge-primary' : ''}`}
-                        onClick={() => setSelectedRole(selectedRole === role ? null : role)}
-                        style={{
-                          cursor: 'pointer',
-                          padding: 'var(--space-sm) var(--space-md)',
-                          background: selectedRole === role ? 'var(--gradient-primary)' : 'var(--color-bg-elevated)',
-                          border: selectedRole === role ? 'none' : '1px solid var(--color-border)',
-                          color: selectedRole === role ? 'white' : 'var(--color-text-primary)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 'var(--space-xs)'
-                        }}
-                      >
-                        <RoleIcon size={14} />
-                        {role}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Rarity Filter */}
-              <div>
-                <div style={{
-                  fontSize: 'var(--text-xs)',
-                  fontWeight: 600,
-                  color: 'var(--color-text-tertiary)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginBottom: 'var(--space-md)'
-                }}>
-                  Rarity
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
-                  {rarities.map(rarity => (
-                    <button
-                      key={rarity}
-                      className={`badge ${selectedRarity === rarity ? 'badge-primary' : ''}`}
-                      onClick={() => setSelectedRarity(selectedRarity === rarity ? null : rarity)}
-                      style={{
-                        cursor: 'pointer',
-                        padding: 'var(--space-sm) var(--space-md)',
-                        background: selectedRarity === rarity ? 'var(--gradient-primary)' : 'var(--color-bg-elevated)',
-                        border: selectedRarity === rarity ? 'none' : `1px solid ${getRarityColor(rarity)}`,
-                        color: selectedRarity === rarity ? 'white' : getRarityColor(rarity)
-                      }}
-                    >
-                      {rarity}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Clear Filters */}
-              {activeFiltersCount > 0 && (
-                <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <button className="btn btn-ghost btn-sm" onClick={clearFilters}>
-                    <X size={14} />
-                    Clear All Filters
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+        <div className="flex items-center gap-2">
+          <IconButton
+            variant={viewMode === 'grid' ? 'tonal' : 'default'}
+            onClick={() => setViewMode('grid')}
+          >
+            <Grid3x3 className="w-5 h-5" />
+          </IconButton>
+          <IconButton
+            variant={viewMode === 'list' ? 'tonal' : 'default'}
+            onClick={() => setViewMode('list')}
+          >
+            <List className="w-5 h-5" />
+          </IconButton>
         </div>
       </div>
 
+      {/* Search and Filter Bar */}
+      <Card variant="filled" className="p-4">
+        <div className="flex flex-wrap gap-3">
+          {/* Search Input */}
+          <div className="flex-1 min-w-[240px]">
+            <Input
+              type="text"
+              placeholder="Search heroes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              leadingIcon={<Search className="w-5 h-5" />}
+            />
+          </div>
+
+          {/* Filter Toggle */}
+          <Button
+            variant={isFilterOpen ? 'tonal' : 'outlined'}
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="relative"
+          >
+            <Filter className="w-4 h-4" />
+            Filters
+            {activeFiltersCount > 0 && (
+              <Badge variant="error" size="sm" className="absolute -top-2 -right-2">
+                {activeFiltersCount}
+              </Badge>
+            )}
+          </Button>
+
+          {/* Sort Dropdown */}
+          <div className="relative">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortBy)}
+              className="h-10 pl-4 pr-10 bg-surface-800 border border-border rounded-full text-label-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              <option value="name">Sort: Name</option>
+              <option value="rarity">Sort: Rarity</option>
+              <option value="faction">Sort: Faction</option>
+              <option value="role">Sort: Role</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+          </div>
+        </div>
+
+        {/* Filter Panel */}
+        {isFilterOpen && (
+          <div className="mt-4 pt-4 border-t border-border animate-in grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Faction Filter */}
+            <div>
+              <p className="text-label-md text-muted-foreground uppercase tracking-wider mb-3">Faction</p>
+              <div className="flex flex-wrap gap-2">
+                {factions.map(faction => (
+                  <Chip
+                    key={faction}
+                    variant="filter"
+                    selected={selectedFaction === faction}
+                    onClick={() => setSelectedFaction(selectedFaction === faction ? null : faction)}
+                  >
+                    {faction}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+
+            {/* Role Filter */}
+            <div>
+              <p className="text-label-md text-muted-foreground uppercase tracking-wider mb-3">Role</p>
+              <div className="flex flex-wrap gap-2">
+                {roles.map(role => {
+                  const RoleIcon = getRoleIcon(role);
+                  return (
+                    <Chip
+                      key={role}
+                      variant="filter"
+                      selected={selectedRole === role}
+                      onClick={() => setSelectedRole(selectedRole === role ? null : role)}
+                      leadingIcon={<RoleIcon className="w-4 h-4" />}
+                    >
+                      {role}
+                    </Chip>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Rarity Filter */}
+            <div>
+              <p className="text-label-md text-muted-foreground uppercase tracking-wider mb-3">Rarity</p>
+              <div className="flex flex-wrap gap-2">
+                {rarities.map(rarity => (
+                  <Chip
+                    key={rarity}
+                    variant="filter"
+                    selected={selectedRarity === rarity}
+                    onClick={() => setSelectedRarity(selectedRarity === rarity ? null : rarity)}
+                    className={cn(
+                      selectedRarity !== rarity && getRarityColor(rarity)
+                    )}
+                  >
+                    {rarity}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+
+            {/* Clear Filters */}
+            {activeFiltersCount > 0 && (
+              <div className="flex items-end">
+                <Button variant="ghost" size="sm" onClick={clearFilters}>
+                  <X className="w-4 h-4" />
+                  Clear All Filters
+                </Button>
+              </div>
+            )}
+          </div>
+        )}
+      </Card>
+
       {/* Hero Grid */}
       {viewMode === 'grid' && (
-        <div className="grid" style={{
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: 'var(--space-xl)'
-        }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 stagger-children">
           {filteredAndSortedHeroes.map((hero: Hero) => {
             const RoleIcon = getRoleIcon(hero.role);
 
             return (
-              <div
+              <Card
                 key={hero.id}
-                className="card animate-fadeIn"
+                variant="filled"
+                interactive
                 onClick={() => navigate(`/heroes/${hero.id}`)}
-                style={{
-                  cursor: 'pointer',
-                  padding: 0,
-                  overflow: 'hidden',
-                  position: 'relative',
-                  background: 'var(--color-bg-secondary)'
-                }}
+                className="overflow-hidden"
               >
                 {/* Hero Image */}
-                <div style={{
-                  width: '100%',
-                  height: '220px',
-                  background: `linear-gradient(180deg, transparent 0%, var(--color-bg-secondary) 100%), url(${hero.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  position: 'relative'
-                }}>
+                <div
+                  className="relative h-48 bg-gradient-to-b from-transparent to-surface-900"
+                  style={{
+                    backgroundImage: `linear-gradient(to bottom, transparent 40%, var(--color-surface-900) 100%), url(${hero.image || hero.imageUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                >
                   {/* Rarity Badge */}
-                  <div style={{
-                    position: 'absolute',
-                    top: 'var(--space-md)',
-                    right: 'var(--space-md)',
-                    padding: 'var(--space-xs) var(--space-md)',
-                    background: 'rgba(10, 14, 26, 0.8)',
-                    backdropFilter: 'var(--blur-md)',
-                    borderRadius: 'var(--radius-full)',
-                    border: `1px solid ${getRarityColor(hero.rarity)}`,
-                    fontSize: 'var(--text-xs)',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    color: getRarityColor(hero.rarity),
-                    letterSpacing: '0.05em'
-                  }}>
-                    {hero.rarity}
+                  <div className="absolute top-3 right-3">
+                    <Badge
+                      className={cn(
+                        'backdrop-blur-sm bg-surface-900/80',
+                        getRarityColor(hero.rarity),
+                        getRarityBorderColor(hero.rarity)
+                      )}
+                      size="sm"
+                    >
+                      {hero.rarity}
+                    </Badge>
                   </div>
 
                   {/* Faction Badge */}
-                  <div style={{
-                    position: 'absolute',
-                    top: 'var(--space-md)',
-                    left: 'var(--space-md)',
-                    padding: 'var(--space-xs) var(--space-md)',
-                    background: 'rgba(10, 14, 26, 0.8)',
-                    backdropFilter: 'var(--blur-md)',
-                    borderRadius: 'var(--radius-full)',
-                    border: '1px solid var(--color-border)',
-                    fontSize: 'var(--text-xs)',
-                    fontWeight: 600,
-                    color: 'var(--color-text-secondary)'
-                  }}>
-                    {hero.faction}
+                  <div className="absolute top-3 left-3">
+                    <Badge variant="default" size="sm" className="backdrop-blur-sm bg-surface-900/80">
+                      {hero.faction}
+                    </Badge>
                   </div>
                 </div>
 
                 {/* Hero Info */}
-                <div style={{ padding: 'var(--space-lg)' }}>
-                  <div style={{ display: 'flex', alignItems: 'start', gap: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <h3 className="font-heading" style={{
-                        fontSize: 'var(--text-lg)',
-                        margin: 0,
-                        marginBottom: '4px',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
-                      }}>
-                        {hero.name}
-                      </h3>
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--space-xs)',
-                        fontSize: 'var(--text-sm)',
-                        color: 'var(--color-text-tertiary)'
-                      }}>
-                        <RoleIcon size={14} />
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-title-md font-medium truncate">{hero.name}</h3>
+                      <div className="flex items-center gap-1.5 text-body-sm text-muted-foreground mt-1">
+                        <RoleIcon className="w-4 h-4" />
                         {hero.role}
                       </div>
                     </div>
-
-                    <div style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: 'var(--radius-lg)',
-                      background: 'var(--gradient-primary)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0
-                    }}>
-                      <RoleIcon size={20} color="white" strokeWidth={2.5} />
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center flex-shrink-0">
+                      <RoleIcon className="w-5 h-5 text-white" />
                     </div>
                   </div>
 
-                  <button className="btn btn-secondary btn-sm" style={{ width: '100%' }}>
+                  <Button variant="tonal" size="sm" className="w-full mt-4">
                     View Details
-                  </button>
-                </div>
-              </div>
+                  </Button>
+                </CardContent>
+              </Card>
             );
           })}
         </div>
@@ -466,68 +309,58 @@ const Heroes: React.FC = () => {
 
       {/* Hero List View */}
       {viewMode === 'list' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+        <div className="space-y-3 stagger-children">
           {filteredAndSortedHeroes.map((hero: Hero) => {
             const RoleIcon = getRoleIcon(hero.role);
 
             return (
-              <div
+              <Card
                 key={hero.id}
-                className="card animate-fadeIn"
+                variant="filled"
+                interactive
                 onClick={() => navigate(`/heroes/${hero.id}`)}
-                style={{
-                  cursor: 'pointer',
-                  padding: 'var(--space-lg)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--space-xl)'
-                }}
+                className="p-4"
               >
-                {/* Hero Image */}
-                <div style={{
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: 'var(--radius-lg)',
-                  background: `url(${hero.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  flexShrink: 0,
-                  border: `2px solid ${getRarityColor(hero.rarity)}`
-                }} />
+                <div className="flex items-center gap-4">
+                  {/* Hero Image */}
+                  <div
+                    className={cn(
+                      'w-16 h-16 rounded-lg flex-shrink-0 border-2',
+                      getRarityBorderColor(hero.rarity)
+                    )}
+                    style={{
+                      backgroundImage: `url(${hero.image || hero.imageUrl})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  />
 
-                {/* Hero Info */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <h3 className="font-heading" style={{ fontSize: 'var(--text-xl)', margin: 0, marginBottom: 'var(--space-sm)' }}>
-                    {hero.name}
-                  </h3>
-                  <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-                    <span className="badge" style={{
-                      background: 'var(--color-bg-elevated)',
-                      border: `1px solid ${getRarityColor(hero.rarity)}`,
-                      color: getRarityColor(hero.rarity)
-                    }}>
-                      {hero.rarity}
-                    </span>
-                    <span className="badge badge-primary">
-                      {hero.faction}
-                    </span>
-                    <span className="badge" style={{
-                      background: 'var(--color-bg-elevated)',
-                      border: '1px solid var(--color-border)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 'var(--space-xs)'
-                    }}>
-                      <RoleIcon size={12} />
-                      {hero.role}
-                    </span>
+                  {/* Hero Info */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-title-md font-medium truncate">{hero.name}</h3>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <Badge
+                        className={cn(
+                          getRarityColor(hero.rarity),
+                          getRarityBorderColor(hero.rarity)
+                        )}
+                        size="sm"
+                      >
+                        {hero.rarity}
+                      </Badge>
+                      <Badge variant="primary" size="sm">{hero.faction}</Badge>
+                      <Badge variant="default" size="sm">
+                        <RoleIcon className="w-3 h-3 mr-1" />
+                        {hero.role}
+                      </Badge>
+                    </div>
                   </div>
-                </div>
 
-                <button className="btn btn-primary">
-                  View Details
-                </button>
-              </div>
+                  <Button variant="filled" size="sm" className="flex-shrink-0">
+                    View Details
+                  </Button>
+                </div>
+              </Card>
             );
           })}
         </div>
@@ -535,21 +368,16 @@ const Heroes: React.FC = () => {
 
       {/* Empty State */}
       {filteredAndSortedHeroes.length === 0 && (
-        <div className="card" style={{
-          padding: 'var(--space-4xl)',
-          textAlign: 'center'
-        }}>
-          <Shield size={64} style={{ opacity: 0.2, margin: '0 auto var(--space-xl)' }} />
-          <h3 className="font-heading" style={{ fontSize: 'var(--text-2xl)', marginBottom: 'var(--space-md)' }}>
-            No Heroes Found
-          </h3>
-          <p style={{ color: 'var(--color-text-tertiary)', marginBottom: 'var(--space-xl)' }}>
+        <Card variant="outlined" className="text-center py-16">
+          <Shield className="w-16 h-16 mx-auto mb-4 text-muted-foreground/30" />
+          <h3 className="text-headline-sm font-medium mb-2">No Heroes Found</h3>
+          <p className="text-body-md text-muted-foreground mb-6">
             Try adjusting your filters or search query
           </p>
-          <button className="btn btn-primary" onClick={clearFilters}>
+          <Button variant="filled" onClick={clearFilters}>
             Clear All Filters
-          </button>
-        </div>
+          </Button>
+        </Card>
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from '../shared/layouts/MainLayout';
 import ChatAssistantEnhanced from '../shared/components/ChatAssistantEnhanced';
 import LoadingSpinner from '../shared/ui/LoadingSpinner';
-import '../styles/main.css';
+import '../styles/globals.css';
 
 // Lazy load pages for code splitting
 const Dashboard = lazy(() => import('../features/heroes/pages/Dashboard'));
@@ -11,7 +11,7 @@ const Heroes = lazy(() => import('../features/heroes/pages/Heroes'));
 const HeroDetail = lazy(() => import('../features/heroes/pages/HeroDetail'));
 const Roster = lazy(() => import('../features/heroes/pages/Roster'));
 const TeamBuilder = lazy(() => import('../features/team/pages/TeamBuilder'));
-const Events = lazy(() => import('../features/events/pages/Events'));
+const Events = lazy(() => import('../features/events/pages/EventsRevamped'));
 const GiftCodes = lazy(() => import('../features/events/pages/GiftCodes'));
 const Guides = lazy(() => import('../features/guides/pages/Guides'));
 const Gear = lazy(() => import('../features/gear/pages/Gear'));

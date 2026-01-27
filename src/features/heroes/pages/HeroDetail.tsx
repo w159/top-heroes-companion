@@ -4,8 +4,10 @@ import HeroDetailView from '../components/HeroDetailView';
 import heroesData from '../../../data/heroes.json';
 import heroesEnhanced from '../../../data/heroesEnhanced.json';
 import { useUserData } from '../../../shared/utils';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Shield } from 'lucide-react';
 import { Faction, Rarity, Role, Hero } from '../../../shared/types';
+import { Card } from '../../../shared/ui/components/card';
+import { Button } from '../../../shared/ui/components/button';
 
 const HeroDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,21 +18,18 @@ const HeroDetail: React.FC = () => {
 
   if (!hero) {
     return (
-      <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: 8 }}>Hero Not Found</h2>
-        <p style={{ color: 'var(--ios-text-secondary)', marginBottom: 20 }}>
+      <Card variant="outlined" className="text-center py-16 animate-in">
+        <Shield className="w-16 h-16 mx-auto mb-4 text-muted-foreground/30" />
+        <h2 className="text-headline-sm font-semibold mb-2">Hero Not Found</h2>
+        <p className="text-body-md text-muted-foreground mb-6">
           The hero you are looking for does not exist in our database.
         </p>
-        <Link
-          to="/heroes"
-          style={{
-            color: 'var(--ios-blue)', fontWeight: 600, textDecoration: 'none',
-            display: 'inline-flex', alignItems: 'center', gap: 4
-          }}
-        >
-          <ArrowLeft size={18} /> Back to Heroes
-        </Link>
-      </div>
+        <Button variant="filled" asChild>
+          <Link to="/heroes" className="inline-flex items-center gap-2">
+            <ArrowLeft className="w-4 h-4" /> Back to Heroes
+          </Link>
+        </Button>
+      </Card>
     );
   }
 

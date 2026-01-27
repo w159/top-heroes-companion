@@ -1,4 +1,8 @@
 import React from 'react';
+import { Shield, Sword, Zap, Heart, Target, Sparkles, TrendingUp, Star, Package } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
+import { Badge } from '../../../shared/ui/components/badge';
+import { cn } from '../../../shared/lib/utils';
 
 interface GearSet {
   name: string;
@@ -8,6 +12,7 @@ interface GearSet {
   special: string;
   bestFor: string[];
   color: string;
+  gradient: string;
 }
 
 const gearSets: GearSet[] = [
@@ -18,7 +23,8 @@ const gearSets: GearSet[] = [
     hpBonus: '+80%',
     special: 'Skill Damage +8%',
     bestFor: ['Pyromancer', 'Paragon', 'Bishop', 'Pixie', 'Artificer'],
-    color: '#5856D6'
+    color: 'tertiary',
+    gradient: 'from-tertiary-500 to-tertiary-600'
   },
   {
     name: 'Fury of Blood',
@@ -27,7 +33,8 @@ const gearSets: GearSet[] = [
     hpBonus: '+160%',
     special: 'Damage Reduction +6%',
     bestFor: ['All Tanks', 'All Healers', 'Adjudicator', 'Forest Maiden', 'Witch'],
-    color: '#FF3B30'
+    color: 'error',
+    gradient: 'from-error-500 to-error-600'
   },
   {
     name: "Titan's Might",
@@ -36,357 +43,224 @@ const gearSets: GearSet[] = [
     hpBonus: '-',
     special: 'Damage Increase +6%',
     bestFor: ['Wanderer', 'Storm Maiden', 'Tidecaller', 'Astrologer'],
-    color: '#FF9F0A'
+    color: 'gold',
+    gradient: 'from-gold-500 to-gold-600'
   }
 ];
 
 const gearSlots = [
-  { name: 'Sword', stat: 'Attack', bonus: 'Critical Attack' },
-  { name: 'Boots', stat: 'Attack', bonus: 'Critical Attack' },
-  { name: 'Helmet', stat: 'HP', bonus: 'Block Chance' },
-  { name: 'Chest', stat: 'HP', bonus: 'Block Chance' }
+  { name: 'Sword', icon: Sword, stat: 'Attack', bonus: 'Critical Attack' },
+  { name: 'Boots', icon: Zap, stat: 'Attack', bonus: 'Critical Attack' },
+  { name: 'Helmet', icon: Shield, stat: 'HP', bonus: 'Block Chance' },
+  { name: 'Chest', icon: Heart, stat: 'HP', bonus: 'Block Chance' }
 ];
 
 const Gear: React.FC = () => {
   return (
-    <div className="gear-page">
-      <div className="page-header">
-        <h1>Gear Sets Guide</h1>
-        <p className="page-subtitle">Match gear to hero role for maximum effectiveness</p>
-      </div>
-
-      {/* Quick Reference */}
-      <div className="quick-ref-card">
-        <h3>⚡ Quick Reference</h3>
-        <div className="quick-grid">
-          <div className="quick-item">
-            <span className="quick-label" style={{ color: '#5856D6' }}>Knight</span>
-            <span className="quick-use">→ Skill-based DPS</span>
-          </div>
-          <div className="quick-item">
-            <span className="quick-label" style={{ color: '#FF3B30' }}>Blood</span>
-            <span className="quick-use">→ Tanks & Healers</span>
-          </div>
-          <div className="quick-item">
-            <span className="quick-label" style={{ color: '#FF9F0A' }}>Titan</span>
-            <span className="quick-use">→ Flat Attack DPS</span>
-          </div>
+    <div className="space-y-6 animate-in">
+      {/* Header */}
+      <div className="flex items-center gap-4">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500 to-tertiary-500 flex items-center justify-center shadow-lg shadow-primary-500/30">
+          <Package className="w-7 h-7 text-white" />
+        </div>
+        <div>
+          <h1 className="text-headline-lg font-bold">Gear Sets Guide</h1>
+          <p className="text-body-md text-muted-foreground">
+            Match gear to hero role for maximum effectiveness
+          </p>
         </div>
       </div>
 
-      {/* Gear Set Cards */}
-      <div className="sets-section">
-        <h2>Gear Sets</h2>
-        <div className="sets-grid">
-          {gearSets.map((set) => (
-            <div key={set.name} className="set-card" style={{ borderTopColor: set.color }}>
-              <div className="set-header">
-                <h3>{set.name}</h3>
-                <span className="set-short" style={{ color: set.color }}>{set.shortName}</span>
-              </div>
-              
-              <div className="set-stats">
-                <div className="stat-row">
-                  <span className="stat-label">Attack</span>
-                  <span className="stat-value">{set.attackBonus}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">HP</span>
-                  <span className="stat-value">{set.hpBonus}</span>
-                </div>
-                <div className="stat-row special">
-                  <span className="stat-label">Special</span>
-                  <span className="stat-value">{set.special}</span>
-                </div>
-              </div>
-              
-              <div className="best-for">
-                <h4>Best For:</h4>
-                <div className="hero-tags">
-                  {set.bestFor.map((hero, index) => (
-                    <span key={index} className="hero-tag">{hero}</span>
-                  ))}
-                </div>
-              </div>
+      {/* Quick Reference */}
+      <Card variant="filled" className="border-2 border-primary-500/30 bg-primary-500/5">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-3">
+            <Zap className="w-5 h-5 text-primary-400" />
+            <h2 className="text-title-lg font-semibold">Quick Reference</h2>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="flex items-center gap-3 p-3 bg-surface-800/50 rounded-xl">
+              <Badge variant="default" className="bg-tertiary-500/20 text-tertiary-400 border-tertiary-500/30">Knight</Badge>
+              <span className="text-body-sm text-muted-foreground">→ Skill-based DPS</span>
             </div>
+            <div className="flex items-center gap-3 p-3 bg-surface-800/50 rounded-xl">
+              <Badge variant="default" className="bg-error-500/20 text-error-400 border-error-500/30">Blood</Badge>
+              <span className="text-body-sm text-muted-foreground">→ Tanks & Healers</span>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-surface-800/50 rounded-xl">
+              <Badge variant="default" className="bg-gold-500/20 text-gold-400 border-gold-500/30">Titan</Badge>
+              <span className="text-body-sm text-muted-foreground">→ Flat Attack DPS</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Gear Set Cards */}
+      <div>
+        <h2 className="text-title-lg font-semibold mb-4">Gear Sets</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {gearSets.map((set) => (
+            <Card
+              key={set.name}
+              variant="filled"
+              className={cn(
+                'overflow-hidden border-t-4',
+                set.color === 'tertiary' && 'border-t-tertiary-500',
+                set.color === 'error' && 'border-t-error-500',
+                set.color === 'gold' && 'border-t-gold-500'
+              )}
+            >
+              <CardContent className="p-4">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-title-md font-semibold">{set.name}</h3>
+                  <Badge
+                    variant="default"
+                    className={cn(
+                      set.color === 'tertiary' && 'bg-tertiary-500/20 text-tertiary-400 border-tertiary-500/30',
+                      set.color === 'error' && 'bg-error-500/20 text-error-400 border-error-500/30',
+                      set.color === 'gold' && 'bg-gold-500/20 text-gold-400 border-gold-500/30'
+                    )}
+                  >
+                    {set.shortName}
+                  </Badge>
+                </div>
+
+                {/* Stats */}
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between items-center py-2 border-b border-border">
+                    <span className="text-body-sm text-muted-foreground">Attack</span>
+                    <span className="text-title-sm font-semibold">{set.attackBonus}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-border">
+                    <span className="text-body-sm text-muted-foreground">HP</span>
+                    <span className="text-title-sm font-semibold">{set.hpBonus}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="text-body-sm text-muted-foreground">Special</span>
+                    <span className="text-title-sm font-semibold text-gold-400">{set.special}</span>
+                  </div>
+                </div>
+
+                {/* Best For */}
+                <div>
+                  <p className="text-label-sm text-muted-foreground mb-2">Best For:</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {set.bestFor.map((hero, index) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-surface-700 rounded-md text-label-sm"
+                      >
+                        {hero}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
 
       {/* Gear Slots */}
-      <div className="slots-section">
-        <h2>Gear Slots</h2>
-        <div className="slots-grid">
-          {gearSlots.map((slot) => (
-            <div key={slot.name} className="slot-card">
-              <div className="slot-icon">
-                {slot.name === 'Sword' && '⚔️'}
-                {slot.name === 'Boots' && '👞'}
-                {slot.name === 'Helmet' && '⛑️'}
-                {slot.name === 'Chest' && '🛡️'}
-              </div>
-              <div className="slot-info">
-                <strong>{slot.name}</strong>
-                <div className="slot-stats">
-                  <span>Primary: {slot.stat}</span>
-                  <span>Bonus: {slot.bonus}</span>
+      <div>
+        <h2 className="text-title-lg font-semibold mb-4">Gear Slots</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {gearSlots.map((slot) => {
+            const SlotIcon = slot.icon;
+            return (
+              <Card key={slot.name} variant="filled" className="p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
+                    <SlotIcon className="w-5 h-5 text-primary-400" />
+                  </div>
+                  <span className="text-title-sm font-semibold">{slot.name}</span>
+                </div>
+                <div className="space-y-1 text-body-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Primary:</span>
+                    <span>{slot.stat}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Bonus:</span>
+                    <span>{slot.bonus}</span>
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Upgrade Strategy */}
+      <Card variant="filled">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-3">
+            <TrendingUp className="w-5 h-5 text-success-400" />
+            <h2 className="text-title-lg font-semibold">Upgrade Strategy</h2>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {[
+              { label: 'Level in 10s', desc: 'Extra buffs unlock at Lv 10, 20, 30, 40' },
+              { label: 'Enhancement Master', desc: 'Keep all 4 pieces at same level for bonus' },
+              { label: 'Titan Marks', desc: 'Add +30% faction-specific bonuses from Guild Vault' },
+              { label: 'Promotion', desc: 'Unlocks at Lv 40, requires Legendary/Mythic Promotion Stones' }
+            ].map((tip, idx) => (
+              <div key={idx} className="flex items-start gap-3 p-3 bg-surface-800/50 rounded-lg">
+                <Sparkles className="w-4 h-4 text-gold-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <span className="font-semibold text-title-sm">{tip.label}:</span>
+                  <span className="text-body-sm text-muted-foreground ml-2">{tip.desc}</span>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Upgrade Tips */}
-      <div className="tips-card">
-        <h3>📈 Upgrade Strategy</h3>
-        <ul>
-          <li><strong>Level in 10s:</strong> Extra buffs unlock at Lv 10, 20, 30, 40</li>
-          <li><strong>Enhancement Master:</strong> Keep all 4 pieces at same level for bonus</li>
-          <li><strong>Titan Marks:</strong> Add +30% faction-specific bonuses from Guild Vault</li>
-          <li><strong>Promotion:</strong> Unlocks at Lv 40, requires Legendary/Mythic Promotion Stones</li>
-        </ul>
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Priority Order */}
-      <div className="priority-card">
-        <h3>🎯 Upgrade Priority</h3>
-        <div className="priority-grid">
-          <div className="priority-section">
-            <h4>For DPS/Healers</h4>
-            <ol>
-              <li>Sword (max attack)</li>
-              <li>Boots (secondary attack)</li>
-              <li>Helmet/Chest (survival)</li>
-            </ol>
+      <Card variant="filled">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-3">
+            <Target className="w-5 h-5 text-primary-400" />
+            <h2 className="text-title-lg font-semibold">Upgrade Priority</h2>
           </div>
-          <div className="priority-section">
-            <h4>For Tanks</h4>
-            <ol>
-              <li>Helmet (max HP)</li>
-              <li>Chest (secondary HP)</li>
-              <li>Sword/Boots (minor damage)</li>
-            </ol>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-surface-800/50 rounded-xl p-4">
+              <h3 className="text-title-sm font-semibold text-primary-400 mb-3">For DPS/Healers</h3>
+              <ol className="space-y-2">
+                {['Sword (max attack)', 'Boots (secondary attack)', 'Helmet/Chest (survival)'].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3 text-body-sm">
+                    <span className="w-6 h-6 rounded-full bg-primary-500/20 flex items-center justify-center text-label-sm font-bold text-primary-400">
+                      {idx + 1}
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="bg-surface-800/50 rounded-xl p-4">
+              <h3 className="text-title-sm font-semibold text-error-400 mb-3">For Tanks</h3>
+              <ol className="space-y-2">
+                {['Helmet (max HP)', 'Chest (secondary HP)', 'Sword/Boots (minor damage)'].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3 text-body-sm">
+                    <span className="w-6 h-6 rounded-full bg-error-500/20 flex items-center justify-center text-label-sm font-bold text-error-400">
+                      {idx + 1}
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
-        </div>
-      </div>
-
-      <style>{`
-        .gear-page {
-          padding: 20px;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-        
-        .page-header {
-          text-align: center;
-          margin-bottom: 24px;
-        }
-        
-        .page-header h1 {
-          font-size: 28px;
-          margin-bottom: 8px;
-        }
-        
-        .page-subtitle {
-          color: rgba(255, 255, 255, 0.6);
-          font-size: 14px;
-        }
-        
-        .quick-ref-card, .tips-card, .priority-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 16px;
-          padding: 20px;
-          margin-bottom: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .quick-ref-card h3, .tips-card h3, .priority-card h3 {
-          margin-bottom: 16px;
-          font-size: 18px;
-        }
-        
-        .quick-grid {
-          display: flex;
-          gap: 16px;
-          flex-wrap: wrap;
-        }
-        
-        .quick-item {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        
-        .quick-label {
-          font-weight: bold;
-          font-size: 14px;
-        }
-        
-        .quick-use {
-          font-size: 13px;
-          color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .sets-section, .slots-section {
-          margin-bottom: 24px;
-        }
-        
-        .sets-section h2, .slots-section h2 {
-          font-size: 20px;
-          margin-bottom: 16px;
-        }
-        
-        .sets-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 16px;
-        }
-        
-        .set-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 16px;
-          padding: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-top: 4px solid;
-        }
-        
-        .set-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 16px;
-        }
-        
-        .set-header h3 {
-          font-size: 16px;
-        }
-        
-        .set-short {
-          font-weight: bold;
-          font-size: 12px;
-          padding: 4px 10px;
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 8px;
-        }
-        
-        .set-stats {
-          margin-bottom: 16px;
-        }
-        
-        .stat-row {
-          display: flex;
-          justify-content: space-between;
-          padding: 8px 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-          font-size: 14px;
-        }
-        
-        .stat-row.special {
-          border-bottom: none;
-          color: #FFD60A;
-        }
-        
-        .stat-label {
-          color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .stat-value {
-          font-weight: 600;
-        }
-        
-        .best-for h4 {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.5);
-          margin-bottom: 8px;
-        }
-        
-        .hero-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 6px;
-        }
-        
-        .hero-tag {
-          padding: 3px 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border-radius: 6px;
-          font-size: 11px;
-          color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .slots-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 12px;
-        }
-        
-        .slot-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 12px;
-          padding: 16px;
-          display: flex;
-          gap: 12px;
-          align-items: center;
-        }
-        
-        .slot-icon {
-          font-size: 28px;
-        }
-        
-        .slot-info strong {
-          display: block;
-          margin-bottom: 4px;
-        }
-        
-        .slot-stats {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.6);
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-        }
-        
-        .tips-card ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        
-        .tips-card li {
-          padding: 8px 0;
-          font-size: 14px;
-          color: rgba(255, 255, 255, 0.8);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .tips-card li:last-child {
-          border-bottom: none;
-        }
-        
-        .priority-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 20px;
-        }
-        
-        .priority-section h4 {
-          font-size: 14px;
-          margin-bottom: 12px;
-          color: #007AFF;
-        }
-        
-        .priority-section ol {
-          margin: 0;
-          padding-left: 20px;
-        }
-        
-        .priority-section li {
-          padding: 4px 0;
-          font-size: 13px;
-          color: rgba(255, 255, 255, 0.8);
-        }
-      `}</style>
+        </CardContent>
+      </Card>
     </div>
   );
 };

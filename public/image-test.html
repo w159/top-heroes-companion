@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Diagnostic Test</title>
+    <style>
+        body { font-family: system-ui; padding: 20px; background: #121316; color: #e3e2e6; }
+        .test { margin: 20px 0; padding: 15px; border: 2px solid #46474a; border-radius: 8px; }
+        .test h2 { margin-top: 0; color: #4d96e1; }
+        img { border: 2px solid #4d96e1; margin: 10px 0; }
+        .pass { color: #10b981; }
+        .fail { color: #ef4444; }
+        code { background: #1a1c1e; padding: 2px 6px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Hero Image Diagnostic Test</h1>
+
+    <div class="test">
+        <h2>Test 1: Direct Image Load</h2>
+        <p>Loading: <code>/img/heroes/tidecaller.webp</code></p>
+        <img id="test1" src="/img/heroes/tidecaller.webp" alt="Tidecaller" width="200"
+             onload="document.getElementById('status1').innerHTML='<span class=pass>✓ SUCCESS</span>'"
+             onerror="document.getElementById('status1').innerHTML='<span class=fail>✗ FAILED</span>'">
+        <p id="status1">Loading...</p>
+    </div>
+
+    <div class="test">
+        <h2>Test 2: Multiple Heroes</h2>
+        <div id="multi-test"></div>
+    </div>
+
+    <div class="test">
+        <h2>Test 3: Network Info</h2>
+        <p>Current URL: <code id="current-url"></code></p>
+        <p>Base URL: <code id="base-url"></code></p>
+        <button onclick="testFetch()">Test Fetch API</button>
+        <pre id="fetch-result"></pre>
+    </div>
+
+    <script>
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('base-url').textContent = window.location.origin;
+
+        // Test multiple heroes
+        const heroes = ['tidecaller', 'pyromancer', 'altar-marshal', 'paragon', 'monk'];
+        const multiTest = document.getElementById('multi-test');
+
+        heroes.forEach(hero => {
+            const div = document.createElement('div');
+            div.style.display = 'inline-block';
+            div.style.margin = '10px';
+            div.innerHTML = `
+                <p style="margin: 5px 0;">${hero}</p>
+                <img src="/img/heroes/${hero}.webp" alt="${hero}" width="100"
+                     style="display: block;"
+                     onload="this.nextElementSibling.innerHTML='<span class=pass>✓</span>'"
+                     onerror="this.nextElementSibling.innerHTML='<span class=fail>✗</span>'">
+                <p style="margin: 5px 0;">Loading...</p>
+            `;
+            multiTest.appendChild(div);
+        });
+
+        // Test fetch
+        async function testFetch() {
+            const result = document.getElementById('fetch-result');
+            result.textContent = 'Fetching...';
+
+            try {
+                const response = await fetch('/img/heroes/tidecaller.webp');
+                result.textContent = `Status: ${response.status} ${response.statusText}\n`;
+                result.textContent += `Content-Type: ${response.headers.get('content-type')}\n`;
+                result.textContent += `Content-Length: ${response.headers.get('content-length')} bytes\n`;
+                result.textContent += response.ok ? 'Result: ✓ SUCCESS' : 'Result: ✗ FAILED';
+            } catch (error) {
+                result.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Auto-test fetch on load
+        setTimeout(testFetch, 1000);
+    </script>
+</body>
+</html>

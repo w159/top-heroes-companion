@@ -1,4 +1,8 @@
 import React from 'react';
+import { Target, Gem, Star, Sparkles, Gift } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
+import { Badge } from '../../../shared/ui/components/badge';
+import { cn } from '../../../shared/lib/utils';
 
 interface RelicSet {
   name: string;
@@ -44,275 +48,182 @@ const relicSets: RelicSet[] = [
   }
 ];
 
-const factionColors: Record<string, string> = {
-  'League': '#5856D6',
-  'Nature': '#34C759',
-  'Horde': '#FF3B30'
+const factionConfig: Record<string, { bgClass: string; textClass: string; borderClass: string; badgeBg: string }> = {
+  'League': {
+    bgClass: 'bg-primary-500/10',
+    textClass: 'text-primary-400',
+    borderClass: 'border-l-primary-500',
+    badgeBg: 'bg-primary-500'
+  },
+  'Nature': {
+    bgClass: 'bg-success-500/10',
+    textClass: 'text-success-400',
+    borderClass: 'border-l-success-500',
+    badgeBg: 'bg-success-500'
+  },
+  'Horde': {
+    bgClass: 'bg-error-500/10',
+    textClass: 'text-error-400',
+    borderClass: 'border-l-error-500',
+    badgeBg: 'bg-error-500'
+  }
 };
 
 const Relics: React.FC = () => {
   return (
-    <div className="relics-page">
-      <div className="page-header">
-        <h1>Relic Sets Guide</h1>
-        <p className="page-subtitle">Max ONE relic at a time - 5★ Epic beats 1★ Legendary!</p>
+    <div className="space-y-6 animate-in">
+      {/* Header */}
+      <div className="flex items-center gap-4">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-600 flex items-center justify-center shadow-lg shadow-gold-500/30">
+          <Gem className="w-7 h-7 text-white" />
+        </div>
+        <div>
+          <h1 className="text-headline-lg font-bold">Relic Sets Guide</h1>
+          <p className="text-body-md text-muted-foreground">
+            Max ONE relic at a time - 5★ Epic beats 1★ Legendary!
+          </p>
+        </div>
       </div>
 
       {/* Strategy Tips */}
-      <div className="strategy-card">
-        <h3>🎯 Relic Strategy</h3>
-        <ul>
-          <li><strong>Focus one relic to max stars</strong> before moving to the next</li>
-          <li><strong>Match your faction's set</strong> for best synergy</li>
-          <li><strong>Buy from Guild Store</strong> daily - mandatory for progression</li>
-          <li><strong>Legion Boss hits</strong> for random relic shards</li>
-        </ul>
-      </div>
-
-      {/* Relic Set Cards */}
-      {relicSets.map((set) => (
-        <div key={set.name} className="relic-set-card">
-          <div className="set-header" style={{ borderLeftColor: factionColors[set.faction] }}>
-            <div>
-              <h2>{set.name}</h2>
-              <div className="set-meta">
-                <span className="faction-tag" style={{ backgroundColor: factionColors[set.faction] }}>
-                  {set.faction}
-                </span>
-                <span className="focus-tag">{set.focus}</span>
-              </div>
-            </div>
+      <Card variant="filled" className="border-2 border-primary-500/30 bg-primary-500/5">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-3">
+            <Target className="w-5 h-5 text-primary-400" />
+            <h2 className="text-title-lg font-semibold">Relic Strategy</h2>
           </div>
-
-          <div className="relics-list">
-            {set.relics.map((relic, index) => (
-              <div key={index} className="relic-item">
-                <div className="relic-name">
-                  <span className="relic-icon">💎</span>
-                  <strong>{relic.name}</strong>
-                  <span className="relic-type">{relic.type}</span>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {[
+              { label: 'Focus one relic to max stars', desc: 'Before moving to the next' },
+              { label: 'Match your faction\'s set', desc: 'For best synergy' },
+              { label: 'Buy from Guild Store', desc: 'Daily - mandatory for progression' },
+              { label: 'Legion Boss hits', desc: 'For random relic shards' }
+            ].map((tip, idx) => (
+              <div key={idx} className="flex items-start gap-3 p-3 bg-surface-800/50 rounded-lg">
+                <Sparkles className="w-4 h-4 text-gold-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <span className="font-semibold text-title-sm">{tip.label}:</span>
+                  <span className="text-body-sm text-muted-foreground ml-2">{tip.desc}</span>
                 </div>
-                <p className="relic-effect">{relic.effect}</p>
               </div>
             ))}
           </div>
+        </CardContent>
+      </Card>
 
-          {set.f2pAlternative && (
-            <div className="f2p-section">
-              <h4>🆓 F2P Alternative</h4>
-              <div className="f2p-relics">
-                {set.f2pAlternative.map((relic, index) => (
-                  <span key={index} className="f2p-relic">{relic}</span>
+      {/* Relic Set Cards */}
+      {relicSets.map((set) => {
+        const config = factionConfig[set.faction];
+        return (
+          <Card
+            key={set.name}
+            variant="filled"
+            className={cn('overflow-hidden border-l-4', config.borderClass)}
+          >
+            <CardHeader className="pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                  <h2 className="text-title-lg font-semibold">{set.name}</h2>
+                  <div className="flex items-center gap-3 mt-2">
+                    <Badge
+                      variant="default"
+                      size="sm"
+                      className={cn(config.badgeBg, 'text-white border-transparent')}
+                    >
+                      {set.faction}
+                    </Badge>
+                    <span className="text-body-sm text-muted-foreground">{set.focus}</span>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Relics List */}
+              <div className="space-y-3">
+                {set.relics.map((relic, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 p-3 bg-surface-800/50 rounded-lg"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-gold-500/20 flex items-center justify-center flex-shrink-0">
+                      <Gem className="w-4 h-4 text-gold-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-title-sm font-semibold">{relic.name}</span>
+                        <Badge
+                          variant="default"
+                          size="sm"
+                          className="bg-surface-700 text-muted-foreground border-transparent"
+                        >
+                          {relic.type}
+                        </Badge>
+                      </div>
+                      <p className="text-body-sm text-muted-foreground">{relic.effect}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
-          )}
-        </div>
-      ))}
+
+              {/* F2P Alternative */}
+              {set.f2pAlternative && (
+                <div className="pt-4 border-t border-border">
+                  <h4 className="text-label-md font-semibold text-success-400 mb-3 flex items-center gap-2">
+                    <Gift className="w-4 h-4" />
+                    F2P Alternative
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {set.f2pAlternative.map((relic, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1.5 bg-success-500/15 text-success-400 rounded-lg text-label-sm"
+                      >
+                        {relic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        );
+      })}
 
       {/* Starter Kit */}
-      <div className="starter-card">
-        <h3>🌟 Starter Relic Kit (All Factions)</h3>
-        <p className="starter-desc">Easy to obtain, universally useful:</p>
-        <div className="starter-relics">
-          <div className="starter-relic">
-            <strong>Duke's Ring</strong>
-            <span>Solid all-around stats</span>
+      <Card variant="filled">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-3">
+            <Star className="w-5 h-5 text-gold-400" />
+            <h2 className="text-title-lg font-semibold">Starter Relic Kit (All Factions)</h2>
           </div>
-          <div className="starter-relic">
-            <strong>Philosopher's Stone</strong>
-            <span>Healing + HP regen</span>
+        </CardHeader>
+        <CardContent>
+          <p className="text-body-md text-muted-foreground mb-4">
+            Easy to obtain, universally useful:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {[
+              { name: "Duke's Ring", desc: 'Solid all-around stats' },
+              { name: "Philosopher's Stone", desc: 'Healing + HP regen' },
+              { name: "Marshal's Warhorn", desc: 'Team attack speed boost' }
+            ].map((relic, idx) => (
+              <div
+                key={idx}
+                className="bg-surface-800/50 rounded-xl p-4 border border-border"
+              >
+                <span className="block text-title-sm font-semibold text-gold-400 mb-1">
+                  {relic.name}
+                </span>
+                <span className="text-body-sm text-muted-foreground">
+                  {relic.desc}
+                </span>
+              </div>
+            ))}
           </div>
-          <div className="starter-relic">
-            <strong>Marshal's Warhorn</strong>
-            <span>Team attack speed boost</span>
-          </div>
-        </div>
-      </div>
-
-      <style>{`
-        .relics-page {
-          padding: 20px;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-        
-        .page-header {
-          text-align: center;
-          margin-bottom: 24px;
-        }
-        
-        .page-header h1 {
-          font-size: 28px;
-          margin-bottom: 8px;
-        }
-        
-        .page-subtitle {
-          color: rgba(255, 255, 255, 0.6);
-          font-size: 14px;
-        }
-        
-        .strategy-card, .starter-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 16px;
-          padding: 20px;
-          margin-bottom: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .strategy-card h3, .starter-card h3 {
-          margin-bottom: 16px;
-          font-size: 18px;
-        }
-        
-        .strategy-card ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        
-        .strategy-card li {
-          padding: 8px 0;
-          font-size: 14px;
-          color: rgba(255, 255, 255, 0.8);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .strategy-card li:last-child {
-          border-bottom: none;
-        }
-        
-        .relic-set-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 16px;
-          padding: 20px;
-          margin-bottom: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .set-header {
-          border-left: 4px solid;
-          padding-left: 16px;
-          margin-bottom: 16px;
-        }
-        
-        .set-header h2 {
-          font-size: 20px;
-          margin-bottom: 8px;
-        }
-        
-        .set-meta {
-          display: flex;
-          gap: 10px;
-          align-items: center;
-        }
-        
-        .faction-tag {
-          padding: 4px 10px;
-          border-radius: 8px;
-          font-size: 12px;
-          font-weight: 600;
-          color: white;
-        }
-        
-        .focus-tag {
-          font-size: 13px;
-          color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .relics-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-        
-        .relic-item {
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 12px;
-          padding: 12px 16px;
-        }
-        
-        .relic-name {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 6px;
-        }
-        
-        .relic-icon {
-          font-size: 16px;
-        }
-        
-        .relic-type {
-          font-size: 11px;
-          padding: 2px 6px;
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 6px;
-          color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .relic-effect {
-          font-size: 13px;
-          color: rgba(255, 255, 255, 0.7);
-          margin: 0;
-        }
-        
-        .f2p-section {
-          margin-top: 16px;
-          padding-top: 16px;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .f2p-section h4 {
-          font-size: 14px;
-          margin-bottom: 10px;
-          color: #30D158;
-        }
-        
-        .f2p-relics {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-        
-        .f2p-relic {
-          padding: 4px 10px;
-          background: rgba(48, 209, 88, 0.15);
-          border-radius: 8px;
-          font-size: 12px;
-          color: #30D158;
-        }
-        
-        .starter-desc {
-          font-size: 14px;
-          color: rgba(255, 255, 255, 0.6);
-          margin-bottom: 16px;
-        }
-        
-        .starter-relics {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-          gap: 12px;
-        }
-        
-        .starter-relic {
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 12px;
-          padding: 12px;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-        
-        .starter-relic strong {
-          color: #FFD60A;
-        }
-        
-        .starter-relic span {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.6);
-        }
-      `}</style>
+        </CardContent>
+      </Card>
     </div>
   );
 };
