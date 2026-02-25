@@ -23,6 +23,7 @@ import {
   calculateTotalInfluence
 } from '@/shared/utils';
 import { formatNumber } from '@/shared/lib/utils';
+import { Skeleton } from '@/shared/ui/components/skeleton';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/components/card';
 import StatCard from '../components/StatCard';
 import type { StatCardProps } from '../components/StatCard';
@@ -38,12 +39,35 @@ export const Dashboard: React.FC = () => {
 
   if (!isLoaded || !data) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-        <div className="relative">
-          <div className="w-12 h-12 rounded-full border-2 border-primary-500/30 border-t-primary-400 animate-spin" />
-          <div className="absolute inset-0 w-12 h-12 rounded-full border-2 border-transparent border-b-gold-500/20 animate-spin-slow" />
+      <div className="space-y-6 animate-in pb-8">
+        {/* Header skeleton */}
+        <div className="flex items-center gap-4">
+          <Skeleton className="w-14 h-14 rounded-2xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-4 w-32" />
+          </div>
         </div>
-        <p className="text-label-md text-muted-foreground uppercase tracking-widest animate-pulse">Loading</p>
+
+        {/* Stats grid skeleton */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3 p-4 bg-surface-800/60 rounded-lg border border-surface-700/20">
+              <Skeleton className="w-12 h-12 rounded-lg" />
+              <div className="space-y-2 flex-1">
+                <Skeleton className="h-3 w-20" />
+                <Skeleton className="h-6 w-16" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Content grid skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Skeleton className="h-64 rounded-lg" />
+          <Skeleton className="h-64 rounded-lg" />
+          <Skeleton className="h-48 rounded-lg" />
+        </div>
       </div>
     );
   }

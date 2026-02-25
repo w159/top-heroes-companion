@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Copy, Check, Gift, ExternalLink, AlertTriangle, Sparkles, Info, Clock } from 'lucide-react';
+import { toast } from 'sonner';
 import gameGuides from '@/data/gameGuides.json';
 import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
 import { Button } from '@/shared/ui/components/button';
 import { Badge } from '@/shared/ui/components/badge';
+import { Alert, AlertTitle, AlertDescription } from '@/shared/ui/components/alert';
 import { cn } from '@/shared/lib/utils';
 
 const COPY_FEEDBACK_DURATION_MS = 2000;
@@ -14,6 +16,7 @@ const GiftCodes: React.FC = () => {
   const copyToClipboard = (code: string) => {
     navigator.clipboard.writeText(code).catch(() => { /* clipboard unavailable */ });
     setCopiedCode(code);
+    toast.success('Code copied to clipboard!');
     setTimeout(() => setCopiedCode(null), COPY_FEEDBACK_DURATION_MS);
   };
 
@@ -60,12 +63,11 @@ const GiftCodes: React.FC = () => {
             ))}
           </ol>
 
-          <div className="mt-4 flex items-start gap-3 p-3 bg-warning-500/10 border border-warning-500/30 rounded-lg">
-            <AlertTriangle className="w-5 h-5 text-warning-400 flex-shrink-0 mt-0.5" />
-            <p className="text-body-sm text-warning-400 font-medium">
-              Codes are case-sensitive! Copy them exactly as shown.
-            </p>
-          </div>
+          <Alert variant="warning" className="mt-4">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Case Sensitive</AlertTitle>
+            <AlertDescription>Codes are case-sensitive! Copy them exactly as shown.</AlertDescription>
+          </Alert>
         </CardContent>
       </Card>
 
@@ -96,8 +98,8 @@ const GiftCodes: React.FC = () => {
                 </div>
 
                 <Button
-                  variant={copiedCode === item.code ? 'filled' : 'tonal'}
-                  size="md"
+                  variant={copiedCode === item.code ? 'default' : 'secondary'}
+                  size="default"
                   onClick={() => copyToClipboard(item.code)}
                   className={cn(
                     'flex-shrink-0 transition-all',
@@ -215,12 +217,10 @@ const GiftCodes: React.FC = () => {
             </a>
           </div>
 
-          <div className="flex items-start gap-3 p-3 bg-surface-800 rounded-lg">
-            <Clock className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
-            <p className="text-body-sm text-muted-foreground italic">
-              Codes expire frequently. If a code doesn't work, it may have expired. Check back regularly for new codes!
-            </p>
-          </div>
+          <Alert className="mt-4">
+            <Clock className="h-4 w-4" />
+            <AlertDescription>Codes expire frequently. If a code doesn&apos;t work, it may have expired. Check back regularly for new codes!</AlertDescription>
+          </Alert>
         </CardContent>
       </Card>
     </div>

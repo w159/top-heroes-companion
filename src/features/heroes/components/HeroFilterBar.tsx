@@ -3,13 +3,14 @@ import {
   Search,
   Filter,
   X,
-  ChevronDown,
 } from 'lucide-react';
 import { Button } from '@/shared/ui/components/button';
 import { Card } from '@/shared/ui/components/card';
 import { Badge } from '@/shared/ui/components/badge';
 import { Chip } from '@/shared/ui/components/chip';
 import { Input } from '@/shared/ui/components/input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/shared/ui/components/select';
+import { Collapsible, CollapsibleContent } from '@/shared/ui/components/collapsible';
 import { cn, getRarityColor, getRoleIcon } from '@/shared/lib/utils';
 import type { SortBy } from '../hooks/useHeroFiltering';
 
@@ -67,7 +68,7 @@ const HeroFilterBar: React.FC<HeroFilterBarProps> = ({
 
       {/* Filter Toggle */}
       <Button
-        variant={isFilterOpen ? 'tonal' : 'outlined'}
+        variant={isFilterOpen ? 'secondary' : 'outline'}
         onClick={onFilterToggle}
         className="relative"
       >
@@ -81,93 +82,93 @@ const HeroFilterBar: React.FC<HeroFilterBarProps> = ({
       </Button>
 
       {/* Sort Dropdown */}
-      <div className="relative">
-        <select
-          value={sortBy}
-          onChange={(e) => onSortChange(e.target.value as SortBy)}
-          className="h-10 pl-4 pr-10 bg-surface-800/60 border border-border rounded-lg text-label-lg text-foreground appearance-none cursor-pointer focus:outline-none focus:border-primary-500/40 focus:shadow-glow transition-all duration-normal"
-        >
-          <option value="name">Sort: Name</option>
-          <option value="rarity">Sort: Rarity</option>
-          <option value="faction">Sort: Faction</option>
-          <option value="role">Sort: Role</option>
-        </select>
-        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-      </div>
+      <Select value={sortBy} onValueChange={(v) => onSortChange(v as SortBy)}>
+        <SelectTrigger className="w-[160px]">
+          <SelectValue placeholder="Sort by..." />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="name">Name</SelectItem>
+          <SelectItem value="rarity">Rarity</SelectItem>
+          <SelectItem value="faction">Faction</SelectItem>
+          <SelectItem value="role">Role</SelectItem>
+        </SelectContent>
+      </Select>
     </div>
 
     {/* Filter Panel */}
-    {isFilterOpen && (
-      <div className="mt-4 pt-4 border-t border-[rgba(196,170,126,0.08)] animate-in grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Faction Filter */}
-        <div>
-          <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Faction</p>
-          <div className="flex flex-wrap gap-2">
-            {factions.map(faction => (
-              <Chip
-                key={faction}
-                variant="filter"
-                selected={selectedFaction === faction}
-                onClick={() => onFactionChange(selectedFaction === faction ? null : faction)}
-              >
-                {faction}
-              </Chip>
-            ))}
-          </div>
-        </div>
-
-        {/* Role Filter */}
-        <div>
-          <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Role</p>
-          <div className="flex flex-wrap gap-2">
-            {roles.map(role => {
-              const RoleIcon = getRoleIcon(role);
-              return (
+    <Collapsible open={isFilterOpen}>
+      <CollapsibleContent>
+        <div className="mt-4 pt-4 border-t border-[rgba(196,170,126,0.08)] animate-in grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Faction Filter */}
+          <div>
+            <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Faction</p>
+            <div className="flex flex-wrap gap-2">
+              {factions.map(faction => (
                 <Chip
-                  key={role}
+                  key={faction}
                   variant="filter"
-                  selected={selectedRole === role}
-                  onClick={() => onRoleChange(selectedRole === role ? null : role)}
-                  leadingIcon={<RoleIcon className="w-4 h-4" />}
+                  selected={selectedFaction === faction}
+                  onClick={() => onFactionChange(selectedFaction === faction ? null : faction)}
                 >
-                  {role}
+                  {faction}
                 </Chip>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Rarity Filter */}
-        <div>
-          <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Rarity</p>
-          <div className="flex flex-wrap gap-2">
-            {rarities.map(rarity => (
-              <Chip
-                key={rarity}
-                variant="filter"
-                selected={selectedRarity === rarity}
-                onClick={() => onRarityChange(selectedRarity === rarity ? null : rarity)}
-                className={cn(
-                  selectedRarity !== rarity && getRarityColor(rarity)
-                )}
-              >
-                {rarity}
-              </Chip>
-            ))}
+          {/* Role Filter */}
+          <div>
+            <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Role</p>
+            <div className="flex flex-wrap gap-2">
+              {roles.map(role => {
+                const RoleIcon = getRoleIcon(role);
+                return (
+                  <Chip
+                    key={role}
+                    variant="filter"
+                    selected={selectedRole === role}
+                    onClick={() => onRoleChange(selectedRole === role ? null : role)}
+                    leadingIcon={<RoleIcon className="w-4 h-4" />}
+                  >
+                    {role}
+                  </Chip>
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Clear Filters */}
-        {activeFiltersCount > 0 && (
-          <div className="flex items-end">
-            <Button variant="ghost" size="sm" onClick={onClearFilters}>
-              <X className="w-4 h-4" />
-              Clear All Filters
-            </Button>
+          {/* Rarity Filter */}
+          <div>
+            <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Rarity</p>
+            <div className="flex flex-wrap gap-2">
+              {rarities.map(rarity => (
+                <Chip
+                  key={rarity}
+                  variant="filter"
+                  selected={selectedRarity === rarity}
+                  onClick={() => onRarityChange(selectedRarity === rarity ? null : rarity)}
+                  className={cn(
+                    selectedRarity !== rarity && getRarityColor(rarity)
+                  )}
+                >
+                  {rarity}
+                </Chip>
+              ))}
+            </div>
           </div>
-        )}
-      </div>
-    )}
+
+          {/* Clear Filters */}
+          {activeFiltersCount > 0 && (
+            <div className="flex items-end">
+              <Button variant="ghost" size="sm" onClick={onClearFilters}>
+                <X className="w-4 h-4" />
+                Clear All Filters
+              </Button>
+            </div>
+          )}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   </Card>
 );
 

@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { useUserData } from '@/shared/utils';
-import { Settings as SettingsIcon, Save } from 'lucide-react';
+import { Settings as SettingsIcon } from 'lucide-react';
 import { Faction } from '@/shared/types';
+import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/shared/ui/components/alert-dialog';
 import { GameSettingsSection } from '../components/GameSettingsSection';
 import { DataManagementSection } from '../components/DataManagementSection';
 import { AboutSection } from '../components/AboutSection';
 
-const SUCCESS_TOAST_DURATION_MS = 3000;
-
 const Settings: React.FC = () => {
   const { data, updateSettings, saveData } = useUserData();
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
 
   const handleExport = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
@@ -21,8 +30,7 @@ const Settings: React.FC = () => {
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
 
-    setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), SUCCESS_TOAST_DURATION_MS);
+    toast.success("Data exported successfully!");
   };
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,13 +43,13 @@ const Settings: React.FC = () => {
             const parsedData = JSON.parse(e.target.result as string);
             if (parsedData.roster && Array.isArray(parsedData.roster)) {
               saveData(parsedData);
-              alert("Data imported successfully!");
+              toast.success("Data imported successfully!");
               window.location.reload();
             } else {
-              alert("Invalid file format.");
+              toast.error("Invalid file format");
             }
-          } catch (error) {
-            alert("Error parsing file.");
+          } catch {
+            toast.error("Error parsing file");
           }
         }
       };
@@ -49,10 +57,12 @@ const Settings: React.FC = () => {
   };
 
   const handleReset = () => {
-    if (confirm("Are you sure? This will delete all your roster data and redeemed codes.")) {
-      localStorage.clear();
-      window.location.reload();
-    }
+    setResetDialogOpen(true);
+  };
+
+  const confirmReset = () => {
+    localStorage.clear();
+    window.location.reload();
   };
 
   const handleFactionChange = (faction: Faction) => {
@@ -76,14 +86,6 @@ const Settings: React.FC = () => {
         </div>
       </div>
 
-      {/* Success Toast */}
-      {showSuccessMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-success-500 text-white px-6 py-3 rounded-xl shadow-lg shadow-success-500/30 animate-in flex items-center gap-2">
-          <Save className="w-5 h-5" />
-          Data exported successfully!
-        </div>
-      )}
-
       <GameSettingsSection
         mainFaction={data.settings.mainFaction}
         serverGroup={data.settings.serverGroup}
@@ -98,6 +100,26 @@ const Settings: React.FC = () => {
       />
 
       <AboutSection />
+
+      <AlertDialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reset All Data</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure? This will delete all your roster data and redeemed codes. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmReset}
+              className="bg-error-500 hover:bg-error-600 text-white"
+            >
+              Reset All Data
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

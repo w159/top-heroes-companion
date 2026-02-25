@@ -8,7 +8,7 @@ import {
 import { Button } from '@/shared/ui/components/button';
 import { Card, CardContent } from '@/shared/ui/components/card';
 import { Badge } from '@/shared/ui/components/badge';
-import { IconButton } from '@/shared/ui/components/icon-button';
+import { ToggleGroup, ToggleGroupItem } from '@/shared/ui/components/toggle-group';
 import { cn, getRarityColor, getRarityBorderColor, getRoleIcon } from '@/shared/lib/utils';
 import { Hero } from '@/shared/types';
 import { useHeroFiltering } from '../hooks/useHeroFiltering';
@@ -39,20 +39,14 @@ const Heroes: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <IconButton
-            variant={state.viewMode === 'grid' ? 'tonal' : 'default'}
-            onClick={() => actions.setViewMode('grid')}
-          >
-            <Grid3x3 className="w-5 h-5" />
-          </IconButton>
-          <IconButton
-            variant={state.viewMode === 'list' ? 'tonal' : 'default'}
-            onClick={() => actions.setViewMode('list')}
-          >
-            <List className="w-5 h-5" />
-          </IconButton>
-        </div>
+        <ToggleGroup type="single" value={state.viewMode} onValueChange={(v) => { if (v) actions.setViewMode(v as 'grid' | 'list'); }}>
+          <ToggleGroupItem value="grid" aria-label="Grid view">
+            <Grid3x3 className="h-4 w-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="list" aria-label="List view">
+            <List className="h-4 w-4" />
+          </ToggleGroupItem>
+        </ToggleGroup>
       </div>
 
       {/* Search and Filter Bar */}

@@ -2,7 +2,8 @@ import React from 'react';
 import { User, Shield, Server } from 'lucide-react';
 import { Faction } from '@/shared/types';
 import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
-import { cn } from '@/shared/lib/utils';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/shared/ui/components/select';
+import { Input } from '@/shared/ui/components/input';
 import { SettingItem } from './SettingItem';
 
 interface GameSettingsSectionProps {
@@ -13,9 +14,9 @@ interface GameSettingsSectionProps {
 }
 
 const factionOptions = [
-  { value: 'Nature', label: 'Nature', color: 'text-success-400' },
-  { value: 'League', label: 'League', color: 'text-primary-400' },
-  { value: 'Horde', label: 'Horde', color: 'text-error-400' },
+  { value: 'Nature', label: 'Nature' },
+  { value: 'League', label: 'League' },
+  { value: 'Horde', label: 'Horde' },
 ];
 
 export const GameSettingsSection: React.FC<GameSettingsSectionProps> = ({
@@ -39,22 +40,18 @@ export const GameSettingsSection: React.FC<GameSettingsSectionProps> = ({
           description="Used for hero recommendations"
           iconColor="text-tertiary-400"
         >
-          <select
-            value={mainFaction}
-            onChange={(e) => onFactionChange(e.target.value as Faction)}
-            className={cn(
-              'h-10 px-4 bg-surface-700 border border-border rounded-lg',
-              'text-label-lg font-medium',
-              'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
-              'cursor-pointer transition-all'
-            )}
-          >
-            {factionOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <Select value={mainFaction} onValueChange={(v) => onFactionChange(v as Faction)}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Select faction" />
+            </SelectTrigger>
+            <SelectContent>
+              {factionOptions.map(option => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </SettingItem>
 
         <SettingItem
@@ -63,16 +60,11 @@ export const GameSettingsSection: React.FC<GameSettingsSectionProps> = ({
           description="E.g., 100+, S5, etc."
           iconColor="text-gold-400"
         >
-          <input
+          <Input
             type="text"
             value={serverGroup}
             onChange={(e) => onServerGroupChange(e.target.value)}
-            className={cn(
-              'h-10 w-28 px-3 bg-surface-700 border border-border rounded-lg',
-              'text-label-lg font-medium text-center',
-              'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
-              'transition-all'
-            )}
+            className="w-28 text-center"
             placeholder="S1-10"
           />
         </SettingItem>
