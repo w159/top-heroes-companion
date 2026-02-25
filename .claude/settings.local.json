@@ -12,7 +12,13 @@
       "mcp__serena__check_onboarding_performed",
       "Bash(npm run build:*)",
       "Bash(find:*)",
-      "Bash(timeout 10 npm run dev:*)"
+      "Bash(timeout 10 npm run dev:*)",
+      "Bash(xargs basename:*)",
+      "WebFetch(domain:www.pocketgamer.com)",
+      "WebFetch(domain:topheroes1.fandom.com)",
+      "WebFetch(domain:topheroes.info)",
+      "WebFetch(domain:mobi.gg)",
+      "WebFetch(domain:www.allclash.com)"
     ]
   }
 }

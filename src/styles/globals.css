@@ -1,6 +1,6 @@
 /* ============================================
-   TOP HEROES COMPANION - GLOBAL STYLES
-   Tailwind CSS v4 + Material Design 3 Theme
+   TOP HEROES COMPANION — ARCANE FORGE THEME
+   Dark fantasy luxury meets modern precision
    ============================================ */
 
 @tailwind base;
@@ -15,7 +15,7 @@
   *,
   *::before,
   *::after {
-    border-color: rgb(70 71 74);
+    border-color: rgba(196, 170, 126, 0.15);
   }
 
   html {
@@ -25,54 +25,103 @@
   }
 
   body {
-    background-color: rgb(18 19 22);
-    color: rgb(227 226 230);
-    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background-color: #0a0908;
+    color: #e8e1d9;
+    font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
     font-size: 1rem;
-    line-height: 1.5;
-    letter-spacing: 0.5px;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
   }
 
-  /* Typography defaults */
-  h1, h2, h3, h4, h5, h6 {
+  /* Atmospheric noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+  }
+
+  /* Ambient radial glow from top */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    height: 60%;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(229, 168, 48, 0.04) 0%, transparent 70%);
+  }
+
+  /* Ensure content sits above texture */
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Typography — Display uses Cinzel Decorative */
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    color: #e8e1d9;
+  }
+
+  h2, h3 {
+    font-family: 'Cinzel', serif;
     font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: 0;
-    color: rgb(227 226 230);
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: #e8e1d9;
+  }
+
+  h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #e8e1d9;
   }
 
   a {
-    color: rgb(110 177 253);
+    color: #e5a830;
     text-decoration: none;
-    transition: color 150ms cubic-bezier(0.2, 0, 0, 1);
+    transition: color 200ms cubic-bezier(0.2, 0, 0, 1);
   }
 
   a:hover {
-    color: rgb(158 202 255);
+    color: #f7be4f;
   }
 
   ::selection {
-    background-color: rgb(46 123 197);
-    color: white;
+    background-color: rgba(229, 168, 48, 0.3);
+    color: #fdecc5;
   }
 
-  /* Focus styles */
   :focus-visible {
-    outline: 2px solid rgb(77 150 225);
+    outline: 2px solid rgba(229, 168, 48, 0.6);
     outline-offset: 2px;
   }
 }
 
 /* ============================================
-   SCROLLBAR STYLING
+   SCROLLBAR — Forged metal aesthetic
    ============================================ */
 
 @layer base {
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
@@ -80,17 +129,17 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: rgb(94 94 98);
+    background: linear-gradient(180deg, rgba(196, 170, 126, 0.25), rgba(196, 170, 126, 0.1));
     border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(118 119 122);
+    background: linear-gradient(180deg, rgba(196, 170, 126, 0.4), rgba(196, 170, 126, 0.2));
   }
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgb(94 94 98) transparent;
+    scrollbar-color: rgba(196, 170, 126, 0.2) transparent;
   }
 }
 
@@ -99,52 +148,92 @@
    ============================================ */
 
 @layer utilities {
-  /* Animation utilities */
+  /* Entry animations */
   .animate-in {
-    animation: fade-in 200ms cubic-bezier(0.2, 0, 0, 1);
+    animation: arcane-fade-in 0.5s cubic-bezier(0.05, 0.7, 0.1, 1.0) both;
   }
 
   .animate-in-up {
-    animation: fade-in-up 200ms cubic-bezier(0.2, 0, 0, 1);
+    animation: arcane-fade-in-up 0.6s cubic-bezier(0.05, 0.7, 0.1, 1.0) both;
   }
 
   .animate-in-scale {
-    animation: fade-in-scale 200ms cubic-bezier(0.2, 0, 0, 1);
+    animation: arcane-fade-in-scale 0.5s cubic-bezier(0.05, 0.7, 0.1, 1.0) both;
   }
 
-  /* Stagger animations for children */
+  /* Stagger cascade for children */
   .stagger-children > * {
-    animation: fade-in-up 300ms cubic-bezier(0.2, 0, 0, 1) backwards;
+    animation: arcane-fade-in-up 0.5s cubic-bezier(0.05, 0.7, 0.1, 1.0) backwards;
   }
   .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
-  .stagger-children > *:nth-child(2) { animation-delay: 50ms; }
-  .stagger-children > *:nth-child(3) { animation-delay: 100ms; }
-  .stagger-children > *:nth-child(4) { animation-delay: 150ms; }
-  .stagger-children > *:nth-child(5) { animation-delay: 200ms; }
-  .stagger-children > *:nth-child(6) { animation-delay: 250ms; }
-  .stagger-children > *:nth-child(7) { animation-delay: 300ms; }
-  .stagger-children > *:nth-child(8) { animation-delay: 350ms; }
+  .stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+  .stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+  .stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+  .stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+  .stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+  .stagger-children > *:nth-child(7) { animation-delay: 360ms; }
+  .stagger-children > *:nth-child(8) { animation-delay: 420ms; }
 
-  /* Gradient text */
+  /* Gradient text — Forge Fire */
   .text-gradient {
-    background: linear-gradient(135deg, rgb(110 177 253), rgb(187 163 200));
+    background: linear-gradient(135deg, #f7be4f 0%, #e5a830 40%, #c98d1d 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
+  /* Gradient text — Arcane Teal */
+  .text-gradient-teal {
+    background: linear-gradient(135deg, #7ae8d8 0%, #2bb8a6 50%, #1f9a8b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient text — Mystic Violet */
+  .text-gradient-violet {
+    background: linear-gradient(135deg, #d0b3ff 0%, #9966ff 50%, #7c44e6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Legacy gradient text — Gold (compatibility) */
   .text-gradient-gold {
-    background: linear-gradient(135deg, rgb(233 202 106), rgb(191 155 0));
+    background: linear-gradient(135deg, #f5cc6a 0%, #e8b63d 40%, #c99821 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Glass effect */
+  /* Glass — Obsidian smoke */
   .glass {
-    background: rgba(18, 19, 22, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(10, 9, 8, 0.75);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  }
+
+  /* Glass — Warm tint */
+  .glass-warm {
+    background: rgba(46, 32, 7, 0.4);
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  }
+
+  /* Forged border — subtle warm edge */
+  .border-forged {
+    border: 1px solid rgba(196, 170, 126, 0.12);
+  }
+
+  /* Glow border on hover */
+  .border-glow-hover {
+    border: 1px solid rgba(196, 170, 126, 0.08);
+    transition: border-color 300ms ease, box-shadow 300ms ease;
+  }
+
+  .border-glow-hover:hover {
+    border-color: rgba(229, 168, 48, 0.25);
+    box-shadow: 0 0 20px rgba(229, 168, 48, 0.06), inset 0 0 20px rgba(229, 168, 48, 0.02);
   }
 
   /* Hide scrollbar but keep functionality */
@@ -160,13 +249,42 @@
   .safe-area-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
+
+  /* Rune line decorative divider */
+  .rune-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196, 170, 126, 0.3), rgba(229, 168, 48, 0.5), rgba(196, 170, 126, 0.3), transparent);
+  }
+
+  /* Ornamental corner accents */
+  .corner-accent::before,
+  .corner-accent::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: rgba(229, 168, 48, 0.3);
+    pointer-events: none;
+  }
+  .corner-accent::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+  .corner-accent::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
 }
 
 /* ============================================
    ANIMATIONS
    ============================================ */
 
-@keyframes fade-in {
+@keyframes arcane-fade-in {
   from {
     opacity: 0;
   }
@@ -175,10 +293,10 @@
   }
 }
 
-@keyframes fade-in-up {
+@keyframes arcane-fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -186,10 +304,10 @@
   }
 }
 
-@keyframes fade-in-scale {
+@keyframes arcane-fade-in-scale {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.94);
   }
   to {
     opacity: 1;
@@ -228,6 +346,29 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@keyframes ember-drift {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(-100px) translateX(30px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes border-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ============================================

@@ -1,21 +1,37 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { EVENTS } from '../../../shared/types/constants';
-import { GameEvent } from '../../../shared/types';
-import { getEventState, getTimeUntilReset, useUserData } from '../../../shared/utils';
-import { recommendEventStrategies } from '../../../shared/utils/recommendations';
+import { GameEvent, SpendProfile } from '../../../shared/types/types';
+import { getEventState, getTimeUntilReset, getTimeUntilEvent, sortEventsByNextOccurrence, useUserData } from '../../../shared/utils';
 import {
-  Calendar, Clock, AlertTriangle, CheckCircle,
-  ChevronDown, ChevronUp, Sword, Hammer,
-  UserPlus, Zap, Info, Target, List, Gift, Trophy, CheckSquare, Square
+  Calendar, Clock, AlertTriangle, CheckCircle, ChevronDown, ChevronUp,
+  Sword, Hammer, UserPlus, Zap, Info, Target, Trophy, CheckSquare,
+  Square, Star, Shield, Flame, Users, Gift, BookOpen, Sparkles,
+  TrendingUp, Award, Lock, Unlock, ChevronRight, Circle, Play,
+  Coins, Gem, Swords, Crown, Skull, Heart, Zap as Lightning,
+  MapPin, Timer, Hourglass, AlertCircle, TrendingDown, BarChart3,
+  Percent, ArrowUp, ArrowRight, Package, Layers, Filter
 } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
+import { Button } from '../../../shared/ui/components/button';
+import { Badge } from '../../../shared/ui/components/badge';
+import { Chip } from '../../../shared/ui/components/chip';
+import { cn } from '../../../shared/lib/utils';
+import ScoringTable from '../components/ScoringTable';
+import StockpileTracker from '../components/StockpileTracker';
+import ResourceConflictAlert from '../components/ResourceConflictAlert';
+import { getResourceConflicts } from '../../../data/eventScoringData';
+import './events.css';
+
+type EventTab = 'active' | 'upcoming' | 'seasonal';
 
 const Events: React.FC = () => {
   const { data } = useUserData();
-  const [activeTab, setActiveTab] = useState<'active' | 'library'>('active');
-  const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
-  const [checkedTasks, setCheckedTasks] = useState<Record<string, boolean>>({});
+  const [activeTab, setActiveTab] = useState<EventTab>('active');
+  const [expandedEventId, setExpandedEventId] = useState<string | null>('guild-arms-race');
+  const [expandedPhases, setExpandedPhases] = useState<Record<string, boolean>>({});
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const [resetCountdown, setResetCountdown] = useState<string>(getTimeUntilReset());
+  const [spendProfile, setSpendProfile] = useState<SpendProfile>(data?.settings?.mainFaction ? 'F2P' : 'F2P');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -24,287 +40,675 @@ const Events: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const activeEventsWithState = EVENTS.map(e => ({ ...e, state: getEventState(e) })).filter(e => e.state.isActive);
-  const inactiveEvents = EVENTS.filter(e => !getEventState(e).isActive);
+  const sortedEvents = sortEventsByNextOccurrence(EVENTS);
+  const activeEvents = sortedEvents.filter(e => e.isActive);
+  const inactiveEvents = sortedEvents.filter(e => !e.isActive);
+  const seasonalEvents = sortedEvents.filter(e => e.type === 'Seasonal');
 
-  const eventStrategies = React.useMemo(
-    () => recommendEventStrategies(data, EVENTS),
-    [data],
-  );
+  const resourceConflicts = useMemo(() => {
+    const allEventIds = sortedEvents.filter(e => e.scoringDataKey).map(e => e.scoringDataKey!);
+    return getResourceConflicts(allEventIds);
+  }, [sortedEvents]);
+
+  const currentEvents = useMemo(() => {
+    switch (activeTab) {
+      case 'active': return activeEvents;
+      case 'upcoming': return inactiveEvents;
+      case 'seasonal': return seasonalEvents;
+      default: return activeEvents;
+    }
+  }, [activeTab, activeEvents, inactiveEvents, seasonalEvents]);
 
   const toggleEvent = (id: string) => {
-      setExpandedEventId(expandedEventId === id ? null : id);
+    setExpandedEventId(expandedEventId === id ? null : id);
   };
 
-  const toggleTask = (taskId: string) => {
-    setCheckedTasks(prev => ({ ...prev, [taskId]: !prev[taskId] }));
+  const togglePhase = (eventId: string, phaseIdx: number) => {
+    const key = `${eventId}-${phaseIdx}`;
+    setExpandedPhases(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const getEventIcon = (name: string) => {
-      if (name.includes('Arms')) return <Sword className="text-orange-400" size={20} />;
-      if (name.includes('Ruins') || name.includes('War')) return <Hammer className="text-blue-400" size={20} />;
-      if (name.includes('Recruitment') || name.includes('Pet')) return <UserPlus className="text-green-400" size={20} />;
-      if (name.includes('Boss') || name.includes('Lava')) return <Target className="text-red-400" size={20} />;
-      return <Calendar className="text-gray-400" size={20} />;
+  const toggleCheckItem = (key: string) => {
+    setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Fixed: Added React.FC typing to EventCard to resolve 'key' prop TypeScript errors in JSX
-  const EventCard: React.FC<{ event: GameEvent & { state?: ReturnType<typeof getEventState> }, isActiveView: boolean }> = ({ event, isActiveView }) => {
-      const isExpanded = expandedEventId === event.id || (isActiveView && event.state?.isActive);
-      const activePhaseIdx = event.state?.activePhaseIndex ?? -1;
+  const getEventIcon = (event: GameEvent) => {
+    const name = event.name.toLowerCase();
+    if (name.includes('arms') || name.includes('war')) return Swords;
+    if (name.includes('battlefield') || name.includes('glory')) return Target;
+    if (name.includes('boss')) return Flame;
+    if (name.includes('arena')) return Trophy;
+    if (name.includes('chess')) return Layers;
+    if (name.includes('kingdom')) return Crown;
+    if (name.includes('dark') || name.includes('invasion')) return Skull;
+    if (name.includes('loot') || name.includes('wheel') || name.includes('dice')) return Gift;
+    if (name.includes('bounty') || name.includes('hunt')) return BookOpen;
+    return Calendar;
+  };
 
-      return (
-          <div className={`bg-bg-secondary border rounded-xl overflow-hidden transition-all duration-300 ${isActiveView ? 'border-yellow-500/50 shadow-lg shadow-yellow-900/10' : 'border-border hover:border-gray-600'}`}>
-          <div
-                className="p-5 cursor-pointer flex justify-between items-start"
-                onClick={() => toggleEvent(event.id)}
-              >
-                  <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-lg ${isActiveView ? 'bg-yellow-500/20 text-yellow-400' : 'bg-gray-700/50 text-gray-400'}`}>
-                          {getEventIcon(event.name)}
-                      </div>
-                      <div>
-                          <h2 className="text-xl font-bold text-white flex items-center">
-                              {event.name}
-                              {isActiveView && <span className="ml-3 text-xs bg-yellow-600 text-white px-2 py-0.5 rounded-full animate-pulse">LIVE</span>}
-                          </h2>
-                          <div className="flex items-center space-x-2 mt-1">
-                            <span className="text-sm text-gray-500">{event.type} Event</span>
-                            {event.scheduleType === 'Weekly-UTC' && <span className="text-[10px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded flex items-center"><Clock size={10} className="mr-1"/> UTC Cycle</span>}
-                          </div>
-                      </div>
+  const getEventColorClass = (event: GameEvent) => {
+    if (event.isActive) return {
+      border: 'border-primary-500',
+      bg: 'bg-primary-500/10',
+      text: 'text-primary-400',
+      gradient: 'from-primary-500 to-primary-600',
+      glow: 'shadow-primary-500/30'
+    };
+
+    if (event.type === 'Guild') return {
+      border: 'border-tertiary-500',
+      bg: 'bg-tertiary-500/10',
+      text: 'text-tertiary-400',
+      gradient: 'from-tertiary-500 to-tertiary-600',
+      glow: 'shadow-tertiary-500/30'
+    };
+
+    if (event.type === 'PvP' || event.type === 'PvP Arena' || event.type === 'Server War') return {
+      border: 'border-error-500',
+      bg: 'bg-error-500/10',
+      text: 'text-error-400',
+      gradient: 'from-error-500 to-error-600',
+      glow: 'shadow-error-500/30'
+    };
+
+    if (event.type === 'Seasonal') return {
+      border: 'border-gold-500',
+      bg: 'bg-gold-500/10',
+      text: 'text-gold-400',
+      gradient: 'from-gold-500 to-gold-600',
+      glow: 'shadow-gold-500/30'
+    };
+
+    return {
+      border: 'border-success-500',
+      bg: 'bg-success-500/10',
+      text: 'text-success-400',
+      gradient: 'from-success-500 to-success-600',
+      glow: 'shadow-success-500/30'
+    };
+  };
+
+  const renderPhaseContent = (event: GameEvent, phase: any, phaseIdx: number, colors: ReturnType<typeof getEventColorClass>) => {
+    const phaseKey = `${event.id}-${phaseIdx}`;
+    const isPhaseExpanded = expandedPhases[phaseKey];
+
+    return (
+      <div
+        key={phaseIdx}
+        className={cn(
+          'rounded-xl border-2 overflow-hidden transition-all duration-300',
+          event.criticalDays?.includes(phaseIdx + 1)
+            ? 'border-gold-500/50 bg-gold-500/5'
+            : 'border-border bg-surface-900/50'
+        )}
+      >
+        {/* Phase Header */}
+        <button
+          onClick={() => togglePhase(event.id, phaseIdx)}
+          className="w-full flex items-center justify-between p-4 hover:bg-surface-800/50 transition-colors"
+        >
+          <div className="flex items-center gap-4">
+            {/* Phase Number Badge */}
+            <div className={cn(
+              'relative w-12 h-12 rounded-lg flex items-center justify-center',
+              'bg-gradient-to-br font-bold text-lg text-white',
+              colors.gradient
+            )}>
+              {phaseIdx + 1}
+              {event.criticalDays?.includes(phaseIdx + 1) && (
+                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gold-500 flex items-center justify-center animate-pulse">
+                  <Star className="w-3 h-3 text-white" />
+                </div>
+              )}
+            </div>
+
+            <div className="text-left">
+              <h5 className="text-title-md font-semibold">{phase.name}</h5>
+              {event.criticalDays?.includes(phaseIdx + 1) && (
+                <Badge variant="warning" size="sm" className="mt-1">HIGH VALUE</Badge>
+              )}
+            </div>
+          </div>
+
+          <ChevronRight className={cn(
+            'w-5 h-5 text-muted-foreground transition-transform duration-300',
+            isPhaseExpanded && 'rotate-90'
+          )} />
+        </button>
+
+        {/* Phase Content */}
+        {isPhaseExpanded && (
+          <div className="p-4 pt-0 space-y-4 animate-in">
+            <p className={cn(
+              'text-body-md text-muted-foreground pl-4 border-l-2',
+              colors.border
+            )}>
+              {phase.description}
+            </p>
+
+            {/* Preparation Section */}
+            {phase.preparation && phase.preparation.length > 0 && (
+              <div className="bg-warning-500/10 border border-warning-500/30 rounded-xl p-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-warning-500 flex items-center justify-center">
+                    <AlertTriangle className="w-5 h-5 text-white" />
                   </div>
-                  <button className="text-gray-400 mt-2">
-                      {isExpanded ? <ChevronUp size={20}/> : <ChevronDown size={20}/>}
-                  </button>
+                  <h6 className="text-label-lg font-semibold text-warning-400 uppercase tracking-wider">
+                    Prepare BEFORE This Phase
+                  </h6>
+                </div>
+
+                <div className="space-y-2">
+                  {phase.preparation.map((item: string, prepIdx: number) => {
+                    const prepKey = `${phaseKey}-prep-${prepIdx}`;
+                    const isChecked = checkedItems[prepKey];
+
+                    return (
+                      <button
+                        key={prepIdx}
+                        onClick={() => toggleCheckItem(prepKey)}
+                        className={cn(
+                          'w-full flex items-start gap-3 p-3 rounded-lg transition-all text-left',
+                          'border border-warning-500/20 hover:border-warning-500/40',
+                          isChecked ? 'bg-surface-900/60 opacity-60' : 'bg-surface-900/30'
+                        )}
+                      >
+                        <div className="mt-0.5">
+                          {isChecked ? (
+                            <CheckCircle className="w-5 h-5 text-warning-500" />
+                          ) : (
+                            <Circle className="w-5 h-5 text-warning-500/50" />
+                          )}
+                        </div>
+                        <span className={cn(
+                          'text-body-md',
+                          isChecked && 'line-through text-muted-foreground'
+                        )}>
+                          {item}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Key Tasks Section */}
+            {phase.keyTasks && phase.keyTasks.length > 0 && (
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <Target className={cn('w-5 h-5', colors.text)} />
+                  <h6 className="text-label-lg font-semibold uppercase tracking-wider">
+                    During This Phase - Execute
+                  </h6>
+                </div>
+
+                <div className="space-y-2">
+                  {phase.keyTasks.map((task: string, taskIdx: number) => {
+                    const taskKey = `${phaseKey}-task-${taskIdx}`;
+                    const isChecked = checkedItems[taskKey];
+
+                    return (
+                      <button
+                        key={taskIdx}
+                        onClick={() => toggleCheckItem(taskKey)}
+                        className={cn(
+                          'w-full flex items-start gap-3 p-3 rounded-lg transition-all text-left',
+                          'border-l-2 bg-surface-800/30 hover:bg-surface-800/50',
+                          colors.border,
+                          isChecked && 'opacity-50'
+                        )}
+                      >
+                        <div className="mt-0.5">
+                          {isChecked ? (
+                            <CheckSquare className={cn('w-4 h-4', colors.text)} />
+                          ) : (
+                            <Square className="w-4 h-4 text-muted-foreground" />
+                          )}
+                        </div>
+                        <span className={cn(
+                          'text-body-sm',
+                          isChecked && 'line-through text-muted-foreground'
+                        )}>
+                          {task}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Scoring Table */}
+            {phase.scoringActions && phase.scoringActions.length > 0 && (
+              <ScoringTable
+                actions={phase.scoringActions}
+                dayName={phase.name}
+                victoryPoints={phase.victoryPoints}
+                doNotDo={phase.doNotDo}
+                exploits={phase.exploits}
+                spendProfile={spendProfile}
+              />
+            )}
+
+            {/* Stockpile Targets */}
+            {phase.stockpileTargets && phase.stockpileTargets.length > 0 && (
+              <StockpileTracker
+                items={phase.stockpileTargets}
+                eventName={event.name}
+              />
+            )}
+
+            {/* Legacy Points Strategy (fallback for phases without scoring tables) */}
+            {phase.pointsStrategy && (!phase.scoringActions || phase.scoringActions.length === 0) && (
+              <div className="bg-primary-500/10 border border-primary-500/30 rounded-xl p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <TrendingUp className="w-5 h-5 text-primary-400" />
+                  <h6 className="text-label-lg font-semibold text-primary-400 uppercase tracking-wider">
+                    Points Strategy & Optimization
+                  </h6>
+                </div>
+                <pre className="text-body-sm text-muted-foreground whitespace-pre-wrap">
+                  {phase.pointsStrategy}
+                </pre>
+              </div>
+            )}
+
+            {/* Pro Tips */}
+            {phase.tips && phase.tips.length > 0 && (
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <Sparkles className="w-5 h-5 text-tertiary-400" />
+                  <h6 className="text-label-lg font-semibold text-tertiary-400 uppercase tracking-wider">
+                    Pro Tips & Advanced Tactics
+                  </h6>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {phase.tips.map((tip: string, tipIdx: number) => (
+                    <div
+                      key={tipIdx}
+                      className="flex items-start gap-3 p-3 bg-tertiary-500/10 border border-tertiary-500/20 rounded-lg"
+                    >
+                      <Lightning className="w-4 h-4 text-tertiary-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-body-sm text-muted-foreground">{tip}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderEventCard = (event: GameEvent) => {
+    const Icon = getEventIcon(event);
+    const colors = getEventColorClass(event);
+    const isExpanded = expandedEventId === event.id;
+    const eventState = getEventState(event);
+
+    return (
+      <Card
+        key={event.id}
+        variant="filled"
+        className={cn(
+          'overflow-hidden transition-all duration-300 border-2',
+          colors.border,
+          isExpanded && `shadow-lg ${colors.glow}`,
+          event.isActive && 'ring-2 ring-primary-500/30'
+        )}
+      >
+        {/* Card Header - Clickable */}
+        <button
+          onClick={() => toggleEvent(event.id)}
+          className={cn(
+            'w-full p-4 sm:p-6 flex items-center justify-between gap-4',
+            colors.bg,
+            'hover:brightness-110 transition-all text-left'
+          )}
+        >
+          <div className="flex items-center gap-4 flex-1 min-w-0">
+            {/* Large Icon */}
+            <div className={cn(
+              'relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center flex-shrink-0',
+              'bg-gradient-to-br',
+              colors.gradient
+            )}>
+              <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+              {event.isActive && (
+                <div className="absolute inset-0 rounded-2xl animate-ping opacity-30 bg-current" />
+              )}
+            </div>
+
+            <div className="flex-1 min-w-0">
+              {/* Title Row */}
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <h3 className="text-title-lg sm:text-headline-sm font-bold truncate">
+                  {event.name}
+                </h3>
+                {event.isActive && (
+                  <Badge variant="primary" size="sm" className="animate-pulse">
+                    <Lightning className="w-3 h-3" />
+                    LIVE
+                  </Badge>
+                )}
+                {event.criticalDays && event.criticalDays.length > 0 && (
+                  <Badge variant="warning" size="sm">
+                    <Star className="w-3 h-3" />
+                    HIGH VALUE
+                  </Badge>
+                )}
               </div>
 
-              {isExpanded && (
-                  <div className="px-5 pb-6 border-t border-gray-800/50 pt-4 animate-in slide-in-from-top-2">
-                      <p className="text-gray-400 mb-6 text-sm leading-relaxed">
-                          {event.description}
-                      </p>
-
-                      {isActiveView && activePhaseIdx !== -1 && event.phases && event.phases[activePhaseIdx] && (
-                          <div className="mb-8 bg-blue-900/10 border border-blue-500/20 rounded-xl p-5 relative overflow-hidden group">
-                              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-                                <Zap size={80} className="text-blue-500" />
-                              </div>
-                              <h3 className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-3 flex items-center">
-                                  <Clock size={14} className="mr-2" /> ACTIVE NOW: {event.phases[activePhaseIdx].name}
-                              </h3>
-                              <p className="text-white text-lg font-bold mb-2">{event.phases[activePhaseIdx].description}</p>
-
-                              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                  <div className="text-[10px] uppercase font-bold text-gray-500">Key Tasks</div>
-                                  <ul className="space-y-1">
-                                    {event.phases[activePhaseIdx].keyTasks.map((t, i) => (
-                                      <li key={i} className="text-sm text-gray-300 flex items-center">
-                                        <CheckCircle size={14} className="text-blue-500 mr-2" /> {t}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                                <div className="space-y-2">
-                                  <div className="text-[10px] uppercase font-bold text-gray-500">Strategy</div>
-                                  <p className="text-sm text-yellow-400/90 italic font-medium">{event.phases[activePhaseIdx].pointsStrategy}</p>
-                                </div>
-                              </div>
-                          </div>
-                      )}
-
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2 space-y-6">
-                          {event.phases && (
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 flex items-center">
-                                    <List size={16} className="mr-2" /> Schedule & Tips
-                                </h3>
-                                <div className="space-y-3">
-                                    {event.phases.map((phase, idx) => {
-                                        const isCurrent = isActiveView && activePhaseIdx === idx;
-                                        return (
-                                          <div
-                                            key={idx}
-                                              className={`p-4 rounded-lg border transition-all ${isCurrent ? 'bg-blue-900/10 border-blue-500/40 shadow-inner' : 'bg-bg-tertiary border-gray-700 opacity-60 hover:opacity-100'}`}
-                                            >
-                                                <div className="flex justify-between items-center mb-1">
-                                                    <span className={`font-bold ${isCurrent ? 'text-blue-400' : 'text-gray-300'}`}>{phase.name}</span>
-                                                    {isCurrent && <span className="text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded font-mono animate-pulse">CURRENT</span>}
-                                                </div>
-                                                <p className="text-xs text-gray-500 mb-3">{phase.description}</p>
-
-                                                {phase.tips && (
-                                                   <div className="bg-black/20 p-3 rounded border border-gray-800/50">
-                                                      <div className="flex items-center text-[10px] font-bold text-blue-400 mb-1 uppercase"><Info size={10} className="mr-1"/> Pro Tips</div>
-                                                      <ul className="space-y-1">
-                                                        {phase.tips.map((t, i) => (
-                                                          <li key={i} className="text-[11px] text-gray-400 flex items-start">
-                                                            <div className="w-1 h-1 rounded-full bg-blue-500 mt-1.5 mr-2 flex-shrink-0"></div>
-                                                            {t}
-                                                          </li>
-                                                        ))}
-                                                      </ul>
-                                                   </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="space-y-6">
-                          {event.preparationChecklist && (
-                              <div className="bg-bg-tertiary rounded-xl p-5 border border-orange-500/20">
-                                  <h3 className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-4 flex items-center">
-                                      <CheckSquare size={16} className="mr-2" /> Prep Checklist
-                                  </h3>
-                                  <ul className="space-y-3">
-                                      {event.preparationChecklist.map((item, idx) => {
-                                          const taskId = `${event.id}-task-${idx}`;
-                                          const isChecked = checkedTasks[taskId];
-                                          return (
-                                            <li
-                                              key={idx}
-                                                onClick={() => toggleTask(taskId)}
-                                                className={`flex items-start text-xs cursor-pointer select-none transition-colors ${isChecked ? 'text-gray-600' : 'text-gray-300 hover:text-white'}`}
-                                              >
-                                                  {isChecked ? <CheckSquare size={16} className="text-orange-500 mr-3 flex-shrink-0" /> : <Square size={16} className="text-gray-600 mr-3 flex-shrink-0" />}
-                                                  <span className={isChecked ? 'line-through' : ''}>{item}</span>
-                                              </li>
-                                          );
-                                      })}
-                                  </ul>
-                              </div>
-                          )}
-
-                          {event.rewardsHighlight && (
-                              <div className="bg-bg-tertiary rounded-xl p-5 border border-green-500/20">
-                                  <h3 className="text-xs font-bold text-green-400 uppercase tracking-widest mb-4 flex items-center">
-                                      <Gift size={16} className="mr-2" /> Expected Rewards
-                                  </h3>
-                                  <div className="flex flex-wrap gap-2">
-                                      {event.rewardsHighlight.map((reward, idx) => (
-                                          <div key={idx} className="flex items-center px-2.5 py-1.5 bg-green-900/10 border border-green-900/30 rounded text-[11px] text-green-300 font-medium">
-                                              <Trophy size={10} className="mr-1.5 opacity-50"/>
-                                              {reward}
-                                          </div>
-                                      ))}
-                                  </div>
-                              </div>
-                          )}
-                        </div>
-                      </div>
-                  </div>
-              )}
+              {/* Meta Tags */}
+              <div className="flex flex-wrap gap-2">
+                <Chip variant="assist" size="sm">
+                  <Shield className="w-3 h-3" />
+                  {event.type}
+                </Chip>
+                {event.frequency && (
+                  <Chip variant="assist" size="sm">
+                    <Clock className="w-3 h-3" />
+                    {event.frequency}
+                  </Chip>
+                )}
+                {event.nextOccurrence && (
+                  <Chip variant="filter" selected size="sm" className={colors.text}>
+                    <Timer className="w-3 h-3" />
+                    {event.isActive ? 'Active Now' : getTimeUntilEvent(event.nextOccurrence)}
+                  </Chip>
+                )}
+              </div>
+            </div>
           </div>
-      );
+
+          {/* Expand Button */}
+          <div className={cn(
+            'w-12 h-12 rounded-xl border-2 flex items-center justify-center flex-shrink-0',
+            'transition-all hover:scale-105',
+            colors.border,
+            colors.bg
+          )}>
+            {isExpanded ? (
+              <ChevronUp className={cn('w-6 h-6', colors.text)} />
+            ) : (
+              <ChevronDown className={cn('w-6 h-6', colors.text)} />
+            )}
+          </div>
+        </button>
+
+        {/* Card Body - Expanded Content */}
+        {isExpanded && (
+          <CardContent className="p-4 sm:p-6 space-y-6 animate-in border-t border-border">
+            {/* F2P / Whale Toggle */}
+            <div className="flex items-center gap-2">
+              <span className="text-label-sm text-muted-foreground uppercase tracking-wider">Strategy for:</span>
+              {(['F2P', 'LowSpender', 'Whale'] as SpendProfile[]).map(profile => (
+                <button
+                  key={profile}
+                  onClick={() => setSpendProfile(profile)}
+                  className={cn(
+                    'px-3 py-1.5 rounded-lg text-label-sm font-semibold transition-all',
+                    spendProfile === profile
+                      ? profile === 'Whale'
+                        ? 'bg-gold-500/20 text-gold-400 border border-gold-500/50'
+                        : profile === 'LowSpender'
+                          ? 'bg-tertiary-500/20 text-tertiary-400 border border-tertiary-500/50'
+                          : 'bg-success-500/20 text-success-400 border border-success-500/50'
+                      : 'bg-surface-800 text-muted-foreground border border-border hover:border-primary-500/30'
+                  )}
+                >
+                  {profile === 'LowSpender' ? 'Low Spender' : profile}
+                </button>
+              ))}
+            </div>
+
+            {/* Resource Conflict Alerts */}
+            {event.scoringDataKey && resourceConflicts.length > 0 && (
+              <ResourceConflictAlert conflicts={resourceConflicts} />
+            )}
+
+            {/* Description */}
+            <div className={cn('flex gap-4 p-4 rounded-xl border-l-4', colors.bg, colors.border)}>
+              <div className={cn(
+                'w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0',
+                'bg-gradient-to-br',
+                colors.gradient
+              )}>
+                <Info className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-body-md text-muted-foreground leading-relaxed">
+                {event.description}
+              </p>
+            </div>
+
+            {/* Stats Grid */}
+            {(event.duration || event.preparationTime || event.criticalDays) && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {event.duration && (
+                  <div className="flex items-center gap-4 p-4 bg-surface-800 rounded-xl border border-border">
+                    <div className="w-11 h-11 rounded-lg bg-primary-500/20 flex items-center justify-center">
+                      <Hourglass className="w-5 h-5 text-primary-400" />
+                    </div>
+                    <div>
+                      <p className="text-label-sm text-muted-foreground uppercase tracking-wider">Duration</p>
+                      <p className="text-title-md font-semibold">{event.duration}</p>
+                    </div>
+                  </div>
+                )}
+                {event.preparationTime && (
+                  <div className="flex items-center gap-4 p-4 bg-warning-500/10 rounded-xl border border-warning-500/30">
+                    <div className="w-11 h-11 rounded-lg bg-warning-500/20 flex items-center justify-center">
+                      <AlertCircle className="w-5 h-5 text-warning-400" />
+                    </div>
+                    <div>
+                      <p className="text-label-sm text-muted-foreground uppercase tracking-wider">Prep Time</p>
+                      <p className="text-title-md font-semibold text-warning-400">{event.preparationTime}</p>
+                    </div>
+                  </div>
+                )}
+                {event.criticalDays && event.criticalDays.length > 0 && (
+                  <div className="flex items-center gap-4 p-4 bg-gold-500/10 rounded-xl border border-gold-500/30">
+                    <div className="w-11 h-11 rounded-lg bg-gold-500/20 flex items-center justify-center">
+                      <Star className="w-5 h-5 text-gold-400" />
+                    </div>
+                    <div>
+                      <p className="text-label-sm text-muted-foreground uppercase tracking-wider">Critical Days</p>
+                      <p className="text-title-md font-semibold text-gold-400">
+                        {event.criticalDays.map(d => `Day ${d}`).join(', ')}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Active Phase Banner */}
+            {event.isActive && eventState.isActive && event.phases && eventState.activePhaseIndex >= 0 && (
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary-500/20 to-primary-600/10 border-2 border-primary-500 p-6">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Play className="w-5 h-5 text-primary-400" />
+                    <span className="text-label-lg font-bold text-primary-400 uppercase tracking-widest">
+                      ACTIVE NOW
+                    </span>
+                  </div>
+                  <h4 className="text-headline-sm font-bold mb-2">
+                    {event.phases[eventState.activePhaseIndex].name}
+                  </h4>
+                  <p className="text-body-md text-muted-foreground">
+                    {event.phases[eventState.activePhaseIndex].description}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Phases Timeline */}
+            {event.phases && event.phases.length > 0 && (
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <Calendar className={cn('w-6 h-6', colors.text)} />
+                  <h4 className="text-title-lg font-bold">Event Phases & Strategy</h4>
+                  <div className={cn('flex-1 h-0.5 rounded', colors.bg)} />
+                </div>
+
+                <div className="space-y-3">
+                  {event.phases.map((phase, idx) => renderPhaseContent(event, phase, idx, colors))}
+                </div>
+              </div>
+            )}
+
+            {/* Rewards Section */}
+            {event.rewardsHighlight && event.rewardsHighlight.length > 0 && (
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <Trophy className="w-6 h-6 text-success-400" />
+                  <h4 className="text-title-lg font-bold">Rewards & Incentives</h4>
+                  <div className="flex-1 h-0.5 rounded bg-success-500/20" />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {event.rewardsHighlight.map((reward, idx) => (
+                    <div
+                      key={idx}
+                      className="group flex items-center gap-3 p-4 bg-success-500/10 border border-success-500/30 rounded-xl hover:border-success-500/50 hover:shadow-lg hover:shadow-success-500/20 transition-all"
+                    >
+                      <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-success-500 to-success-600 flex items-center justify-center">
+                        <Gift className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="text-body-md font-medium">{reward}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </CardContent>
+        )}
+      </Card>
+    );
   };
 
+  const tabData = [
+    { id: 'active' as EventTab, icon: Lightning, label: 'Active', count: activeEvents.length },
+    { id: 'upcoming' as EventTab, icon: Hourglass, label: 'Upcoming', count: inactiveEvents.length },
+    { id: 'seasonal' as EventTab, icon: Star, label: 'Seasonal', count: seasonalEvents.length },
+  ];
+
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center bg-bg-secondary p-6 rounded-2xl border border-border shadow-xl">
-          <div className="mb-4 lg:mb-0">
-            <h1 className="text-3xl font-display font-bold text-white tracking-tight">Event Command Center</h1>
-            <p className="text-gray-500 text-sm mt-1">Detailed strategy library for Kingdom Saga commanders.</p>
-          </div>
-          <div className="flex flex-col items-end">
-            <div className="text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-1 flex items-center">
-              <Clock size={12} className="mr-1"/> Time to Daily Reset
-            </div>
-            <div className="text-2xl font-mono font-bold text-white tabular-nums bg-black/30 px-4 py-2 rounded-lg border border-gray-800">
-              {resetCountdown}
-            </div>
-          </div>
-      </div>
+    <div className="space-y-6 animate-in">
+      {/* Header */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-tertiary-500/20 via-primary-500/10 to-secondary-500/20 border border-tertiary-500/30 p-6 sm:p-8">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-tertiary-500/30 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-primary-500/20 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
-      <div className="bg-bg-secondary p-4 rounded-2xl border border-border flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
-            <Target size={14} className="mr-1" /> Recommended focus
-          </div>
-          {eventStrategies.length === 0 ? (
-            <p className="text-xs text-gray-400">Event data not available yet.</p>
-          ) : (
-            <>
-              <p className="text-sm text-gray-200">
-                {eventStrategies
-                  .filter(s => s.priority === 'High')
-                  .slice(0, 1)
-                  .map(s => s.focus)[0] || eventStrategies[0].focus}
+        <div className="relative z-10">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-6">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-tertiary-500 to-primary-500 flex items-center justify-center shadow-lg shadow-tertiary-500/30">
+              <Swords className="w-10 h-10 text-white" />
+            </div>
+            <div>
+              <h1 className="text-headline-lg sm:text-display-sm font-bold bg-gradient-to-r from-white via-tertiary-300 to-primary-300 bg-clip-text text-transparent">
+                Event Command Center
+              </h1>
+              <p className="text-body-md text-muted-foreground mt-1">
+                Tactical briefings • Strategic planning • Victory optimization
               </p>
-              <ul className="mt-1 text-xs text-gray-400 list-disc list-inside space-y-0.5">
-                {eventStrategies
-                  .filter(s => s.priority === 'High')
-                  .flatMap(s => s.actions.slice(0, 2))
-                  .slice(0, 3)
-                  .map(item => (
-                    <li key={item}>{item}</li>
-                  ))}
-              </ul>
-            </>
-          )}
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Card variant="filled" className="p-4 border border-border/50 hover:border-primary-500/50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-primary-400" />
+                </div>
+                <div>
+                  <p className="text-label-sm text-muted-foreground uppercase tracking-wider">Next Reset</p>
+                  <p className="text-title-lg font-bold font-mono">{resetCountdown}</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card variant="filled" className="p-4 border border-primary-500/30 hover:border-primary-500/50 transition-colors shadow-sm shadow-primary-500/20">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center animate-pulse">
+                  <Lightning className="w-6 h-6 text-primary-400" />
+                </div>
+                <div>
+                  <p className="text-label-sm text-muted-foreground uppercase tracking-wider">Active Events</p>
+                  <p className="text-title-lg font-bold text-primary-400">{activeEvents.length}</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card variant="filled" className="p-4 border border-gold-500/30 hover:border-gold-500/50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gold-500/20 flex items-center justify-center">
+                  <Calendar className="w-6 h-6 text-gold-400" />
+                </div>
+                <div>
+                  <p className="text-label-sm text-muted-foreground uppercase tracking-wider">Upcoming</p>
+                  <p className="text-title-lg font-bold text-gold-400">{inactiveEvents.length}</p>
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {eventStrategies
-            .filter(s => s.priority === 'High')
-            .slice(0, 3)
-            .map(s => (
-              <span
-                key={s.eventId}
-                className="px-2 py-1 rounded-full text-[11px] bg-blue-900/30 border border-blue-500/40 text-blue-300 font-medium"
+      </div>
+
+      {/* Tabs */}
+      <Card variant="filled" className="p-2">
+        <div className="flex gap-2">
+          {tabData.map(tab => {
+            const TabIcon = tab.icon;
+            const isActive = activeTab === tab.id;
+
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={cn(
+                  'flex-1 flex items-center justify-center gap-2 sm:gap-3 px-4 py-3 rounded-xl',
+                  'text-label-lg font-semibold transition-all',
+                  isActive
+                    ? 'bg-gradient-to-r from-primary-500/20 to-tertiary-500/20 border-2 border-primary-500 text-foreground shadow-lg shadow-primary-500/20'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-surface-700'
+                )}
               >
-                {s.eventName}
-              </span>
-            ))}
+                <TabIcon className={cn('w-5 h-5', isActive && 'text-primary-400')} />
+                <span className="hidden sm:inline">{tab.label}</span>
+                <Badge
+                  variant={isActive ? 'primary' : 'default'}
+                  size="sm"
+                  className={cn(!isActive && 'bg-surface-700')}
+                >
+                  {tab.count}
+                </Badge>
+              </button>
+            );
+          })}
         </div>
-      </div>
+      </Card>
 
-      <div className="flex space-x-1 bg-bg-secondary p-1 rounded-xl w-fit border border-border">
-        <button
-            onClick={() => setActiveTab('active')}
-            className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'active' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}
-          >
-              Live Events
-          </button>
-        <button
-            onClick={() => setActiveTab('library')}
-            className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'library' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}
-          >
-              Global Strategy
-          </button>
-      </div>
-
-      <div className="space-y-6">
-          {activeTab === 'active' ? (
-              activeEventsWithState.length > 0 ? (
-                activeEventsWithState.map(event => <EventCard key={event.id} event={event} isActiveView={true} />)
-              ) : (
-                  <div className="text-center py-20 bg-bg-secondary rounded-2xl border border-dashed border-gray-700">
-                      <div className="inline-block p-4 bg-gray-800 rounded-full mb-4">
-                        <Calendar className="text-gray-500" size={40} />
-                      </div>
-                      <h3 className="text-xl font-bold text-white">Quiet in the Kingdom</h3>
-                      <p className="text-gray-500 mt-2 max-w-sm mx-auto">No major timed events are currently live in your server cycle. Check the strategy guide for tomorrow's prep.</p>
-                      <button onClick={() => setActiveTab('library')} className="mt-6 px-6 py-2 bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all text-sm font-bold">Browse Library</button>
-                  </div>
-              )
-          ) : (
-              inactiveEvents.map(event => <EventCard key={event.id} event={event} isActiveView={false} />)
-          )}
-      </div>
-
-      <div className="bg-blue-900/10 border border-blue-500/20 p-6 rounded-2xl flex items-start space-x-4">
-        <div className="bg-blue-500/20 p-2 rounded-lg text-blue-400 flex-shrink-0">
-          <Info size={24} />
-        </div>
-        <div>
-          <h4 className="font-bold text-white mb-1">Commander's Tip</h4>
-          <p className="text-sm text-gray-400">All events follow the UTC timezone (00:00 Reset). If you are preparing for Construction or Training days, always check your speedup reserves 12 hours before reset to ensure you can secure the top rank brackets.</p>
-        </div>
+      {/* Events List */}
+      <div className="space-y-4">
+        {currentEvents.length > 0 ? (
+          currentEvents.map(renderEventCard)
+        ) : (
+          <Card variant="outlined" className="text-center py-16">
+            <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground/30" />
+            <h3 className="text-headline-sm font-medium mb-2">No {activeTab} events</h3>
+            <p className="text-body-md text-muted-foreground">
+              Check back later for upcoming operations
+            </p>
+          </Card>
+        )}
       </div>
     </div>
   );

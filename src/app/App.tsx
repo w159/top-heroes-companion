@@ -11,7 +11,7 @@ const Heroes = lazy(() => import('../features/heroes/pages/Heroes'));
 const HeroDetail = lazy(() => import('../features/heroes/pages/HeroDetail'));
 const Roster = lazy(() => import('../features/heroes/pages/Roster'));
 const TeamBuilder = lazy(() => import('../features/team/pages/TeamBuilder'));
-const Events = lazy(() => import('../features/events/pages/EventsRevamped'));
+const Events = lazy(() => import('../features/events/pages/Events'));
 const GiftCodes = lazy(() => import('../features/events/pages/GiftCodes'));
 const Guides = lazy(() => import('../features/guides/pages/Guides'));
 const Gear = lazy(() => import('../features/gear/pages/Gear'));

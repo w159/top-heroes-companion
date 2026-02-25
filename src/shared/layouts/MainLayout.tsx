@@ -19,7 +19,17 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const pageTitle = getPageTitle(location.pathname);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Ambient atmospheric glow — top-center warm radial */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(229,168,48,0.04) 0%, transparent 70%)',
+        }}
+      />
+
       {/* Desktop Navigation Rail */}
       <NavigationRail onExpandClick={() => setIsDrawerOpen(true)} />
 
@@ -30,7 +40,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       />
 
       {/* Main Content Area */}
-      <div className="md:ml-20 min-h-screen flex flex-col">
+      <div className="md:ml-20 min-h-screen flex flex-col relative z-[1]">
         {/* Top App Bar */}
         <TopAppBar
           title={pageTitle}

@@ -114,13 +114,38 @@ export interface Queue {
   marchSkinId: string | null;
 }
 
+export type EfficiencyTier = 'S' | 'A' | 'B' | 'C';
+
+export interface ScoringAction {
+  action: string;
+  points: number;
+  unit?: string; // e.g., "per 1 min", "each", "per 100"
+  efficiency: EfficiencyTier;
+  notes?: string;
+}
+
+export interface StockpileItem {
+  resource: string;
+  targetAmount: string; // e.g., "50-100+"
+  startSavingDays: number; // days before event
+  pointsPerUnit: number;
+  bestEventDay: string; // which day to use it
+  alternativeEvent?: string;
+  conflictNote?: string; // e.g., "Save for KvK Day 4 if KvK is within 2 weeks"
+}
+
 export interface EventPhase {
     name: string;
     description: string;
-    preparation?: string[]; // What to do BEFORE this phase starts
-    keyTasks: string[]; // What to do DURING this phase
+    preparation?: string[];
+    keyTasks: string[];
     tips?: string[];
     pointsStrategy?: string;
+    scoringActions?: ScoringAction[];
+    stockpileTargets?: StockpileItem[];
+    victoryPoints?: number;
+    doNotDo?: string[];
+    exploits?: string[];
 }
 
 export interface EventReward {
@@ -145,6 +170,7 @@ export interface GameEvent {
   frequency?: string; // e.g., "Weekly on Mondays", "Every 2 weeks"
   preparationTime?: string; // How far in advance to prepare, e.g., "2 weeks before"
   criticalDays?: number[]; // Which days are most important (1-indexed)
+  scoringDataKey?: string; // key into eventScoringData lookup
 }
 
 export interface GiftCode {

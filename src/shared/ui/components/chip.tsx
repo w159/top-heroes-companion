@@ -4,26 +4,24 @@ import { X, Check } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 const chipVariants = cva(
-  `inline-flex items-center justify-center gap-2 rounded-sm
+  `inline-flex items-center justify-center gap-2 rounded-md
    text-label-lg font-medium whitespace-nowrap
-   transition-all duration-200 cursor-pointer select-none
+   transition-all duration-normal cursor-pointer select-none
    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`,
   {
     variants: {
       variant: {
-        // M3 Assist Chip
-        assist: `border border-border bg-transparent text-foreground
-                 hover:bg-surface-800 active:bg-surface-700`,
-        // M3 Filter Chip
-        filter: `border border-border bg-transparent text-foreground
-                 hover:bg-surface-800
-                 data-[selected=true]:bg-secondary-800 data-[selected=true]:border-transparent`,
-        // M3 Input Chip
-        input: `border border-border bg-transparent text-foreground
-                hover:bg-surface-800`,
-        // M3 Suggestion Chip
-        suggestion: `border border-border bg-transparent text-foreground
-                     hover:bg-surface-800 active:bg-surface-700`,
+        assist: `border border-[rgba(196,170,126,0.12)] bg-transparent text-foreground
+                 hover:bg-surface-800/60 hover:border-[rgba(196,170,126,0.2)]
+                 active:bg-surface-700/60`,
+        filter: `border border-[rgba(196,170,126,0.1)] bg-transparent text-surface-200
+                 hover:bg-surface-800/60 hover:border-[rgba(196,170,126,0.2)]
+                 data-[selected=true]:bg-primary-900/40 data-[selected=true]:border-primary-500/30 data-[selected=true]:text-primary-200`,
+        input: `border border-[rgba(196,170,126,0.12)] bg-transparent text-foreground
+                hover:bg-surface-800/60`,
+        suggestion: `border border-[rgba(196,170,126,0.12)] bg-transparent text-foreground
+                     hover:bg-surface-800/60 hover:border-[rgba(196,170,126,0.2)]
+                     active:bg-surface-700/60`,
       },
       size: {
         sm: 'h-7 px-3 text-label-md',
@@ -41,11 +39,8 @@ const chipVariants = cva(
 export interface ChipProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof chipVariants> {
-  /** Whether the chip is selected (for filter chips) */
   selected?: boolean;
-  /** Leading icon element */
   leadingIcon?: React.ReactNode;
-  /** Show close button (for input chips) */
   onRemove?: () => void;
 }
 
@@ -72,7 +67,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         {...props}
       >
         {variant === 'filter' && selected && (
-          <Check className="h-4 w-4" />
+          <Check className="h-4 w-4 text-primary-400" />
         )}
         {leadingIcon && !selected && leadingIcon}
         {children}

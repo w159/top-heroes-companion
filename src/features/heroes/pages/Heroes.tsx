@@ -51,9 +51,14 @@ const Heroes: React.FC = () => {
   const getRoleIcon = (role: string) => {
     const icons: Record<string, React.ElementType> = {
       'Tank': Shield,
+      'DPS': Sword,
+      'Damage Dealer': Sword,
+      'Support': Heart,
+      'Supporter': Heart,
+      'Healer': Heart,
+      'Controller': Zap,
       'Warrior': Sword,
       'Mage': Star,
-      'Support': Heart,
       'Assassin': Zap
     };
     return icons[role] || Shield;
@@ -95,7 +100,7 @@ const Heroes: React.FC = () => {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-headline-lg font-semibold">Hero Arsenal</h1>
+          <h1 className="text-headline-lg font-heading font-semibold tracking-wide">Hero Arsenal</h1>
           <p className="text-body-md text-muted-foreground mt-1">
             {filteredAndSortedHeroes.length} of {heroesData.length} heroes
             {activeFiltersCount > 0 && ` • ${activeFiltersCount} filter${activeFiltersCount > 1 ? 's' : ''} active`}
@@ -152,7 +157,7 @@ const Heroes: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortBy)}
-              className="h-10 pl-4 pr-10 bg-surface-800 border border-border rounded-full text-label-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring"
+              className="h-10 pl-4 pr-10 bg-surface-800/60 border border-[rgba(196,170,126,0.1)] rounded-lg text-label-lg text-foreground appearance-none cursor-pointer focus:outline-none focus:border-primary-500/40 focus:shadow-glow transition-all duration-normal"
             >
               <option value="name">Sort: Name</option>
               <option value="rarity">Sort: Rarity</option>
@@ -165,10 +170,10 @@ const Heroes: React.FC = () => {
 
         {/* Filter Panel */}
         {isFilterOpen && (
-          <div className="mt-4 pt-4 border-t border-border animate-in grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-4 pt-4 border-t border-[rgba(196,170,126,0.08)] animate-in grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Faction Filter */}
             <div>
-              <p className="text-label-md text-muted-foreground uppercase tracking-wider mb-3">Faction</p>
+              <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Faction</p>
               <div className="flex flex-wrap gap-2">
                 {factions.map(faction => (
                   <Chip
@@ -185,7 +190,7 @@ const Heroes: React.FC = () => {
 
             {/* Role Filter */}
             <div>
-              <p className="text-label-md text-muted-foreground uppercase tracking-wider mb-3">Role</p>
+              <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Role</p>
               <div className="flex flex-wrap gap-2">
                 {roles.map(role => {
                   const RoleIcon = getRoleIcon(role);
@@ -206,7 +211,7 @@ const Heroes: React.FC = () => {
 
             {/* Rarity Filter */}
             <div>
-              <p className="text-label-md text-muted-foreground uppercase tracking-wider mb-3">Rarity</p>
+              <p className="text-label-md text-primary-500/80 uppercase tracking-[0.15em] mb-3 font-medium">Rarity</p>
               <div className="flex flex-wrap gap-2">
                 {rarities.map(rarity => (
                   <Chip
@@ -249,22 +254,25 @@ const Heroes: React.FC = () => {
                 variant="filled"
                 interactive
                 onClick={() => navigate(`/heroes/${hero.id}`)}
-                className="overflow-hidden"
+                className="overflow-hidden group"
               >
                 {/* Hero Image */}
                 <div
-                  className="relative h-48 bg-gradient-to-b from-transparent to-surface-900"
+                  className="relative h-48 bg-gradient-to-b from-transparent to-surface-800/80"
                   style={{
-                    backgroundImage: `linear-gradient(to bottom, transparent 40%, var(--color-surface-900) 100%), url(${hero.image || hero.imageUrl})`,
+                    backgroundImage: `linear-gradient(to bottom, transparent 40%, rgba(10,9,8,0.95) 100%), url(${hero.image || hero.imageUrl})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
                 >
+                  {/* Top edge glow on hover */}
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/0 to-transparent group-hover:via-primary-500/30 transition-all duration-normal" />
+
                   {/* Rarity Badge */}
                   <div className="absolute top-3 right-3">
                     <Badge
                       className={cn(
-                        'backdrop-blur-sm bg-surface-900/80',
+                        'backdrop-blur-sm bg-surface-900/80 border',
                         getRarityColor(hero.rarity),
                         getRarityBorderColor(hero.rarity)
                       )}
@@ -286,14 +294,14 @@ const Heroes: React.FC = () => {
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-title-md font-medium truncate">{hero.name}</h3>
+                      <h3 className="text-title-md font-heading font-medium truncate">{hero.name}</h3>
                       <div className="flex items-center gap-1.5 text-body-sm text-muted-foreground mt-1">
-                        <RoleIcon className="w-4 h-4" />
+                        <RoleIcon className="w-4 h-4 text-primary-500/60" />
                         {hero.role}
                       </div>
                     </div>
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center flex-shrink-0">
-                      <RoleIcon className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center flex-shrink-0 border border-primary-500/20">
+                      <RoleIcon className="w-5 h-5 text-surface-950" />
                     </div>
                   </div>
 
@@ -337,7 +345,7 @@ const Heroes: React.FC = () => {
 
                   {/* Hero Info */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-title-md font-medium truncate">{hero.name}</h3>
+                    <h3 className="text-title-md font-heading font-medium truncate">{hero.name}</h3>
                     <div className="flex flex-wrap gap-2 mt-2">
                       <Badge
                         className={cn(
@@ -369,8 +377,8 @@ const Heroes: React.FC = () => {
       {/* Empty State */}
       {filteredAndSortedHeroes.length === 0 && (
         <Card variant="outlined" className="text-center py-16">
-          <Shield className="w-16 h-16 mx-auto mb-4 text-muted-foreground/30" />
-          <h3 className="text-headline-sm font-medium mb-2">No Heroes Found</h3>
+          <Shield className="w-16 h-16 mx-auto mb-4 text-muted-foreground/20" />
+          <h3 className="text-headline-sm font-heading font-medium mb-2">No Heroes Found</h3>
           <p className="text-body-md text-muted-foreground mb-6">
             Try adjusting your filters or search query
           </p>

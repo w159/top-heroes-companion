@@ -28,8 +28,10 @@ const HeroCard: React.FC<HeroCardProps> = ({ hero, isOwned, onAction, actionLabe
   const getRoleIcon = (role: string) => {
     switch(role) {
         case 'Tank': return <Shield size={12} />;
-        case 'DPS': return <Sword size={12} />;
-        case 'Support': return <Heart size={12} />;
+        case 'DPS':
+        case 'Damage Dealer': return <Sword size={12} />;
+        case 'Support':
+        case 'Supporter': return <Heart size={12} />;
         case 'Healer': return <Zap size={12} />;
         case 'Controller': return <Crosshair size={12} />;
         default: return <Star size={12} />;
