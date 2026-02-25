@@ -1,6 +1,7 @@
 import { UserData, UserHero, SpendProfile } from '../types/types';
 import { HEROES } from '../types/constants';
 import { calculateQueueInfluence } from './calculations';
+import { TIER_WEIGHTS, RARITY_WEIGHTS, getRoleWeight } from './strategicWeights';
 
 export interface UpgradeRecommendation {
   heroId: string;
@@ -18,36 +19,12 @@ export interface StrategyBenchmark {
   projectedGainPercent: number;
 }
 
-type TierWeightMap = Record<string, number>;
-
-const tierWeights: TierWeightMap = {
-  S: 5,
-  A: 4,
-  B: 3,
-  C: 2,
-  D: 1,
-};
-
-const rarityWeights: Record<string, number> = {
-  Mythic: 3,
-  Legendary: 2,
-  Epic: 1,
-  Rare: 0.5,
-};
-
 export function getServerPhase(serverGroup: string): 'Early' | 'Mid' | 'Late' {
   const lower = serverGroup.toLowerCase();
   if (lower.includes('new') || lower.includes('1-30') || lower.includes('1-60')) return 'Early';
   if (lower.includes('60') || lower.includes('80') || lower.includes('mid')) return 'Mid';
   if (lower.includes('100') || lower.includes('late') || lower.includes('+')) return 'Late';
   return 'Mid';
-}
-
-function getRoleWeight(role: string): number {
-  if (role === 'DPS' || role === 'Damage Dealer') return 1.4;
-  if (role === 'Support' || role === 'Supporter' || role === 'Healer') return 1.25;
-  if (role === 'Tank' || role === 'Controller') return 1.15;
-  return 1;
 }
 
 export function normalizeSpendProfile(spendProfile?: SpendProfile): SpendProfile {
@@ -109,8 +86,8 @@ export function recommendHeroUpgrades(userData: UserData, limit = 5): UpgradeRec
     const tier = meta?.tier || hero.tier || 'C';
 
     // Weights
-    const tierWeight = tierWeights[tier] || 2;
-    const rarityWeight = rarityWeights[hero.rarity] || 1;
+    const tierWeight = TIER_WEIGHTS[tier] || 2;
+    const rarityWeight = RARITY_WEIGHTS[hero.rarity] || 1;
     const roleWeight = getRoleWeight(hero.role);
 
     // Bonuses

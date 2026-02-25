@@ -4,12 +4,12 @@
  * resources based on upcoming events.
  */
 
-import { SpendProfile, StockpileItem } from '../shared/types/types';
+import { SpendProfile, StockpileItem } from '@/shared/types/types';
 import {
   RESOURCE_PRIORITY_TABLE,
   STOCKPILE_PLANS,
   getResourceConflicts,
-} from '../data/eventScoringData';
+} from '@/data/eventScoringData';
 import {
   StockpileRecommendation,
   ResourceConflict,
@@ -131,9 +131,14 @@ export function resolveResourceConflicts(
   for (const conflict of rawConflicts) {
     if (conflict.events.length < 2) continue;
 
-    const sorted = [...conflict.events].sort(
-      (a, b) => b.pointsPerUnit - a.pointsPerUnit,
-    );
+    const sorted = [...conflict.events]
+      .sort((a, b) => b.pointsPerUnit - a.pointsPerUnit)
+      .map((e) => ({
+        eventId: e.eventId,
+        eventName: e.eventId,
+        day: e.day,
+        pointsPerUnit: e.pointsPerUnit,
+      }));
 
     const best = sorted[0];
     const secondBest = sorted[1];

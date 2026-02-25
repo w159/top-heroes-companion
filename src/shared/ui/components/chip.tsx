@@ -1,30 +1,30 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { X, Check } from 'lucide-react';
-import { cn } from '../../lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 const chipVariants = cva(
   `inline-flex items-center justify-center gap-2 rounded-md
-   text-label-lg font-medium whitespace-nowrap
+   text-sm font-medium whitespace-nowrap
    transition-all duration-normal cursor-pointer select-none
    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`,
   {
     variants: {
       variant: {
-        assist: `border border-[rgba(196,170,126,0.12)] bg-transparent text-foreground
-                 hover:bg-surface-800/60 hover:border-[rgba(196,170,126,0.2)]
+        assist: `border border-surface-600/30 bg-transparent text-foreground
+                 hover:bg-surface-800/60 hover:border-surface-500/40
                  active:bg-surface-700/60`,
-        filter: `border border-[rgba(196,170,126,0.1)] bg-transparent text-surface-200
-                 hover:bg-surface-800/60 hover:border-[rgba(196,170,126,0.2)]
+        filter: `border border-surface-600/20 bg-transparent text-surface-200
+                 hover:bg-surface-800/60 hover:border-surface-500/30
                  data-[selected=true]:bg-primary-900/40 data-[selected=true]:border-primary-500/30 data-[selected=true]:text-primary-200`,
-        input: `border border-[rgba(196,170,126,0.12)] bg-transparent text-foreground
+        input: `border border-surface-600/30 bg-transparent text-foreground
                 hover:bg-surface-800/60`,
-        suggestion: `border border-[rgba(196,170,126,0.12)] bg-transparent text-foreground
-                     hover:bg-surface-800/60 hover:border-[rgba(196,170,126,0.2)]
+        suggestion: `border border-surface-600/30 bg-transparent text-foreground
+                     hover:bg-surface-800/60 hover:border-surface-500/40
                      active:bg-surface-700/60`,
       },
       size: {
-        sm: 'h-7 px-3 text-label-md',
+        sm: 'h-7 px-3 text-xs',
         md: 'h-8 px-4',
         lg: 'h-9 px-5',
       },
@@ -36,7 +36,7 @@ const chipVariants = cva(
   }
 );
 
-export interface ChipProps
+interface ChipProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof chipVariants> {
   selected?: boolean;
@@ -97,3 +97,4 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
 Chip.displayName = 'Chip';
 
 export { Chip, chipVariants };
+export type { ChipProps };

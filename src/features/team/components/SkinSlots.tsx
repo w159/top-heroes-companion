@@ -1,9 +1,9 @@
 import React from 'react';
-import { Queue } from '../../../shared/types';
-import { SKINS } from '../../../shared/types/constants';
+import { Queue } from '@/shared/types';
+import { SKINS } from '@/shared/types/constants';
 import { Castle, Flag } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { Button } from '../../../shared/ui/components/button';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { Button } from '@/shared/ui/components/button';
 import { SelectorType } from '../hooks/useTeamBuilder';
 
 interface SkinSlotsProps {
@@ -28,7 +28,7 @@ const SkinSlots: React.FC<SkinSlotsProps> = ({ activeQueue, onSelectSkin }) => {
               </div>
             </div>
           </div>
-          <Button variant="tonal" size="sm" onClick={() => onSelectSkin('castle')}>
+          <Button variant="secondary" size="sm" onClick={() => onSelectSkin('castle')}>
             Change
           </Button>
         </CardContent>
@@ -48,7 +48,7 @@ const SkinSlots: React.FC<SkinSlotsProps> = ({ activeQueue, onSelectSkin }) => {
               </div>
             </div>
           </div>
-          <Button variant="tonal" size="sm" onClick={() => onSelectSkin('march')}>
+          <Button variant="secondary" size="sm" onClick={() => onSelectSkin('march')}>
             Change
           </Button>
         </CardContent>

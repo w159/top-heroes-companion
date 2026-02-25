@@ -1,13 +1,13 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import HeroDetailView from '../components/HeroDetailView';
-import heroesData from '../../../data/heroes.json';
-import heroDetailData from '../../../data/heroDetailData.json';
-import { useUserData } from '../../../shared/utils';
+import heroesData from '@/data/heroes.json';
+import heroDetailData from '@/data/heroDetailData.json';
+import { useUserData } from '@/shared/utils';
 import { ArrowLeft, Shield } from 'lucide-react';
-import { Faction, Rarity, Role, Hero } from '../../../shared/types';
-import { Card } from '../../../shared/ui/components/card';
-import { Button } from '../../../shared/ui/components/button';
+import { Faction, Rarity, Role, Hero } from '@/shared/types';
+import { Card } from '@/shared/ui/components/card';
+import { Button } from '@/shared/ui/components/button';
 
 const HeroDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +23,7 @@ const HeroDetail: React.FC = () => {
         <p className="text-body-md text-muted-foreground mb-6">
           The hero you are looking for does not exist in our database.
         </p>
-        <Button variant="filled" asChild>
+        <Button variant="default" asChild>
           <Link to="/heroes" className="inline-flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" /> Back to Heroes
           </Link>

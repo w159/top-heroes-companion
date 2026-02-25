@@ -3,7 +3,7 @@
  * Functions for priority scoring, team synergy, and bottleneck detection
  */
 
-import { Resources } from '../types/strategic';
+import { Resources } from '@/types/strategic';
 
 // ============================================================================
 // PRIORITY SCORING

@@ -3,7 +3,7 @@
  * Interfaces and spend profile modifiers for stockpile planning
  */
 
-import { SpendProfile, StockpileItem } from '../shared/types/types';
+import { SpendProfile, StockpileItem } from '@/shared/types/types';
 
 // ============================================================================
 // INTERFACES

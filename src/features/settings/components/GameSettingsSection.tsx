@@ -1,8 +1,8 @@
 import React from 'react';
 import { User, Shield, Server } from 'lucide-react';
-import { Faction } from '../../../shared/types';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { cn } from '../../../shared/lib/utils';
+import { Faction } from '@/shared/types';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { cn } from '@/shared/lib/utils';
 import { SettingItem } from './SettingItem';
 
 interface GameSettingsSectionProps {

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Queue } from '../../../shared/types';
-import { PETS } from '../../../shared/types/constants';
+import { Queue } from '@/shared/types';
+import { PETS } from '@/shared/types/constants';
 import ItemImage from './ItemImage';
 import { Heart, X, Star } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
 
 interface PetSlotProps {
   activeQueue: Queue;

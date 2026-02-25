@@ -1,8 +1,8 @@
 import React from 'react';
 import { Trophy, Users, Swords, Shield, Target, Sparkles } from 'lucide-react';
 import StatRadarChart from './StatRadarChart';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { cn } from '@/shared/lib/utils';
 
 interface HeroDetailEntry {
   stats?: Record<string, number>;

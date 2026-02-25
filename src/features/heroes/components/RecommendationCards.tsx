@@ -9,11 +9,11 @@ import {
   Star,
   Award,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '../../../shared/ui/components/card';
-import { Button } from '../../../shared/ui/components/button';
-import { Badge } from '../../../shared/ui/components/badge';
-import { IconButton } from '../../../shared/ui/components/icon-button';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/components/card';
+import { Button } from '@/shared/ui/components/button';
+import { Badge } from '@/shared/ui/components/badge';
+import { IconButton } from '@/shared/ui/components/icon-button';
+import { cn } from '@/shared/lib/utils';
 
 // UpgradeCard sub-component
 interface UpgradeCardProps {
@@ -135,7 +135,7 @@ const RecommendationCards: React.FC<RecommendationCardsProps> = ({
     <Card variant="outlined">
       <CardHeader className="flex-row items-center justify-between">
         <CardTitle>Priority Upgrades</CardTitle>
-        <Button variant="text" size="sm" onClick={() => onNavigate('/roster')}>
+        <Button variant="link" size="sm" onClick={() => onNavigate('/roster')}>
           View All
           <ArrowUpRight className="w-4 h-4" />
         </Button>
@@ -169,7 +169,7 @@ const RecommendationCards: React.FC<RecommendationCardsProps> = ({
     <Card variant="outlined">
       <CardHeader className="flex-row items-center justify-between">
         <CardTitle>Active Events</CardTitle>
-        <Button variant="text" size="sm" onClick={() => onNavigate('/events')}>
+        <Button variant="link" size="sm" onClick={() => onNavigate('/events')}>
           <Calendar className="w-4 h-4" />
           View All
         </Button>

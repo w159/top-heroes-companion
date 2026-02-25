@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useUserData, calculateHeroPower } from '../../../shared/utils';
+import { useUserData, calculateHeroPower } from '@/shared/utils';
 import HeroCard from '../components/HeroCard';
 import { X, Star, Save, Users, AlertTriangle, Database, Pencil } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { Button } from '../../../shared/ui/components/button';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
-import { UserHero } from '../../../shared/types';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { Button } from '@/shared/ui/components/button';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
+import { UserHero } from '@/shared/types';
 
 const Roster: React.FC = () => {
   const { data, updateHero, removeFromRoster, isLoaded } = useUserData();
@@ -67,7 +67,7 @@ const Roster: React.FC = () => {
           <p className="text-body-md text-muted-foreground mb-6">
             Head to the Heroes page to add heroes you own.
           </p>
-          <Button variant="filled" asChild>
+          <Button variant="default" asChild>
             <a href="#/heroes">Go to Heroes</a>
           </Button>
         </Card>
@@ -157,7 +157,7 @@ const Roster: React.FC = () => {
 
                       <div className="flex gap-2 mt-4">
                         <Button
-                          variant="filled"
+                          variant="default"
                           size="md"
                           onClick={(e) => { e.stopPropagation(); saveEdit(hero); }}
                           className="flex-1 bg-success-500 hover:bg-success-400"
@@ -166,7 +166,7 @@ const Roster: React.FC = () => {
                           Save
                         </Button>
                         <Button
-                          variant="outlined"
+                          variant="outline"
                           size="md"
                           onClick={(e) => { e.stopPropagation(); setEditingHeroId(null); }}
                         >

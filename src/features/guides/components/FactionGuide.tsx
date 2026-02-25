@@ -1,8 +1,8 @@
 import React from 'react';
 import { Target, Star } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import gameGuides from '../../../data/gameGuides.json';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import gameGuides from '@/data/gameGuides.json';
 
 export const FactionGuide: React.FC = () => {
   return (

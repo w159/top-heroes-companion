@@ -2,7 +2,7 @@
  * Core Player State & Resource Types
  */
 
-import { Faction, Rarity, SpendProfile } from '../shared/types/types';
+import { Faction, Rarity, SpendProfile } from '@/shared/types/types';
 
 // ============================================================================
 // CORE STRATEGIC TYPES
@@ -36,17 +36,17 @@ export interface PlayerState {
 
 export interface Resources {
   gold: number;
-  gems: number;
+  gems?: number;
 
   // Hero Resources
   heroShards: Record<string, number>; // heroId -> count
-  soulStones: number;
-  ascensionStones: Record<Rarity, number>;
+  soulStones?: number;
+  ascensionStones: Partial<Record<Rarity, number>>;
 
   // Enhancement Resources
-  skillBooks: number;
-  traitStones: number;
-  experienceBottles: number;
+  skillBooks?: number;
+  traitStones?: number;
+  experienceBottles?: number;
 
   // Equipment
   equipmentChests?: Record<string, number>;
@@ -104,4 +104,56 @@ export interface Goal {
 export interface Priority {
   category: 'heroes' | 'equipment' | 'pets' | 'relics' | 'research';
   weight: number; // 0-1
+}
+
+// ============================================================================
+// UPGRADE PATH TYPES
+// ============================================================================
+
+export type UpgradeAction =
+  | 'level_up'
+  | 'star_promotion'
+  | 'awakening'
+  | 'skill_upgrade'
+  | 'trait_upgrade'
+  | 'equipment_enhance';
+
+export interface HeroState {
+  level: number;
+  stars: number;
+  awakening: number;
+  skillLevels: number[];
+  traitLevels: number[];
+  power: number;
+}
+
+export interface UpgradeStep {
+  stepNumber: number;
+  action: UpgradeAction;
+  fromValue: number;
+  toValue: number;
+  cost: Resources;
+  powerGain: number;
+  roi: number;
+  dependencies: string[];
+  recommendedOrder: number;
+}
+
+export interface Bottleneck {
+  resource: string;
+  shortage: number;
+  daysNeeded: number;
+}
+
+export interface UpgradePath {
+  heroId: string;
+  currentState: HeroState;
+  targetState: HeroState;
+  steps: UpgradeStep[];
+  totalCost: Resources;
+  totalTime: number;
+  powerGain: number;
+  roi: number;
+  priority: number;
+  bottlenecks: Bottleneck[];
 }

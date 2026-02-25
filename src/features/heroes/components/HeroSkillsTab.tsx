@@ -1,8 +1,8 @@
 import React from 'react';
 import { Zap } from 'lucide-react';
 import SkillCard from './SkillCard';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
 
 interface DetailSkill {
   name: string;

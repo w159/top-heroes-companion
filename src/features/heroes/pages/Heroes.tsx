@@ -5,12 +5,12 @@ import {
   List,
   Shield,
 } from 'lucide-react';
-import { Button } from '../../../shared/ui/components/button';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { IconButton } from '../../../shared/ui/components/icon-button';
-import { cn, getRarityColor, getRarityBorderColor, getRoleIcon } from '../../../shared/lib/utils';
-import { Hero } from '../../../shared/types';
+import { Button } from '@/shared/ui/components/button';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { IconButton } from '@/shared/ui/components/icon-button';
+import { cn, getRarityColor, getRarityBorderColor, getRoleIcon } from '@/shared/lib/utils';
+import { Hero } from '@/shared/types';
 import { useHeroFiltering } from '../hooks/useHeroFiltering';
 import HeroFilterBar from '../components/HeroFilterBar';
 
@@ -133,7 +133,7 @@ const Heroes: React.FC = () => {
                       <RoleIcon className="w-5 h-5 text-surface-950" />
                     </div>
                   </div>
-                  <Button variant="tonal" size="sm" className="w-full mt-4">
+                  <Button variant="secondary" size="sm" className="w-full mt-4">
                     View Details
                   </Button>
                 </CardContent>
@@ -188,7 +188,7 @@ const Heroes: React.FC = () => {
                       </Badge>
                     </div>
                   </div>
-                  <Button variant="filled" size="sm" className="flex-shrink-0">
+                  <Button variant="default" size="sm" className="flex-shrink-0">
                     View Details
                   </Button>
                 </div>
@@ -206,7 +206,7 @@ const Heroes: React.FC = () => {
           <p className="text-body-md text-muted-foreground mb-6">
             Try adjusting your filters or search query
           </p>
-          <Button variant="filled" onClick={actions.clearFilters}>
+          <Button variant="default" onClick={actions.clearFilters}>
             Clear All Filters
           </Button>
         </Card>

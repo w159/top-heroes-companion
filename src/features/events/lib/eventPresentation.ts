@@ -2,7 +2,7 @@ import {
   Calendar, Swords, Target, Flame, Trophy, Layers, Crown, Skull, Gift, BookOpen,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import type { GameEvent } from '../../../shared/types/types';
+import type { GameEvent } from '@/shared/types/types';
 
 export interface EventColorSet {
   border: string;

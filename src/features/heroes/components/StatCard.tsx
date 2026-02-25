@@ -1,6 +1,6 @@
 import React from 'react';
 import { TrendingUp } from 'lucide-react';
-import { Badge } from '../../../shared/ui/components/badge';
+import { Badge } from '@/shared/ui/components/badge';
 
 export interface StatCardProps {
   label: string;

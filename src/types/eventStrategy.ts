@@ -2,7 +2,7 @@
  * Event Strategy System Types
  */
 
-import { Faction, Rarity } from '../shared/types/types';
+import { Faction, Rarity } from '@/shared/types/types';
 import { Resources, PlayerState } from './playerState';
 
 // ============================================================================

@@ -161,6 +161,8 @@ export interface GameEvent {
   name: string;
   type: 'Guild' | 'PvP' | 'PvP Arena' | 'PvE' | 'Daily' | 'Seasonal' | 'Server War' | 'Bi-Weekly';
   description: string;
+  image?: string;
+  imageUrl?: string;
   phases?: EventPhase[];
   preparationChecklist?: string[];
   rewardsHighlight?: string[];

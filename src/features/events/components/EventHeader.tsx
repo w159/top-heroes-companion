@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clock, Calendar, Swords, Zap as Lightning } from 'lucide-react';
-import { Card } from '../../../shared/ui/components/card';
+import { Card } from '@/shared/ui/components/card';
 
 interface EventHeaderProps {
   resetCountdown: string;

@@ -2,7 +2,7 @@
  * Multi-Event Optimization & Schedule Types
  */
 
-import { Faction } from '../shared/types/types';
+import { Faction } from '@/shared/types/types';
 import { Resources } from './playerState';
 import {
   EventType,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Clock, Zap, Target, TrendingUp } from 'lucide-react';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
 
 interface SkillCardProps {
   skill: {

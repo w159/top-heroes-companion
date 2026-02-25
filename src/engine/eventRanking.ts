@@ -6,7 +6,7 @@
 import {
   GameEvent, EventEffort, PlayerState, Resources,
   ParticipationLevel, RankPrediction, EventPerformance,
-} from '../types/strategic';
+} from '@/types/strategic';
 import { calculateResourceValue } from './calculators';
 
 export interface EvaluatedOption {

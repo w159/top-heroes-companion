@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { services } from '../../core/ServiceContainer';
-import { RAGContentLoader } from '../../core/infrastructure/RAGContentLoader';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { services } from '@/core/ServiceContainer';
+import { RAGContentLoader } from '@/core/infrastructure/RAGContentLoader';
+import { logger } from '../lib/logger';
 
 export interface Message {
   id: string;
@@ -58,9 +59,9 @@ export function useChatAssistant() {
       const chunks = await RAGContentLoader.loadAllContent();
       await services.rag.indexContent(chunks);
       setIsIndexed(true);
-      console.log('RAG index initialized with', chunks.length, 'chunks');
+      logger.debug('RAG index initialized with', chunks.length, 'chunks');
     } catch (error) {
-      console.error('Failed to initialize RAG:', error);
+      logger.error('Failed to initialize RAG:', error);
     }
   };
 
@@ -101,7 +102,7 @@ export function useChatAssistant() {
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('RAG query failed:', error);
+      logger.error('RAG query failed:', error);
       const errorMessage: Message = {
         id: `error-${Date.now()}`,
         role: 'assistant',

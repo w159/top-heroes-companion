@@ -12,18 +12,18 @@ import {
   Gift,
   Target,
 } from 'lucide-react';
-import { useUserData } from '../../../shared/utils';
+import { useUserData } from '@/shared/utils';
 import {
   recommendHeroUpgrades,
   recommendResourcePlan,
   simulateProgression
-} from '../../../shared/utils/recommendations';
+} from '@/shared/utils/recommendations';
 import {
   calculateProgressTrend,
   calculateTotalInfluence
-} from '../../../shared/utils';
-import { formatNumber } from '../../../shared/lib/utils';
-import { Card, CardHeader, CardTitle, CardContent } from '../../../shared/ui/components/card';
+} from '@/shared/utils';
+import { formatNumber } from '@/shared/lib/utils';
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/components/card';
 import StatCard from '../components/StatCard';
 import type { StatCardProps } from '../components/StatCard';
 import QuickAction from '../components/QuickAction';

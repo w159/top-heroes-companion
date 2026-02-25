@@ -1,13 +1,13 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Hero, UserHero } from '../../../shared/types';
-import { FACTION_COLORS, FACTION_BG } from '../../../shared/types/constants';
+import { Hero, UserHero } from '@/shared/types';
+import { FACTION_COLORS, FACTION_BG } from '@/shared/types/constants';
 import { Star } from 'lucide-react';
-import { Button } from '../../../shared/ui/components/button';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn, getRarityColor, getRarityBorderColor, getRoleIcon } from '../../../shared/lib/utils';
-import { useHeroImage } from '../../../shared/hooks';
+import { Button } from '@/shared/ui/components/button';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn, getRarityColor, getRarityBorderColor, getRoleIcon } from '@/shared/lib/utils';
+import { useHeroImage } from '@/shared/hooks';
 
 interface HeroCardProps {
   hero: Hero | UserHero;

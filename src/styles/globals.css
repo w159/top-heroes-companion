@@ -8,6 +8,69 @@
 @tailwind utilities;
 
 /* ============================================
+   CSS CUSTOM PROPERTIES — Design Tokens
+   Single source of truth for all theme values
+   ============================================ */
+
+@layer base {
+  :root {
+    --radius: 0.625rem;
+
+    /* Dark forge theme (default and only theme) */
+    --background: 30 11% 4%;
+    --foreground: 32 24% 88%;
+
+    --card: 30 12% 7%;
+    --card-foreground: 32 24% 88%;
+
+    --popover: 30 8% 10%;
+    --popover-foreground: 32 24% 88%;
+
+    --primary: 39 75% 45%;
+    --primary-foreground: 37 59% 6%;
+
+    --secondary: 173 66% 36%;
+    --secondary-foreground: 170 68% 94%;
+
+    --muted: 30 8% 10%;
+    --muted-foreground: 30 5% 54%;
+
+    --accent: 38 74% 10%;
+    --accent-foreground: 42 93% 88%;
+
+    --destructive: 0 61% 48%;
+    --destructive-foreground: 0 93% 92%;
+
+    --success: 145 69% 33%;
+    --success-foreground: 150 50% 94%;
+
+    --warning: 38 84% 39%;
+    --warning-foreground: 40 85% 94%;
+
+    --border: 35 10% 18%;
+    --input: 35 8% 16%;
+    --ring: 40 80% 54%;
+
+    /* Chart colors */
+    --chart-1: 39 75% 45%;
+    --chart-2: 173 66% 36%;
+    --chart-3: 270 55% 58%;
+    --chart-4: 40 80% 54%;
+    --chart-5: 0 61% 48%;
+
+    /* Sidebar tokens */
+    --sidebar-background: 30 14% 5%;
+    --sidebar-foreground: 32 24% 88%;
+    --sidebar-primary: 39 75% 45%;
+    --sidebar-primary-foreground: 37 59% 6%;
+    --sidebar-accent: 38 74% 10%;
+    --sidebar-accent-foreground: 42 93% 88%;
+    --sidebar-border: 35 10% 14%;
+    --sidebar-ring: 40 80% 54%;
+  }
+}
+
+/* ============================================
    BASE STYLES
    ============================================ */
 
@@ -15,7 +78,7 @@
   *,
   *::before,
   *::after {
-    border-color: rgba(196, 170, 126, 0.15);
+    @apply border-border;
   }
 
   html {
@@ -25,8 +88,7 @@
   }
 
   body {
-    background-color: #0a0908;
-    color: #e8e1d9;
+    @apply bg-background text-foreground;
     font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
     font-size: 1rem;
     line-height: 1.6;
@@ -75,7 +137,7 @@
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: 0.02em;
-    color: #e8e1d9;
+    @apply text-foreground;
   }
 
   h2, h3 {
@@ -83,14 +145,14 @@
     font-weight: 500;
     line-height: 1.3;
     letter-spacing: 0.01em;
-    color: #e8e1d9;
+    @apply text-foreground;
   }
 
   h4, h5, h6 {
     font-family: 'Outfit', sans-serif;
     font-weight: 500;
     line-height: 1.4;
-    color: #e8e1d9;
+    @apply text-foreground;
   }
 
   a {
@@ -109,7 +171,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid rgba(229, 168, 48, 0.6);
+    outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
   }
 }

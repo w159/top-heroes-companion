@@ -1,9 +1,11 @@
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import MainLayout from '../shared/layouts/MainLayout';
-import ChatAssistant from '../shared/components/ChatAssistant';
-import LoadingSpinner from '../shared/ui/LoadingSpinner';
-import '../styles/globals.css';
+import MainLayout from '@/shared/layouts/MainLayout';
+import ChatAssistant from '@/shared/components/ChatAssistant';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Toaster } from '@/shared/ui/components/sonner';
+import { TooltipProvider } from '@/shared/ui/components/tooltip';
+import '@/styles/globals.css';
 
 // Lazy load pages for code splitting
 const Dashboard = lazy(() => import('../features/heroes/pages/Dashboard'));
@@ -21,27 +23,30 @@ const Settings = lazy(() => import('../features/settings/pages/Settings'));
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <MainLayout>
-        <Suspense fallback={<LoadingSpinner />}>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/heroes" element={<Heroes />} />
-            <Route path="/heroes/:id" element={<HeroDetail />} />
-            <Route path="/roster" element={<Roster />} />
-            <Route path="/team" element={<TeamBuilder />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/codes" element={<GiftCodes />} />
-            <Route path="/guides" element={<Guides />} />
-            <Route path="/gear" element={<Gear />} />
-            <Route path="/pets" element={<Pets />} />
-            <Route path="/relics" element={<Relics />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </Suspense>
-      </MainLayout>
-      <ChatAssistant />
-    </Router>
+    <TooltipProvider>
+      <Router>
+        <MainLayout>
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/heroes" element={<Heroes />} />
+              <Route path="/heroes/:id" element={<HeroDetail />} />
+              <Route path="/roster" element={<Roster />} />
+              <Route path="/team" element={<TeamBuilder />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/codes" element={<GiftCodes />} />
+              <Route path="/guides" element={<Guides />} />
+              <Route path="/gear" element={<Gear />} />
+              <Route path="/pets" element={<Pets />} />
+              <Route path="/relics" element={<Relics />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </Suspense>
+        </MainLayout>
+        <ChatAssistant />
+        <Toaster />
+      </Router>
+    </TooltipProvider>
   );
 };
 

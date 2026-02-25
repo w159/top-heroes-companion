@@ -3,7 +3,7 @@
  * Pure business logic interfaces with no implementation details
  */
 
-import { Hero, GameEvent, Pet, Relic, Skin, GiftCode, UserHero } from '../../../types';
+import { Hero, GameEvent, Pet, Relic, Skin, GiftCode, UserHero } from '@/shared/types';
 
 // ============================================================================
 // REPOSITORY INTERFACES

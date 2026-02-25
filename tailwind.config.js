@@ -21,6 +21,8 @@ module.exports = {
           800: '#553b0a',
           900: '#2e2007',
           950: '#1a1204',
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
         },
         // Secondary - Deep Teal (arcane energy)
         secondary: {
@@ -35,6 +37,8 @@ module.exports = {
           800: '#0d3f3a',
           900: '#082623',
           950: '#041614',
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
         },
         // Tertiary - Mystic Violet (rare/legendary glow)
         tertiary: {
@@ -64,33 +68,33 @@ module.exports = {
           900: '#13110f',
           950: '#0a0908',
         },
-        // Semantic overrides for the dark forge
-        background: '#0a0908',
-        foreground: '#e8e1d9',
-        border: 'rgba(196, 170, 126, 0.15)',
-        input: 'rgba(196, 170, 126, 0.12)',
-        ring: '#e5a830',
+        // shadcn/ui semantic tokens (CSS variable-driven)
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
         muted: {
-          DEFAULT: '#1c1a18',
-          foreground: '#8f8983',
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
         },
         accent: {
-          DEFAULT: '#2e2007',
-          foreground: '#fdecc5',
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
         },
         card: {
-          DEFAULT: '#13110f',
-          foreground: '#e8e1d9',
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
         },
         popover: {
-          DEFAULT: '#1c1a18',
-          foreground: '#e8e1d9',
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
         },
         destructive: {
-          DEFAULT: '#c53030',
-          foreground: '#fed7d7',
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
         },
-        // Gaming semantic colors
+        // Gaming semantic colors (keep numbered scales)
         success: {
           50: '#e6f9ed',
           100: '#c0f0d3',
@@ -103,6 +107,8 @@ module.exports = {
           800: '#093a1a',
           900: '#052110',
           950: '#031409',
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
         },
         warning: {
           50: '#fef5e7',
@@ -116,6 +122,8 @@ module.exports = {
           800: '#483005',
           900: '#281b03',
           950: '#181002',
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
         },
         error: {
           50: '#fde8e8',
@@ -142,6 +150,25 @@ module.exports = {
           800: '#57410c',
           900: '#332607',
           950: '#1f1604',
+        },
+        // shadcn chart colors
+        chart: {
+          1: 'hsl(var(--chart-1))',
+          2: 'hsl(var(--chart-2))',
+          3: 'hsl(var(--chart-3))',
+          4: 'hsl(var(--chart-4))',
+          5: 'hsl(var(--chart-5))',
+        },
+        // Sidebar tokens
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar-background))',
+          foreground: 'hsl(var(--sidebar-foreground))',
+          primary: 'hsl(var(--sidebar-primary))',
+          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+          accent: 'hsl(var(--sidebar-accent))',
+          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          border: 'hsl(var(--sidebar-border))',
+          ring: 'hsl(var(--sidebar-ring))',
         },
       },
       fontFamily: {
@@ -175,16 +202,17 @@ module.exports = {
       borderRadius: {
         'none': '0',
         'xs': '4px',
-        'sm': '6px',
-        'md': '10px',
-        'lg': '14px',
-        'xl': '20px',
-        '2xl': '28px',
+        'sm': 'calc(var(--radius) - 4px)',
+        DEFAULT: 'calc(var(--radius) - 2px)',
+        'md': 'calc(var(--radius))',
+        'lg': 'var(--radius)',
+        'xl': 'calc(var(--radius) + 6px)',
+        '2xl': 'calc(var(--radius) + 14px)',
         'full': '9999px',
       },
       boxShadow: {
         'sm': '0 1px 3px rgba(0, 0, 0, 0.5), 0 0 1px rgba(196, 170, 126, 0.05)',
-        'DEFAULT': '0 2px 8px rgba(0, 0, 0, 0.5), 0 0 1px rgba(196, 170, 126, 0.08)',
+        DEFAULT: '0 2px 8px rgba(0, 0, 0, 0.5), 0 0 1px rgba(196, 170, 126, 0.08)',
         'md': '0 4px 16px rgba(0, 0, 0, 0.5), 0 0 2px rgba(196, 170, 126, 0.06)',
         'lg': '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 3px rgba(196, 170, 126, 0.08)',
         'xl': '0 16px 48px rgba(0, 0, 0, 0.5), 0 0 4px rgba(196, 170, 126, 0.1)',
@@ -222,6 +250,9 @@ module.exports = {
         'glow-pulse': 'glowPulse 3s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
         'spin-slow': 'spin 8s linear infinite',
+        // shadcn/ui animations
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
       keyframes: {
         fadeIn: {
@@ -252,8 +283,16 @@ module.exports = {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-8px)' },
         },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 };

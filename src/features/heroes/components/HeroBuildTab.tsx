@@ -1,7 +1,7 @@
 import React from 'react';
 import { Shield, CheckCircle } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { cn } from '@/shared/lib/utils';
 
 interface BestWith {
   gear?: string;

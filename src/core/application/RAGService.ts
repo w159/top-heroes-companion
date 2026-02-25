@@ -12,6 +12,12 @@ import {
   IStorageService,
 } from '../domain/interfaces';
 
+const PHRASE_MATCH_BOOST = 1.5;
+const HIGH_PRIORITY_BOOST = 1.3;
+const MAX_SEARCH_RESULTS = 5;
+const SCORE_NORMALIZATION_FACTOR = 10;
+const MAX_CONTEXT_CHUNKS = 3;
+
 const INDEX_KEY = 'app_rag_index_v2';
 const DOCS_KEY = 'app_rag_documents_v2';
 
@@ -107,12 +113,12 @@ export class RAGService implements IRAGService {
 
       // Boost exact phrase matches
       if (doc.content.toLowerCase().includes(query.query.toLowerCase())) {
-        score *= 1.5;
+        score *= PHRASE_MATCH_BOOST;
       }
 
       // Boost by metadata relevance
       if (doc.metadata.priority === 'high') {
-        score *= 1.3;
+        score *= HIGH_PRIORITY_BOOST;
       }
 
       scores.set(doc.id, score);
@@ -122,13 +128,13 @@ export class RAGService implements IRAGService {
     const sortedResults = Array.from(scores.entries())
       .filter(([, score]) => score > 0)
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
+      .slice(0, MAX_SEARCH_RESULTS)
       .map(([docId, score]) => {
         const doc = this.index!.documents.find(d => d.id === docId)!;
         return {
           chunk: doc,
           score,
-          relevance: Math.min(score / 10, 1), // Normalize to 0-1
+          relevance: Math.min(score / SCORE_NORMALIZATION_FACTOR, 1), // Normalize to 0-1
         };
       });
 
@@ -146,7 +152,7 @@ export class RAGService implements IRAGService {
 
     // Combine top results into context
     const context = results
-      .slice(0, 3)
+      .slice(0, MAX_CONTEXT_CHUNKS)
       .map(r => r.chunk.content)
       .join('\n\n');
 

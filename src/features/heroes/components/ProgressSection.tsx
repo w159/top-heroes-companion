@@ -5,10 +5,10 @@ import {
   Flame,
   Target,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { IconButton } from '../../../shared/ui/components/icon-button';
-import { formatNumber } from '../../../shared/lib/utils';
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { IconButton } from '@/shared/ui/components/icon-button';
+import { formatNumber } from '@/shared/lib/utils';
 
 interface ProgressSectionProps {
   totalInfluence: number;
@@ -46,7 +46,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
             </Badge>
           </div>
         </div>
-        <IconButton variant="outlined" size="sm">
+        <IconButton variant="outline" size="sm">
           <TrendingUp className="w-4 h-4" />
         </IconButton>
       </CardHeader>

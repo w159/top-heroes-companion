@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useUserData, calculateQueueInfluence, isHeroUsedElsewhere, isPetUsedElsewhere, isRelicUsedElsewhere } from '../../../shared/utils';
-import { UserHero, RelicType } from '../../../shared/types';
+import { useUserData, calculateQueueInfluence, isHeroUsedElsewhere, isPetUsedElsewhere, isRelicUsedElsewhere } from '@/shared/utils';
+import { UserHero, RelicType } from '@/shared/types';
 
 export type SelectorType = 'hero' | 'pet' | 'relic' | 'castle' | 'march' | null;
 

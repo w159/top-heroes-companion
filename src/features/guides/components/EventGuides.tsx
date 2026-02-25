@@ -1,8 +1,8 @@
 import React from 'react';
 import { ChevronDown, Sparkles } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { cn } from '../../../shared/lib/utils';
-import eventGuides from '../../../data/eventGuides.json';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { cn } from '@/shared/lib/utils';
+import eventGuides from '@/data/eventGuides.json';
 
 interface EventGuidesProps {
   expandedEvent: string | null;

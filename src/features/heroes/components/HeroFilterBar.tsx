@@ -5,12 +5,12 @@ import {
   X,
   ChevronDown,
 } from 'lucide-react';
-import { Button } from '../../../shared/ui/components/button';
-import { Card } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { Chip } from '../../../shared/ui/components/chip';
-import { Input } from '../../../shared/ui/components/input';
-import { cn, getRarityColor, getRoleIcon } from '../../../shared/lib/utils';
+import { Button } from '@/shared/ui/components/button';
+import { Card } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { Chip } from '@/shared/ui/components/chip';
+import { Input } from '@/shared/ui/components/input';
+import { cn, getRarityColor, getRoleIcon } from '@/shared/lib/utils';
 import type { SortBy } from '../hooks/useHeroFiltering';
 
 interface HeroFilterBarProps {

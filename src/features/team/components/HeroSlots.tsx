@@ -1,8 +1,8 @@
 import React from 'react';
-import { Queue, UserHero } from '../../../shared/types';
+import { Queue, UserHero } from '@/shared/types';
 import HeroCard from '../../heroes/components/HeroCard';
 import { Plus, X } from 'lucide-react';
-import { cn } from '../../../shared/lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 interface HeroSlotsProps {
   activeQueue: Queue;

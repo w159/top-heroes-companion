@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Shield } from 'lucide-react';
-import { cn } from '../../lib/utils';
+import { cn } from '@/shared/lib/utils';
 import { navigationSections } from './navigationConfig';
 
 interface NavigationRailProps {
@@ -13,9 +13,9 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({ onExpandClick })
   const allItems = navigationSections.flatMap((section) => section.items);
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 z-[200] hidden md:flex w-20 flex-col bg-surface-950/95 backdrop-blur-sm border-r border-[rgba(196,170,126,0.08)]">
+    <aside className="fixed left-0 top-0 bottom-0 z-[200] hidden md:flex w-20 flex-col bg-surface-950/95 backdrop-blur-sm border-r border-surface-700/30">
       {/* Logo */}
-      <div className="flex items-center justify-center h-16 border-b border-[rgba(196,170,126,0.08)]">
+      <div className="flex items-center justify-center h-16 border-b border-surface-700/30">
         <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow">
           <Shield className="w-5 h-5 text-surface-950" strokeWidth={2.5} />
         </div>

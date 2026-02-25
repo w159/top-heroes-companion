@@ -1,8 +1,8 @@
 import React from 'react';
 import { Download, Upload, Trash2, Save } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { Button } from '../../../shared/ui/components/button';
-import { Badge } from '../../../shared/ui/components/badge';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { Button } from '@/shared/ui/components/button';
+import { Badge } from '@/shared/ui/components/badge';
 
 interface DataManagementSectionProps {
   onExport: () => void;
@@ -30,7 +30,7 @@ export const DataManagementSection: React.FC<DataManagementSectionProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Button
-            variant="tonal"
+            variant="secondary"
             size="lg"
             onClick={onExport}
             className="w-full justify-start"
@@ -48,7 +48,7 @@ export const DataManagementSection: React.FC<DataManagementSectionProps> = ({
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
             />
             <Button
-              variant="outlined"
+              variant="outline"
               size="lg"
               className="w-full justify-start pointer-events-none"
             >
@@ -71,7 +71,7 @@ export const DataManagementSection: React.FC<DataManagementSectionProps> = ({
                   This action cannot be undone. All your roster data and redeemed codes will be permanently deleted.
                 </p>
                 <Button
-                  variant="text"
+                  variant="link"
                   size="sm"
                   onClick={onReset}
                   className="mt-3 text-error-400 hover:bg-error-500/20"

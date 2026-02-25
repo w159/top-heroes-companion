@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
-import { cn } from '../../../shared/lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 export interface QuickActionProps {
   label: string;

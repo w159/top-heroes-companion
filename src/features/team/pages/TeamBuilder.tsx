@@ -7,8 +7,8 @@ import PetSlot from '../components/PetSlot';
 import SkinSlots from '../components/SkinSlots';
 import SelectorModal from '../components/SelectorModal';
 import { Users, Zap, Swords, Gem } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { cn } from '@/shared/lib/utils';
 
 const TeamBuilder: React.FC = () => {
   const {

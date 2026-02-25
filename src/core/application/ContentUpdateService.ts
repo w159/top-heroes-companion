@@ -11,7 +11,7 @@ import {
   IDataRepository,
   IStorageService,
 } from '../domain/interfaces';
-import { Hero, GameEvent, Pet, Relic, Skin, GiftCode } from '../../../types';
+import { Hero, GameEvent, Pet, Relic, Skin, GiftCode } from '@/shared/types';
 
 const METADATA_KEY = 'app_content_metadata_v2';
 const UPDATE_HISTORY_KEY = 'app_update_history_v2';

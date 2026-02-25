@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertTriangle, ArrowRight, Zap, Shield } from 'lucide-react';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
 
 export interface ResourceConflict {
   resource: string;

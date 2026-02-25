@@ -1,7 +1,11 @@
+import React from 'react';
+
 /**
  * Multi-Agent API Caching Strategy
  * Implements intelligent request caching with TTL and deduplication
  */
+
+import { logger } from '../lib/logger';
 
 interface CacheConfig {
   ttl: number; // Time to live in milliseconds
@@ -79,19 +83,19 @@ class APICache {
     // Check cache first
     const cached = this.cache.get(key);
     if (cached && this.isValid(cached)) {
-      console.log(`🎯 Cache hit: ${endpoint}`);
+      logger.debug('Cache hit:', endpoint);
       return cached.data as T;
     }
 
     // Check if request is already pending (deduplication)
     const pending = this.pendingRequests.get(key);
     if (pending) {
-      console.log(`⏳ Deduplicating request: ${endpoint}`);
-      return pending;
+      logger.debug('Deduplicating request:', endpoint);
+      return pending as Promise<T>;
     }
 
     // Make new request
-    console.log(`🌐 Cache miss: ${endpoint}`);
+    logger.debug('Cache miss:', endpoint);
     const requestPromise = fetcher()
       .then(data => {
         // Store in cache
@@ -172,7 +176,7 @@ class APICache {
     try {
       await this.get(endpoint, fetcher, params);
     } catch (error) {
-      console.error(`Prefetch failed for ${endpoint}:`, error);
+      logger.error('Prefetch failed for', endpoint, error);
     }
   }
 }
@@ -233,5 +237,3 @@ export function useCachedAPI<T>(
   return { data, loading, error };
 }
 
-// Import React for hooks
-import React from 'react';

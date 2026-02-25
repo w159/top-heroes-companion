@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Shield, X } from 'lucide-react';
-import { cn } from '../../lib/utils';
-import { IconButton } from './icon-button';
+import { cn } from '@/shared/lib/utils';
+import { Button } from './button';
 import { navigationSections } from './navigationConfig';
 
 interface NavigationDrawerProps {
@@ -35,13 +35,13 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
       <aside
         className={cn(
           'fixed left-0 top-0 bottom-0 z-[300] w-72 max-w-[calc(100%-56px)]',
-          'bg-surface-900/98 backdrop-blur-md border-r border-[rgba(196,170,126,0.1)]',
+          'bg-surface-900/98 backdrop-blur-md border-r border-surface-700/30',
           'flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.2,0,0,1)]',
           open ? 'translate-x-0' : '-translate-x-full'
         )}
       >
         {/* Header */}
-        <div className="flex items-center gap-4 p-5 border-b border-[rgba(196,170,126,0.08)]">
+        <div className="flex items-center gap-4 p-5 border-b border-surface-700/30">
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center flex-shrink-0 shadow-glow">
             <Shield className="w-5 h-5 text-surface-950" strokeWidth={2.5} />
           </div>
@@ -49,9 +49,9 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
             <h1 className="text-title-md font-heading font-semibold truncate text-gradient">Top Heroes</h1>
             <span className="text-label-sm text-muted-foreground tracking-wider uppercase">Companion</span>
           </div>
-          <IconButton variant="default" size="sm" onClick={onClose}>
+          <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="w-5 h-5" />
-          </IconButton>
+          </Button>
         </div>
 
         {/* Navigation */}
@@ -79,7 +79,7 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
                     )}
                   >
                     <item.icon className={cn('w-[18px] h-[18px] flex-shrink-0', isActive && 'text-primary-400')} />
-                    <span className="text-label-lg">{item.name}</span>
+                    <span className="text-sm font-medium">{item.name}</span>
                   </NavLink>
                 );
               })}

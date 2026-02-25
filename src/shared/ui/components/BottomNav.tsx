@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
-import { cn } from '../../lib/utils';
-import { IconButton } from './icon-button';
+import { cn } from '@/shared/lib/utils';
+import { Button } from './button';
 import { bottomNavItems } from './navigationConfig';
 
 // ============================================
@@ -13,7 +13,7 @@ export const BottomNavigation: React.FC = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed left-0 right-0 bottom-0 z-[200] flex md:hidden h-20 bg-surface-950/95 backdrop-blur-md border-t border-[rgba(196,170,126,0.08)] safe-area-bottom">
+    <nav className="fixed left-0 right-0 bottom-0 z-[200] flex md:hidden h-20 bg-surface-950/95 backdrop-blur-md border-t border-surface-700/30 safe-area-bottom">
       <div className="flex items-center justify-around w-full px-2">
         {bottomNavItems.map((item) => {
           const isActive = location.pathname === item.path ||
@@ -68,16 +68,16 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
   actions,
 }) => {
   return (
-    <header className="sticky top-0 z-[150] h-16 bg-surface-950/90 backdrop-blur-md border-b border-[rgba(196,170,126,0.06)] flex items-center gap-4 px-5">
+    <header className="sticky top-0 z-[150] h-16 bg-surface-950/90 backdrop-blur-md border-b border-surface-700/20 flex items-center gap-4 px-5">
       {onMenuClick && (
-        <IconButton
-          variant="default"
-          size="md"
+        <Button
+          variant="ghost"
+          size="icon"
           className="md:hidden"
           onClick={onMenuClick}
         >
           <Menu className="w-5 h-5" />
-        </IconButton>
+        </Button>
       )}
       <h1 className="flex-1 text-title-lg font-heading font-medium truncate tracking-wide">{title}</h1>
       {actions && (

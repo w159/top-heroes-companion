@@ -185,7 +185,7 @@ export function runRecommendationSelfTests(sampleData: UserData): Recommendation
   });
 
   // Test 4: Event Coverage
-  const events = recommendEventStrategies(sampleData, [{ id: 'arms-race', name: 'Arms Race', type: 'Recurring', description: 'Test event' }]);
+  const events = recommendEventStrategies(sampleData, [{ id: 'arms-race', name: 'Arms Race', type: 'PvE', description: 'Test event' }]);
   const armsRaceOk = events.some(e => e.eventId === 'arms-race' && e.priority === 'High');
   results.push({
     name: 'Critical Event Detection',

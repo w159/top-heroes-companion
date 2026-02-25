@@ -1,6 +1,6 @@
 import React from 'react';
 import { Shield, ArrowUpRight } from 'lucide-react';
-import { Button } from '../../../shared/ui/components/button';
+import { Button } from '@/shared/ui/components/button';
 
 interface DashboardHeaderProps {
   serverGroup: string;

@@ -3,8 +3,8 @@
  * Step generation and optimal step selection for hero upgrade paths
  */
 
-import { Resources, UpgradeStep, HeroState } from '../types/strategic';
-import { Rarity } from '../types';
+import { Resources, UpgradeStep, HeroState } from '@/types/strategic';
+import { Rarity } from '@/shared/types/types';
 import {
   getLevelUpCost,
   getStarPromotionCost,

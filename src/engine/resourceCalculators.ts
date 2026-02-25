@@ -3,8 +3,8 @@
  * Functions for resource valuation, comparison, and manipulation
  */
 
-import { Resources } from '../types/strategic';
-import { Rarity } from '../types';
+import { Resources } from '@/types/strategic';
+import { Rarity } from '@/shared/types/types';
 
 // ============================================================================
 // RESOURCE VALUATION
@@ -116,9 +116,9 @@ function subtractHeroShards(
 }
 
 function subtractAscensionStones(
-  from: Record<Rarity, number>,
-  amount: Record<Rarity, number>
-): Record<Rarity, number> {
+  from: Partial<Record<Rarity, number>>,
+  amount: Partial<Record<Rarity, number>>
+): Partial<Record<Rarity, number>> {
   const result = { ...from };
   Object.entries(amount).forEach(([rarity, count]) => {
     result[rarity as Rarity] = (result[rarity as Rarity] || 0) - count;
@@ -175,7 +175,7 @@ export function getDailyResourceIncome(
     soulStones: spendProfile === 'F2P' ? 2 : spendProfile === 'LowSpender' ? 5 : 15,
     experienceBottles: 200 + castleLevel * 10,
     heroShards: {},
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
   };
 
   return baseIncome;

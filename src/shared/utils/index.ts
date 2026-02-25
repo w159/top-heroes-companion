@@ -1,4 +1,4 @@
-// Barrel re-export — all existing imports from '../shared/utils' keep working
+// Barrel re-export — all existing imports from '@/shared/utils' keep working
 export { useUserData } from '../hooks/useUserData';
 export {
   calculateHeroPower,
@@ -21,3 +21,4 @@ export {
   isPetUsedElsewhere,
   isRelicUsedElsewhere,
 } from './teamUtils';
+export { TIER_WEIGHTS, RARITY_WEIGHTS, getRoleWeight } from './strategicWeights';

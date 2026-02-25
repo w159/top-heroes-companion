@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft, CheckCircle, Info, Sparkles, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../../../shared/ui/components/card';
-import { Button } from '../../../shared/ui/components/button';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn, getRarityColor } from '../../../shared/lib/utils';
-import { Hero, UserHero } from '../../../shared/types';
+import { Card } from '@/shared/ui/components/card';
+import { Button } from '@/shared/ui/components/button';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn, getRarityColor } from '@/shared/lib/utils';
+import { Hero, UserHero } from '@/shared/types';
 import HeroOverviewTab from './HeroOverviewTab';
 import HeroSkillsTab from './HeroSkillsTab';
 import HeroBuildTab from './HeroBuildTab';
@@ -101,7 +101,7 @@ const HeroDetailView: React.FC<Props> = ({ hero, userHero, detailData, onRecruit
               In Roster
             </Badge>
           ) : (
-            <Button variant="filled" size="sm" onClick={onRecruit}>
+            <Button variant="default" size="sm" onClick={onRecruit}>
               Recruit
             </Button>
           )}

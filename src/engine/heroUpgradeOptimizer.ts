@@ -10,8 +10,8 @@ import {
   UpgradePath,
   UpgradeAction,
   HeroState,
-} from '../types/strategic';
-import { Rarity } from '../types';
+} from '@/types/strategic';
+import { Rarity } from '@/shared/types/types';
 import {
   calculateROI,
   calculatePriorityScore,
@@ -123,7 +123,7 @@ function generateHeroUpgradePath(
   allSteps.sort((a, b) => b.roi - a.roi);
   const selectedSteps = selectOptimalSteps(allSteps, playerState.resources, dailyIncome);
 
-  let totalCost: Resources = { gold: 0, gems: 0, heroShards: {}, ascensionStones: {} };
+  let totalCost: Resources = { gold: 0, gems: 0, heroShards: {}, ascensionStones: {} as Record<Rarity, number> };
   let totalPowerGain = 0;
   for (const step of selectedSteps) {
     totalCost = addResources(totalCost, step.cost);

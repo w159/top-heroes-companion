@@ -1,10 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
-import { EVENTS } from '../../../shared/types/constants';
-import type { GameEvent, SpendProfile } from '../../../shared/types/types';
-import { getTimeUntilReset, sortEventsByNextOccurrence, useUserData } from '../../../shared/utils';
-import { getResourceConflicts } from '../../../data/eventScoringData';
+import { EVENTS } from '@/shared/types/constants';
+import type { GameEvent, SpendProfile } from '@/shared/types/types';
+import { getTimeUntilReset, sortEventsByNextOccurrence, useUserData } from '@/shared/utils';
+import { getResourceConflicts } from '@/data/eventScoringData';
 
 export type EventTab = 'active' | 'upcoming' | 'seasonal';
+
+const COUNTDOWN_INTERVAL_MS = 1000;
 
 export function useEvents() {
   const { data } = useUserData();
@@ -18,7 +20,7 @@ export function useEvents() {
   useEffect(() => {
     const timer = setInterval(() => {
       setResetCountdown(getTimeUntilReset());
-    }, 1000);
+    }, COUNTDOWN_INTERVAL_MS);
     return () => clearInterval(timer);
   }, []);
 

@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
-import heroesData from '../../../data/heroes.json';
-import { Hero } from '../../../shared/types';
+import heroesDataRaw from '@/data/heroes.json';
+import { Hero } from '@/shared/types';
+
+const heroesData = heroesDataRaw as Hero[];
 
 export type ViewMode = 'grid' | 'list';
 export type SortBy = 'name' | 'rarity' | 'faction' | 'role';

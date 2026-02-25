@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { Package, Clock, AlertTriangle, TrendingUp, CheckCircle } from 'lucide-react';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
-import { StockpileItem } from '../../../shared/types/types';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
+import { StockpileItem } from '@/shared/types/types';
 
 interface StockpileTrackerProps {
   items: StockpileItem[];

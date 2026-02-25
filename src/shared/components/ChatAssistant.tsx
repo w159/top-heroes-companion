@@ -127,7 +127,7 @@ const ChatAssistant: React.FC = () => {
               )}
             />
             <Button
-              variant="filled"
+              variant="default"
               size="icon"
               onClick={sendMessage}
               disabled={!input.trim() || isLoading}

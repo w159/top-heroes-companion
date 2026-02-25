@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { ArrowUpDown, Trophy, Star, TrendingUp, AlertTriangle } from 'lucide-react';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
-import { ScoringAction, EfficiencyTier } from '../../../shared/types/types';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
+import { ScoringAction, EfficiencyTier } from '@/shared/types/types';
 
 interface ScoringTableProps {
   actions: ScoringAction[];

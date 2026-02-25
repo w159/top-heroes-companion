@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { cn } from '@/shared/lib/utils';
 
 export interface SectionProps {
   title: string;

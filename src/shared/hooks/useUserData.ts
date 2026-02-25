@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { UserData, UserHero, Hero, Queue } from '../types/types';
 import { calculateTotalInfluence } from '../utils/calculations';
+import { logger } from '../lib/logger';
 
 const STORAGE_KEY = 'topheroes_companion_data_v6';
 
@@ -21,6 +22,8 @@ const INITIAL_QUEUES: Queue[] = Array.from({ length: 5 }, (_, i) => ({
     castleSkinId: null,
     marchSkinId: null,
 }));
+
+const LOAD_DELAY_MS = 300;
 
 const DEFAULT_DATA: UserData = {
   roster: [],
@@ -97,10 +100,10 @@ export const useUserData = () => {
         }
         setData(parsed);
       } catch (e) {
-        console.error("Failed to parse local storage", e);
+        logger.error('Failed to parse local storage', e);
       }
     }
-    setTimeout(() => setIsLoaded(true), 300);
+    setTimeout(() => setIsLoaded(true), LOAD_DELAY_MS);
   }, []);
 
   const saveData = (newData: UserData) => {

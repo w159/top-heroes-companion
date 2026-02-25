@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useUserData } from '../../../shared/utils';
+import { useUserData } from '@/shared/utils';
 import { Settings as SettingsIcon, Save } from 'lucide-react';
-import { Faction } from '../../../shared/types';
+import { Faction } from '@/shared/types';
 import { GameSettingsSection } from '../components/GameSettingsSection';
 import { DataManagementSection } from '../components/DataManagementSection';
 import { AboutSection } from '../components/AboutSection';
+
+const SUCCESS_TOAST_DURATION_MS = 3000;
 
 const Settings: React.FC = () => {
   const { data, updateSettings, saveData } = useUserData();
@@ -20,7 +22,7 @@ const Settings: React.FC = () => {
     downloadAnchorNode.remove();
 
     setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), 3000);
+    setTimeout(() => setShowSuccessMessage(false), SUCCESS_TOAST_DURATION_MS);
   };
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {

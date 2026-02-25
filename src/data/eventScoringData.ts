@@ -3,7 +3,7 @@
 // Structured scoring tables, stockpile plans, and resource priority data
 // =============================================================================
 
-import { ScoringAction, StockpileItem, EfficiencyTier } from '../shared/types/types';
+import { ScoringAction, StockpileItem, EfficiencyTier } from '@/shared/types/types';
 
 // -----------------------------------------------------------------------------
 // Resource Priority Interface

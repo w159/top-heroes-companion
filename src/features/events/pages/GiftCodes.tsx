@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Copy, Check, Gift, ExternalLink, AlertTriangle, Sparkles, Info, Clock } from 'lucide-react';
-import gameGuides from '../../../data/gameGuides.json';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { Button } from '../../../shared/ui/components/button';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
+import gameGuides from '@/data/gameGuides.json';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { Button } from '@/shared/ui/components/button';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
+
+const COPY_FEEDBACK_DURATION_MS = 2000;
 
 const GiftCodes: React.FC = () => {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   const copyToClipboard = (code: string) => {
-    navigator.clipboard.writeText(code);
+    navigator.clipboard.writeText(code).catch(() => { /* clipboard unavailable */ });
     setCopiedCode(code);
-    setTimeout(() => setCopiedCode(null), 2000);
+    setTimeout(() => setCopiedCode(null), COPY_FEEDBACK_DURATION_MS);
   };
 
   return (
@@ -134,12 +136,12 @@ const GiftCodes: React.FC = () => {
               </div>
             </div>
             <Button
-              variant="outlined"
+              variant="outline"
               onClick={() => {
                 const allCodes = gameGuides.giftCodes.map(c => c.code).join('\n');
-                navigator.clipboard.writeText(allCodes);
+                navigator.clipboard.writeText(allCodes).catch(() => { /* clipboard unavailable */ });
                 setCopiedCode('all');
-                setTimeout(() => setCopiedCode(null), 2000);
+                setTimeout(() => setCopiedCode(null), COPY_FEEDBACK_DURATION_MS);
               }}
             >
               {copiedCode === 'all' ? (

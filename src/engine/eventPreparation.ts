@@ -14,7 +14,7 @@ import {
   AlternativeStrategy,
   PlayerState,
   Resources,
-} from '../types/strategic';
+} from '@/types/strategic';
 import { EvaluatedOption, calculateStrategyScore } from './eventRanking';
 
 // ============================================================================

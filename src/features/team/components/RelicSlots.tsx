@@ -1,11 +1,11 @@
 import React from 'react';
-import { Queue, RelicType } from '../../../shared/types';
-import { RELICS } from '../../../shared/types/constants';
+import { Queue, RelicType } from '@/shared/types';
+import { RELICS } from '@/shared/types/constants';
 import ItemImage from './ItemImage';
 import { Plus, X, Gem, Crosshair, Shield, HelpingHand } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
 
 interface RelicSlotsProps {
   activeQueue: Queue;

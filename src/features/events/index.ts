@@ -15,5 +15,5 @@ export { useEvents } from './hooks/useEvents';
 export type { EventTab } from './hooks/useEvents';
 
 // Utilities
-export { getEventIcon, getEventColorClass } from './lib/eventUtils';
-export type { EventColorSet } from './lib/eventUtils';
+export { getEventIcon, getEventColorClass } from './lib/eventPresentation';
+export type { EventColorSet } from './lib/eventPresentation';

@@ -32,7 +32,7 @@ import {
   EventScheduleEntry,
   EventConflict,
   ConflictResolution,
-} from '../types/strategic';
+} from '@/types/strategic';
 import { calculateResourceValue } from './calculators';
 import {
   getRankDifficultyMultiplier,

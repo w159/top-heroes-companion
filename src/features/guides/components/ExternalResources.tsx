@@ -1,7 +1,7 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { cn } from '@/shared/lib/utils';
 
 const resources = [
   { url: 'https://topheroes.info/', label: 'TopHeroes.info', description: 'Comprehensive Guides & Tools' },

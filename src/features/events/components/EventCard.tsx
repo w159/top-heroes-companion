@@ -3,15 +3,15 @@ import {
   Calendar, Clock, ChevronDown, ChevronUp, Info, Star, Shield,
   Gift, Zap as Lightning, Trophy, Play, Timer, Hourglass, AlertCircle,
 } from 'lucide-react';
-import { Card, CardContent } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { Chip } from '../../../shared/ui/components/chip';
-import { cn } from '../../../shared/lib/utils';
-import type { GameEvent, SpendProfile } from '../../../shared/types/types';
-import { getEventState, getTimeUntilEvent } from '../../../shared/utils';
-import { getEventIcon, getEventColorClass } from '../lib/eventUtils';
-import type { EventColorSet } from '../lib/eventUtils';
-import { getResourceConflicts } from '../../../data/eventScoringData';
+import { Card, CardContent } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { Chip } from '@/shared/ui/components/chip';
+import { cn } from '@/shared/lib/utils';
+import type { GameEvent, SpendProfile } from '@/shared/types/types';
+import { getEventState, getTimeUntilEvent } from '@/shared/utils';
+import { getEventIcon, getEventColorClass } from '../lib/eventPresentation';
+import type { EventColorSet } from '../lib/eventPresentation';
+import { getResourceConflicts } from '@/data/eventScoringData';
 import ResourceConflictAlert from './ResourceConflictAlert';
 import PhaseContent from './PhaseContent';
 

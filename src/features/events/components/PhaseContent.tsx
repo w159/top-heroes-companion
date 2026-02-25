@@ -3,10 +3,10 @@ import {
   AlertTriangle, CheckCircle, CheckSquare, Square, Star,
   Target, Sparkles, Zap as Lightning, TrendingUp, ChevronRight, Circle,
 } from 'lucide-react';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
-import type { GameEvent, EventPhase, SpendProfile } from '../../../shared/types/types';
-import type { EventColorSet } from '../lib/eventUtils';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
+import type { GameEvent, EventPhase, SpendProfile } from '@/shared/types/types';
+import type { EventColorSet } from '../lib/eventPresentation';
 import ScoringTable from './ScoringTable';
 import StockpileTracker from './StockpileTracker';
 

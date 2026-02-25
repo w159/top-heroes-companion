@@ -22,3 +22,5 @@ export {
   simulateProgression,
   runRecommendationSelfTests,
 } from './resourceRecommendations';
+
+export { TIER_WEIGHTS, RARITY_WEIGHTS, getRoleWeight } from './strategicWeights';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { AlertTriangle, Sparkles } from 'lucide-react';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
-import gameGuides from '../../../data/gameGuides.json';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
+import gameGuides from '@/data/gameGuides.json';
 
 export const CorePrinciples: React.FC = () => {
   return (

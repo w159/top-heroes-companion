@@ -1,8 +1,8 @@
 import React from 'react';
-import { Queue } from '../../../shared/types';
+import { Queue } from '@/shared/types';
 import { Flag } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { cn } from '@/shared/lib/utils';
 
 interface SoldierConfigProps {
   activeQueue: Queue;

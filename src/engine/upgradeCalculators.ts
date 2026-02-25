@@ -3,8 +3,8 @@
  * Functions for computing upgrade costs and resulting power gains
  */
 
-import { Resources, UpgradeStep } from '../types/strategic';
-import { Rarity } from '../types';
+import { Resources, UpgradeStep } from '@/types/strategic';
+import { Rarity } from '@/shared/types/types';
 import { calculateResourceValue } from './resourceCalculators';
 
 // ============================================================================
@@ -35,7 +35,7 @@ export function getLevelUpCost(currentLevel: number, targetLevel: number, rarity
     gold: Math.floor(totalGold),
     experienceBottles: Math.floor(totalExp / 500),
     heroShards: {},
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
   };
 }
 
@@ -59,7 +59,7 @@ export function getStarPromotionCost(currentStars: number, rarity: Rarity, heroI
   return {
     gold: shardCost * 5000,
     heroShards: { [heroId]: shardCost },
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
   };
 }
 
@@ -85,7 +85,7 @@ export function getAwakeningCost(currentAwakening: number, rarity: Rarity, heroI
     gold: cost.gold,
     soulStones: cost.stones,
     heroShards: { [heroId]: cost.shards },
-    ascensionStones: { [rarity]: cost.stones },
+    ascensionStones: { [rarity]: cost.stones } as Record<Rarity, number>,
   };
 }
 
@@ -100,7 +100,7 @@ export function getSkillUpgradeCost(currentLevel: number): Resources {
     gold,
     skillBooks: books,
     heroShards: {},
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
   };
 }
 
@@ -115,7 +115,7 @@ export function getTraitUpgradeCost(currentLevel: number): Resources {
     gold,
     traitStones: stones,
     heroShards: {},
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
   };
 }
 

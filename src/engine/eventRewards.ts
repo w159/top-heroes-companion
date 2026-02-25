@@ -9,7 +9,8 @@ import {
   GameEvent,
   Resources,
   PlayerState,
-} from '../types/strategic';
+} from '@/types/strategic';
+import { Rarity } from '@/shared/types/types';
 import { calculateResourceValue } from './calculators';
 
 /**
@@ -43,7 +44,7 @@ export function estimateResourceRequirements(
     gems: 200 * multiplier,
     heroShards: {},
     soulStones: 0,
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
     skillBooks: 0,
     traitStones: 0,
     experienceBottles: 100 * multiplier,
@@ -115,14 +116,14 @@ export function getDailyResourceIncome(playerState: PlayerState): Resources {
   // Base income by castle level and spend profile
   const baseGold = playerState.castleLevel * 10000;
   const baseGems = playerState.spendProfile === 'F2P' ? 100 :
-                   playerState.spendProfile === 'low_spender' ? 300 : 1000;
+                   playerState.spendProfile === 'LowSpender' ? 300 : 1000;
 
   return {
     gold: baseGold,
     gems: baseGems,
     heroShards: {},
     soulStones: 5,
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
     skillBooks: 2,
     traitStones: 1,
     experienceBottles: 50,
@@ -141,7 +142,7 @@ export function calculateResourceDeficit(available: Resources, needed: Resources
     gems: Math.max(0, needed.gems - available.gems),
     heroShards: {},
     soulStones: Math.max(0, needed.soulStones - available.soulStones),
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
     skillBooks: Math.max(0, needed.skillBooks - available.skillBooks),
     traitStones: Math.max(0, needed.traitStones - available.traitStones),
     experienceBottles: Math.max(0, needed.experienceBottles - available.experienceBottles),
@@ -162,7 +163,7 @@ export function sumResources(resources: Resources[]): Resources {
     gems: 0,
     heroShards: {},
     soulStones: 0,
-    ascensionStones: {},
+    ascensionStones: {} as Record<Rarity, number>,
     skillBooks: 0,
     traitStones: 0,
     experienceBottles: 0,

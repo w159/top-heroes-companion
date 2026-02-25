@@ -1,14 +1,14 @@
 import React from 'react';
-import { UserHero, Queue, RelicType } from '../../../shared/types';
-import { PETS, RELICS, SKINS } from '../../../shared/types/constants';
-import { isHeroUsedElsewhere, isPetUsedElsewhere, isRelicUsedElsewhere } from '../../../shared/utils';
+import { UserHero, Queue, RelicType } from '@/shared/types';
+import { PETS, RELICS, SKINS } from '@/shared/types/constants';
+import { isHeroUsedElsewhere, isPetUsedElsewhere, isRelicUsedElsewhere } from '@/shared/utils';
 import { SelectorType } from '../hooks/useTeamBuilder';
 import ItemImage from './ItemImage';
 import HeroCard from '../../heroes/components/HeroCard';
 import { X } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
 
 interface SelectorModalProps {
   selectorType: SelectorType;

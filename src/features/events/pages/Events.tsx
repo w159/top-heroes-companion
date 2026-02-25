@@ -1,8 +1,8 @@
 import React from 'react';
 import { Zap as Lightning, Hourglass, Star, Lock } from 'lucide-react';
-import { Card } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
+import { Card } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
 import { useEvents } from '../hooks/useEvents';
 import type { EventTab } from '../hooks/useEvents';
 import EventHeader from '../components/EventHeader';

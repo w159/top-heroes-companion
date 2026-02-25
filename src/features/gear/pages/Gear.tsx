@@ -1,8 +1,8 @@
 import React from 'react';
 import { Shield, Sword, Zap, Heart, Target, Sparkles, TrendingUp, Star, Package } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '../../../shared/ui/components/card';
-import { Badge } from '../../../shared/ui/components/badge';
-import { cn } from '../../../shared/lib/utils';
+import { Card, CardContent, CardHeader } from '@/shared/ui/components/card';
+import { Badge } from '@/shared/ui/components/badge';
+import { cn } from '@/shared/lib/utils';
 
 interface GearSet {
   name: string;
