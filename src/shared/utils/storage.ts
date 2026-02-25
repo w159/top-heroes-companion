@@ -10,7 +10,7 @@ interface CacheEntry<T> {
 }
 
 class StorageManager {
-  private cache: Map<string, any> = new Map();
+  private cache: Map<string, { data: unknown; timestamp: number }> = new Map();
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
   private readonly VERSION = '1.0.0';
 
@@ -91,7 +91,7 @@ class StorageManager {
   /**
    * Batch update for better performance
    */
-  batchUpdate(updates: Record<string, any>): void {
+  batchUpdate(updates: Record<string, unknown>): void {
     Object.entries(updates).forEach(([key, value]) => {
       this.setItem(key, value);
     });
@@ -108,7 +108,7 @@ class StorageManager {
       try {
         const item = localStorage.getItem(key);
         if (item) {
-          const parsed = JSON.parse(item) as CacheEntry<any>;
+          const parsed = JSON.parse(item) as CacheEntry<unknown>;
           entries.push({ key, timestamp: parsed.timestamp });
         }
       } catch {

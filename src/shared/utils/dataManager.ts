@@ -101,14 +101,16 @@ export class DataManager {
     return false;
   }
 
-  public validateData(data: any, schema: 'hero' | 'event' | 'item'): boolean {
+  public validateData(data: unknown, schema: 'hero' | 'event' | 'item'): boolean {
+      if (typeof data !== 'object' || data === null) return false;
+      const record = data as Record<string, unknown>;
       switch (schema) {
           case 'hero':
-              return !!(data.id && data.name && data.faction && data.rarity);
+              return !!(record.id && record.name && record.faction && record.rarity);
           case 'event':
-              return !!(data.id && data.name && data.type);
+              return !!(record.id && record.name && record.type);
           case 'item':
-              return !!(data.id && data.name);
+              return !!(record.id && record.name);
           default:
               return false;
       }

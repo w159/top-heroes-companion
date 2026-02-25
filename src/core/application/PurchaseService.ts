@@ -40,9 +40,9 @@ export class PurchaseService implements IPurchaseService {
 
   async getAnalytics(): Promise<SpendAnalytics> {
     // Check cache
-    const cached = this.storage.get<{ data: SpendAnalytics; timestamp: number }>(
+    const cached = this.storage.get<{ data: SpendAnalytics; timestamp: number } | null>(
       ANALYTICS_CACHE_KEY,
-      null as any
+      null
     );
 
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {

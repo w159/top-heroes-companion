@@ -15,6 +15,13 @@ import {
 const INDEX_KEY = 'app_rag_index_v2';
 const DOCS_KEY = 'app_rag_documents_v2';
 
+interface SerializedIndex {
+  df: Record<string, number>;
+  tf: Record<string, Record<string, number>>;
+  docs: DocumentChunk[];
+  totalDocs: number;
+}
+
 interface TFIDFIndex {
   documentFrequency: Map<string, number>; // term -> number of docs containing term
   termFrequency: Map<string, Map<string, number>>; // docId -> term -> frequency
@@ -225,12 +232,12 @@ export class RAGService implements IRAGService {
   }
 
   private loadIndex(): void {
-    const savedIndex = this.storage.get<any>(INDEX_KEY, null);
+    const savedIndex = this.storage.get<SerializedIndex | null>(INDEX_KEY, null);
     if (savedIndex) {
       this.index = {
         documentFrequency: new Map(Object.entries(savedIndex.df)),
         termFrequency: new Map(
-          Object.entries(savedIndex.tf).map(([docId, terms]: [string, any]) => [
+          Object.entries(savedIndex.tf).map(([docId, terms]: [string, Record<string, number>]) => [
             docId,
             new Map(Object.entries(terms)),
           ])

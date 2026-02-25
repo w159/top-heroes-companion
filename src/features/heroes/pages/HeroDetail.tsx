@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import HeroDetailView from '../components/HeroDetailView';
 import heroesData from '../../../data/heroes.json';
-import heroesEnhanced from '../../../data/heroesEnhanced.json';
+import heroDetailData from '../../../data/heroDetailData.json';
 import { useUserData } from '../../../shared/utils';
 import { ArrowLeft, Shield } from 'lucide-react';
 import { Faction, Rarity, Role, Hero } from '../../../shared/types';
@@ -13,8 +13,7 @@ const HeroDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data, addToRoster } = useUserData();
 
-  // Find hero in our JSON data
-  const hero = heroesData.find((h: any) => h.id === id);
+  const hero = heroesData.find((h: { id: string }) => h.id === id);
 
   if (!hero) {
     return (
@@ -33,16 +32,13 @@ const HeroDetail: React.FC = () => {
     );
   }
 
-  // Find in user roster
-  // Note: old hero.id might match, or we might need to be careful with ID matching if JSON ids differ from old hardcoded ones.
-  // Assuming 'id' is consistent.
-  const userHero = data.roster.find((h: any) => h.id === hero.id);
+  const userHero = data.roster.find((h: { id: string }) => h.id === hero.id);
 
   return (
     <HeroDetailView
       hero={hero}
       userHero={userHero}
-      enhancedData={heroesEnhanced}
+      detailData={heroDetailData}
       onRecruit={() => {
         const normalizedRole: Role =
           hero.role === 'Damage Dealer' ? 'DPS' :

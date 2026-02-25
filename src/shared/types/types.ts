@@ -45,6 +45,9 @@ export interface Hero {
   imageUrl?: string;
   description?: string;
   skills?: Skill[];
+  gear_set?: string;
+  unique_weapon?: string;
+  positions?: string[];
   recommendedSets?: string[];
   bonds?: Bond[];
   skins?: HeroSkin[];
@@ -57,7 +60,7 @@ export interface UserHero extends Hero {
   stars: number;
   awakening: number;
   power: number;
-  gear?: Record<string, any>;
+  gear?: Record<string, string | number | boolean>;
   isOwned: boolean;
   notes?: string;
 }

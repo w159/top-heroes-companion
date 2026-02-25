@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from '../shared/layouts/MainLayout';
-import ChatAssistantEnhanced from '../shared/components/ChatAssistantEnhanced';
+import ChatAssistant from '../shared/components/ChatAssistant';
 import LoadingSpinner from '../shared/ui/LoadingSpinner';
 import '../styles/globals.css';
 
@@ -40,7 +40,7 @@ const App: React.FC = () => {
           </Routes>
         </Suspense>
       </MainLayout>
-      <ChatAssistantEnhanced />
+      <ChatAssistant />
     </Router>
   );
 };

@@ -11,6 +11,7 @@ import {
   IDataRepository,
   IStorageService,
 } from '../domain/interfaces';
+import { Hero, GameEvent, Pet, Relic, Skin, GiftCode } from '../../../types';
 
 const METADATA_KEY = 'app_content_metadata_v2';
 const UPDATE_HISTORY_KEY = 'app_update_history_v2';
@@ -76,26 +77,26 @@ export class ContentUpdateService implements IContentUpdateService {
     return this.storage.get(METADATA_KEY, defaultMetadata);
   }
 
-  async applyUpdate(category: keyof ContentMetadata, data: any[]): Promise<void> {
+  async applyUpdate(category: keyof ContentMetadata, data: unknown[]): Promise<void> {
     // Apply the update to the appropriate repository
     switch (category) {
       case 'heroes':
-        await this.dataRepo.updateHeroes(data);
+        await this.dataRepo.updateHeroes(data as Hero[]);
         break;
       case 'events':
-        await this.dataRepo.updateEvents(data);
+        await this.dataRepo.updateEvents(data as GameEvent[]);
         break;
       case 'pets':
-        await this.dataRepo.updatePets(data);
+        await this.dataRepo.updatePets(data as Pet[]);
         break;
       case 'relics':
-        await this.dataRepo.updateRelics(data);
+        await this.dataRepo.updateRelics(data as Relic[]);
         break;
       case 'skins':
-        await this.dataRepo.updateSkins(data);
+        await this.dataRepo.updateSkins(data as Skin[]);
         break;
       case 'codes':
-        await this.dataRepo.updateGiftCodes(data);
+        await this.dataRepo.updateGiftCodes(data as GiftCode[]);
         break;
     }
 
@@ -154,7 +155,7 @@ export class ContentUpdateService implements IContentUpdateService {
    */
   getContentFreshness(): Record<keyof ContentMetadata, { age: number; isStale: boolean }> {
     const metadata = this.getCurrentVersions();
-    const result = {} as any;
+    const result = {} as Record<keyof ContentMetadata, { age: number; isStale: boolean }>;
 
     (Object.keys(metadata) as Array<keyof ContentMetadata>).forEach(category => {
       const ageMs = Date.now() - new Date(metadata[category].lastUpdated).getTime();

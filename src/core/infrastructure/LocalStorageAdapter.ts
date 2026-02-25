@@ -12,7 +12,7 @@ interface CacheEntry<T> {
 }
 
 export class LocalStorageAdapter implements IStorageService {
-  private cache: Map<string, any> = new Map();
+  private cache: Map<string, { data: unknown; timestamp: number }> = new Map();
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
   private readonly VERSION = '2.0.0';
 
@@ -81,7 +81,7 @@ export class LocalStorageAdapter implements IStorageService {
     localStorage.clear();
   }
 
-  batchUpdate(updates: Record<string, any>): void {
+  batchUpdate(updates: Record<string, unknown>): void {
     Object.entries(updates).forEach(([key, value]) => {
       this.set(key, value);
     });
@@ -124,7 +124,7 @@ export class LocalStorageAdapter implements IStorageService {
       try {
         const item = localStorage.getItem(key);
         if (item) {
-          const parsed = JSON.parse(item) as CacheEntry<any>;
+          const parsed = JSON.parse(item) as CacheEntry<unknown>;
           entries.push({ key, timestamp: parsed.timestamp });
         }
       } catch {

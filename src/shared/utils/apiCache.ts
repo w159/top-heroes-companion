@@ -15,8 +15,8 @@ interface CachedResponse<T> {
 }
 
 class APICache {
-  private cache: Map<string, CachedResponse<any>> = new Map();
-  private pendingRequests: Map<string, Promise<any>> = new Map();
+  private cache: Map<string, CachedResponse<unknown>> = new Map();
+  private pendingRequests: Map<string, Promise<unknown>> = new Map();
   private config: CacheConfig;
 
   constructor(config: Partial<CacheConfig> = {}) {
@@ -29,7 +29,7 @@ class APICache {
   /**
    * Generate cache key from request parameters
    */
-  private generateKey(endpoint: string, params?: any): string {
+  private generateKey(endpoint: string, params?: unknown): string {
     const paramsStr = params ? JSON.stringify(params) : '';
     return `${endpoint}:${paramsStr}`;
   }
@@ -37,7 +37,7 @@ class APICache {
   /**
    * Generate hash for content-based caching
    */
-  private generateHash(data: any): string {
+  private generateHash(data: unknown): string {
     return JSON.stringify(data).split('').reduce((acc, char) => {
       return ((acc << 5) - acc) + char.charCodeAt(0);
     }, 0).toString(36);
@@ -46,7 +46,7 @@ class APICache {
   /**
    * Check if cached response is still valid
    */
-  private isValid(cached: CachedResponse<any>): boolean {
+  private isValid(cached: CachedResponse<unknown>): boolean {
     return Date.now() - cached.timestamp < this.config.ttl;
   }
 
@@ -72,7 +72,7 @@ class APICache {
   async get<T>(
     endpoint: string,
     fetcher: () => Promise<T>,
-    params?: any
+    params?: unknown
   ): Promise<T> {
     const key = this.generateKey(endpoint, params);
 
@@ -122,7 +122,7 @@ class APICache {
   /**
    * Invalidate specific cache entry
    */
-  invalidate(endpoint: string, params?: any): void {
+  invalidate(endpoint: string, params?: unknown): void {
     const key = this.generateKey(endpoint, params);
     this.cache.delete(key);
   }
@@ -162,7 +162,7 @@ class APICache {
   async prefetch<T>(
     endpoint: string,
     fetcher: () => Promise<T>,
-    params?: any
+    params?: unknown
   ): Promise<void> {
     const key = this.generateKey(endpoint, params);
     
@@ -188,7 +188,7 @@ export const longCache = new APICache({ ttl: 60 * 60 * 1000, maxSize: 200 }); //
 export function useCachedAPI<T>(
   endpoint: string,
   fetcher: () => Promise<T>,
-  options: { cache?: APICache; params?: any; enabled?: boolean } = {}
+  options: { cache?: APICache; params?: unknown; enabled?: boolean } = {}
 ) {
   const [data, setData] = React.useState<T | null>(null);
   const [loading, setLoading] = React.useState(true);

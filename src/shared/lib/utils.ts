@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { Shield, Sword, Heart, Zap, Star, Crosshair } from 'lucide-react';
+import type React from 'react';
 
 /**
  * Merges class names with Tailwind CSS conflict resolution
@@ -62,4 +64,23 @@ export function getRarityBorderColor(rarity: string): string {
     'Mythic': 'border-error-500',
   };
   return colors[rarity] || 'border-border';
+}
+
+/**
+ * Get the icon component for a hero role
+ */
+export function getRoleIcon(role: string): React.ElementType {
+  const icons: Record<string, React.ElementType> = {
+    'Tank': Shield,
+    'DPS': Sword,
+    'Damage Dealer': Sword,
+    'Support': Heart,
+    'Supporter': Heart,
+    'Healer': Heart,
+    'Controller': Zap,
+    'Warrior': Sword,
+    'Mage': Star,
+    'Assassin': Zap,
+  };
+  return icons[role] || Shield;
 }

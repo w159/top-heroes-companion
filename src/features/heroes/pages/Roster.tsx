@@ -6,12 +6,12 @@ import { Card, CardContent } from '../../../shared/ui/components/card';
 import { Button } from '../../../shared/ui/components/button';
 import { Badge } from '../../../shared/ui/components/badge';
 import { cn } from '../../../shared/lib/utils';
+import { UserHero } from '../../../shared/types';
 
 const Roster: React.FC = () => {
   const { data, updateHero, removeFromRoster, isLoaded } = useUserData();
   const [editingHeroId, setEditingHeroId] = useState<string | null>(null);
 
-  // Edit State
   const [editLevel, setEditLevel] = useState(1);
   const [editStars, setEditStars] = useState(0);
 
@@ -23,13 +23,13 @@ const Roster: React.FC = () => {
     );
   }
 
-  const startEdit = (hero: any) => {
+  const startEdit = (hero: UserHero) => {
     setEditingHeroId(hero.id);
     setEditLevel(hero.level);
     setEditStars(hero.stars);
   };
 
-  const saveEdit = (hero: any) => {
+  const saveEdit = (hero: UserHero) => {
     updateHero({ ...hero, level: editLevel, stars: editStars });
     setEditingHeroId(null);
   };

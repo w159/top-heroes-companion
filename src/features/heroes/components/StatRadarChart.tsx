@@ -24,7 +24,7 @@ interface StatRadarChartProps {
 const StatRadarChart: React.FC<StatRadarChartProps> = ({ 
   stats, 
   maxValues = { hp: 1200, attack: 200, defense: 150, speed: 120, crit_rate: 30, crit_dmg: 200 },
-  color = '#007AFF',
+  color = 'oklch(0.65 0.2 250)',
   size = 280
 }) => {
   const statLabels = [
@@ -112,7 +112,7 @@ const StatRadarChart: React.FC<StatRadarChartProps> = ({
           textAnchor="middle"
           fontSize="11"
           fontWeight="700"
-          fill="var(--ios-text-primary)"
+          fill="rgba(255,255,255,0.9)"
         >
           {label}
         </text>

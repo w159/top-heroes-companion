@@ -39,7 +39,7 @@ export interface IStorageService {
   set<T>(key: string, value: T): void;
   remove(key: string): void;
   clear(): void;
-  batchUpdate(updates: Record<string, any>): void;
+  batchUpdate(updates: Record<string, unknown>): void;
 }
 
 // ============================================================================
@@ -64,7 +64,7 @@ export interface ContentMetadata {
 export interface IContentUpdateService {
   checkForUpdates(): Promise<ContentMetadata>;
   getCurrentVersions(): ContentMetadata;
-  applyUpdate(category: keyof ContentMetadata, data: any[]): Promise<void>;
+  applyUpdate(category: keyof ContentMetadata, data: unknown[]): Promise<void>;
   getUpdateHistory(): UpdateRecord[];
 }
 
@@ -84,7 +84,7 @@ export interface DocumentChunk {
   content: string;
   source: string;
   category: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, string | number | boolean>;
 }
 
 export interface SearchResult {
@@ -167,11 +167,11 @@ export interface IPurchaseService {
 // ============================================================================
 
 export interface IHeroOptimizationService {
-  getUpgradePath(heroId: string, targetLevel: number): Promise<any>;
+  getUpgradePath(heroId: string, targetLevel: number): Promise<unknown>;
   calculateOptimalTeam(faction: string): Promise<string[]>;
 }
 
 export interface IEventOptimizationService {
-  optimizeEventStrategy(eventId: string, playerState: any): Promise<any>;
-  scheduleEvents(events: GameEvent[]): Promise<any>;
+  optimizeEventStrategy(eventId: string, playerState: unknown): Promise<unknown>;
+  scheduleEvents(events: GameEvent[]): Promise<unknown>;
 }

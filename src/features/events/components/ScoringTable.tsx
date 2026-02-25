@@ -69,8 +69,7 @@ const ScoringTable: React.FC<ScoringTableProps> = ({
     <Badge
       className={cn(
         'border font-bold',
-        TIER_STYLES[tier],
-        tier === 'S' && 'animate-pulse'
+        TIER_STYLES[tier]
       )}
       size="sm"
     >

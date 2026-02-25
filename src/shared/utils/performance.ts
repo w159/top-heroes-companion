@@ -5,6 +5,15 @@ import React from 'react';
  * Tracks performance metrics across the application
  */
 
+interface PerformanceEventTiming extends PerformanceEntry {
+  processingStart: number;
+}
+
+interface LayoutShiftEntry extends PerformanceEntry {
+  hadRecentInput: boolean;
+  value: number;
+}
+
 interface PerformanceMetrics {
   name: string;
   startTime: number;
@@ -14,7 +23,7 @@ interface PerformanceMetrics {
 
 class PerformanceMonitor {
   private metrics: Map<string, PerformanceMetrics> = new Map();
-  private enabled: boolean = (import.meta as any).env?.DEV || false;
+  private enabled: boolean = import.meta.env?.DEV || false;
 
   /**
    * Start tracking a performance metric
@@ -83,7 +92,7 @@ class PerformanceMonitor {
         const fidObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries();
           entries.forEach(entry => {
-            const fid = (entry as any).processingStart - entry.startTime;
+            const fid = (entry as PerformanceEventTiming).processingStart - entry.startTime;
             console.log('📊 FID:', fid.toFixed(2), 'ms');
           });
         });
@@ -93,8 +102,8 @@ class PerformanceMonitor {
         const clsObserver = new PerformanceObserver((list) => {
           let clsValue = 0;
           for (const entry of list.getEntries()) {
-            if (!(entry as any).hadRecentInput) {
-              clsValue += (entry as any).value;
+            if (!(entry as LayoutShiftEntry).hadRecentInput) {
+              clsValue += (entry as LayoutShiftEntry).value;
             }
           }
           console.log('📊 CLS:', clsValue.toFixed(4));
@@ -122,7 +131,7 @@ export function useMountDuration(componentName: string) {
 
     return () => {
       const duration = performance.now() - start;
-      if ((import.meta as any).env?.DEV) {
+      if (import.meta.env?.DEV) {
         console.log(`⏱️ ${metricName} active for ${duration.toFixed(2)}ms`);
       }
     };
@@ -137,7 +146,7 @@ export function useRenderTracker(componentName: string) {
 
   React.useLayoutEffect(() => {
     const duration = performance.now() - renderStart.current;
-    if ((import.meta as any).env?.DEV) {
+    if (import.meta.env?.DEV) {
       console.log(`🎨 Render: ${componentName} took ${duration.toFixed(2)}ms`);
     }
     renderStart.current = performance.now(); // Reset for next render
